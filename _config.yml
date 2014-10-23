@@ -8,13 +8,13 @@ blog:
     name: comtu                                                # 博客名称
     description: comtu                                        # 博客描述
     title: comtu                                              # 网页标题
-    url:http://comtu.github.io/ComtuBlog/                                                 # 博客地址
+    url: http://comtu.github.io/ComtuBlog/                                                 # 博客地址
     duoshuo:                                             # 多说ID
     tongji:                                              # 百度统计ID
     qiniu:                                               # 七牛云地址
 author:
-    name:comtu                                                # 作者名称
-    email:com.tu@139.com                                               # 邮箱地址
+    name: comtu                                                # 作者名称
+    email: com.tu@139.com                                               # 邮箱地址
     weibo:                                               # 微博地址
     github:                                              # GitHub地址
     logo:                                                # logo地址
