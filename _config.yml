@@ -5,19 +5,19 @@ paginate: 6
 paginate_path: page/:num
 
 blog:
-    name: comtu                                                # 博客名称
-    description: comtu                                        # 博客描述
-    title: comtu                                              # 网页标题
-    url: http://comtu.github.io/ComtuBlog/                                                 # 博客地址
-    duoshuo:                                             # 多说ID
-    tongji:                                              # 百度统计ID
+    name: comtu                                          # 博客名称
+    description: The time is passing                     # 博客描述
+    title: comtu                                         # 网页标题
+    url: http://comtu.github.io/                         # 博客地址
+    duoshuo: comtu                                       # 多说ID
+    tongji: comtu                                        # 百度统计ID
     qiniu:                                               # 七牛云地址
 author:
-    name: comtu                                                # 作者名称
-    email: com.tu@139.com                                               # 邮箱地址
-    weibo:                                               # 微博地址
-    github:                                              # GitHub地址
-    logo:                                                # logo地址
+    name: comtu                                          # 作者名称
+    email: com.tu@139.com                                # 邮箱地址
+    weibo: http://weibo.com/comtu                        # 微博地址
+    github: https://github.com/comtu                     # GitHub地址
+    logo: /res/img/icon.jpg                              # logo地址
     douban:
         name:                                            # 豆瓣地址名称
         key:                                             # 豆瓣API Key
