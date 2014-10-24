@@ -6,7 +6,7 @@ title: 文章分类
 <link rel="stylesheet" href="/res/css/page.css">
 {% capture categories %}{% for category in site.categories %}{{ category | first }}{% unless forloop.last %},{% endunless %}{% endfor %}{% endcapture %}
 {% assign category = categories | split:',' | sort %}
-<h2 class="category">分类</h2>
+<h2 class="category">文章分类</h2>
 <div class="category-box">
   <ul>
     {% for item in (0..site.categories.size) %}{% unless forloop.last %}
@@ -20,7 +20,7 @@ title: 文章分类
 {% capture word %}{{ category[item] | strip_newlines }}{% endcapture %}
 <h2 class="category" id="{{ word }}">{{ word }}</h2>
 {% for post in site.categories[word] %}{% if post.title != null %}
-<ul><li class="category-sub">{{ post.date | date: "%Y-%m-%d" }}&nbsp;&nbsp;&raquo;&nbsp;&nbsp;<a class="category-sub-title" href="{{ post.url }}">{{ post.title }}</a></li></ul>
+<ul><li class="category-sub">{{ post.date | date: "%Y-%m-%d" }}&nbsp;&nbsp;&raquo;&nbsp;&nbsp;<a class="category-sub-title" href="{{ post.url }}" >{{ post.title }}</a></li></ul>
 {% endif %}{% endfor %}
 {% endunless %}{% endfor %}
 <br/><br/>

@@ -1,7 +1,7 @@
 ## 简介
 
-这是一款Jekyll博客主题，叫做Jekyll Light。这是我花了两天时间才重新做好的主题。没有用到任何CSS框架，简洁美观。  
-PS: 应该说我不会用CSS框架。。。
+这是一款Jekyll博客主题，叫做Jekyll Light。是我引用pexcn大牛的一个博客框架, 没有用到任何CSS框架，简洁美观。  
+
 
 ### 关于主题
 * 支持多说评论框
@@ -79,22 +79,6 @@ _posts文件夹下的markdown文件的layout项改为`post`，使用简版页面
 ### 生成静态博客
 把你的博客推送到GitHub或者其它支持Jekyll的代码托管网站就可以了。  
 具体可以到[Jekyll官网](http://jekyllrb.com/)或[GitHub Pages](https://pages.github.com/)查看详细教程。
-
-
-## 下载
-
-**Download: [Jekyll Light](https://github.com/pexcn/Jekyll-Light/releases)**
-
-**Source: [GitHub](https://github.com/pexcn/Jekyll-Light)**
-
-**DEMO: [Pexcn Blog](http://pexcn.tk)**
-
-
-## 截图
-
-![01](https://raw.githubusercontent.com/pexcn/Jekyll-Light/dev/README/01.png)
-![02](https://raw.githubusercontent.com/pexcn/Jekyll-Light/dev/README/02.png)
-![03](https://raw.githubusercontent.com/pexcn/Jekyll-Light/dev/README/03.png)
 
 
 ## 许可证

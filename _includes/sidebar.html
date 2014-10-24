@@ -2,8 +2,8 @@
   <div class="profilepic">
     <a href="/"><img src="{{ site.author.logo }}" alt="logo"></img></a>
   </div>
-  <h1 class="title"><a href="/">{{ site.blog.name }}</a></h1>
-  <h2 class="sub-title">{{ site.blog.description }}</h2>
+  <h1 class="title" ><a href="/" ><font id="change">{{ site.blog.name }}</font></a></h1>
+  <h2 class="sub-title" >{{ site.blog.description }}</h2>
   <nav id="nav">
     <ul>
     {% for nav in site.data.nav %}
@@ -21,3 +21,13 @@
     <img alt="License" height="31" width="88" src="/res/img/license.png" /></a>
   </div>
 </div>
+
+   <script>
+    window.self.setInterval("reviseColor()",10000);
+    function reviseColor(){
+	var dom = window.document;
+	var f = dom.getElementById("change");
+	("white"==f.style.color) ? (f.style.color = "red") : (("red" == f.style.color) ? (f.style.color = "green") :  ("green" == f.style.color)?f.style.color = "blue":(f.style.color = "white"));
+
+	}
+   </script>

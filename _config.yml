@@ -9,7 +9,7 @@ blog:
     description: The time is passing                     # 博客描述
     title: comtu                                         # 网页标题
     url: http://comtu.github.io/                         # 博客地址
-    duoshuo: comtu                                       # 多说ID
+    duoshuo: comtu                                       # 多说ID 
     tongji: comtu                                        # 百度统计ID
     qiniu:                                               # 七牛云地址
 author:

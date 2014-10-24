@@ -1,0 +1,17 @@
+---
+layout: blog
+title: 资源收藏
+---
+
+<link rel="stylesheet" href="/res/css/page.css">
+{% capture categories %}{% for category in site.categories %}{{ category | first }}{% unless forloop.last %},{% endunless %}{% endfor %}{% endcapture %}
+{% assign category = categories | split:',' | sort %}
+<h2 class="category">资源分类</h2>
+<div class="category-box">
+  <ul>
+  施工建设中....
+  </ul>
+</div>
+<hr id="line"/>
+  施工建设中....
+<br/><br/>
