@@ -4,13 +4,14 @@ permalink: blog/:year/:month/:day/:title.html
 paginate: 6
 paginate_path: page/:num
 
+
 blog:
     name: comtu                                          # 博客名称
     description: The time is passing                     # 博客描述
     title: comtu                                         # 网页标题
     url: http://comtu.github.io/                         # 博客地址
     duoshuo: comtu                                       # 多说ID 
-    tongji: comtu                                        # 百度统计ID
+    tongji: e0d9a75a7e53b54cd1e6649facd5906e             # 百度统计ID
     qiniu:                                               # 七牛云地址
 author:
     name: comtu                                          # 作者名称

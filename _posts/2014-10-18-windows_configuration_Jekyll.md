@@ -1,11 +1,11 @@
 ---
-layout : life
+layout : post
 title : "Windows平台配置Jekyll环境"
 category : Jekyll
 duoshuo: true
 date : 2014-10-18
 ---
-
+<!-- more -->
 ******
 
 ###1.安装所需要的软件<br />
