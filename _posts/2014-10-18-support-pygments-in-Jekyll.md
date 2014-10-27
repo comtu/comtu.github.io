@@ -13,10 +13,14 @@ date : 2014-10-18
 
 ##一.安装Pygments
 
-Jekyll 里默认的语法高亮插件是 [Pygments](http://pygments.org/)。<br />
-它需要安装 Python 并在网站的配置文件_config.yml 里将 highlighter 的值设置为pygments。
 
-不久之前，Jekyll 还添加另一个高亮引擎名为 [Rouge](https://github.com/jayferd/rouge)， 尽管暂时不如 Pygments 支持那么多的语言，但它是原生 Ruby 程序，而不需要使用 Python。 更多信息请点此关注。
+Jekyll 里默认的语法高亮插件是 [Pygments](http://pygments.org/)。Pygments [支持多种语言高亮](http://pygments.org/docs/lexers/)。
+
+它需要安装 Python 并在网站的配置文件`_config.yml` 里将 `highlighter` 的值设置为`pygments`。
+
+不久之前，Jekyll 还添加另一个高亮引擎名为 [Rouge](https://github.com/jayferd/rouge)， 
+
+尽管暂时不如 Pygments 支持那么多的语言，但它是原生 [Ruby](https://www.ruby-lang.org/zh_cn/) 程序，而不需要使用 [Python](https://www.python.org/download/) 。 
 
 ---
 
@@ -308,3 +312,7 @@ Pygments 样式 默认提供了 monokai、manni、rrt、perldoc、borland、colo
 	![pygments-vs](/blog/2014/11/18/pygments-vs.png)  
 
 
+
+##参考:
+
+**[http://pygments.org/docs/cmdline/](http://pygments.org/docs/cmdline/)**

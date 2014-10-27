@@ -10,6 +10,7 @@ date : 2014-10-18
 
 ###1.安装所需要的软件<br />
 * **文本编辑器**(不要使用Windows自带的编辑器) 
+
 	使用如:`notepad++` [http://www.notepad-plus-plus.org/](http://www.notepad-plus-plus.org/)<br />
 * **Railsinstaller**    [http://railsinstaller.org/en](http://railsinstaller.org/en)
 
