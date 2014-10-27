@@ -1,5 +1,5 @@
 ---
-layout : blog
+layout : post
 title : "你好世界"
 category : 新世界
 duoshuo: true
