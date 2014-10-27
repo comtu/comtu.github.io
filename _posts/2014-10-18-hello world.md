@@ -1,19 +1,46 @@
 ---
 layout : post
-title : "你好世界"
-category : 新世界
+title : "hello world"
+category : demo
 duoshuo: true
 date : 2014-10-18
 ---
 
-你好世界.
-******
-
 <!-- more -->
 
-```
-print("Hello World!");
-```
+---
+
+##标题
+
+---
+
+* **内容**
+
+	* **内容**
+	* **内容**
+		* **内容**
+		* **内容**
+			* **内容**
+			* **内容**
+
+		* **内容**
+		* **内容**
+
+* **内容**
+
+---
+
+[链接](http://comtu.github.com)
+
+---
+
+内容`颜色`背景
+
+---
+
+	伸进
+
+---
 
 
 

@@ -319,4 +319,18 @@ git branch --set-upstream develop origin/develop
 {% endhighlight %}
 
 
-[转](http://justcoding.iteye.com/blog/1830388)
+---
+
+##Github协同流程：
+
+fork给自己 → clone到本地 → coding → push回自己 → github上提出Pull Request即可
+之后，本地添加fork源为远端源 → 工作前先pull下fork源保持代码较新 → coding → ...
+
+
+---
+
+参考: 
+
+[http://git-scm.com/book/zh/v1](http://git-scm.com/book/zh/v1)
+
+
