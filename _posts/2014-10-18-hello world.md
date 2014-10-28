@@ -6,33 +6,42 @@ duoshuo: true
 date : 2014-10-18
 ---
 
-<!-- more -->
+#H1
 
----
+##H2
 
-#特大字
+###H3
 
-##大字
+####H4
 
-###中字
+#####H5
 
-####小字
+######H6
 
-#####特小字
-
-######再小点?
-
-默认什么字号
+默认字号字体
 
 **加粗**
 
+<!-- more -->
+
 *斜体*
+_斜体_
 
 ***加粗斜体***
 
 内容`颜色`背景
 
 [我是链接](http://comtu.github.com)
+
+> 内容加边  
+
+> 再加边  
+> 再再加边  
+> 再再再加边  
+> 注意事项**`"内容后面有两个空格"`**  
+
+
+
 
 ---
 
@@ -44,13 +53,13 @@ date : 2014-10-18
 
 ---
 
-* #1.特大字内容
+* #1.H1内容
 
-	* ##1.1大字内容
-	* ###1.2中字内容
-		* ####1.2.1小字内容
-		* #####1.2.2特小字内容
-			* ######1.2.2.1再小点?内容
+	* ##1.1H2内容
+	* ###1.2H3内容
+		* ####1.2.1H4内容
+		* #####1.2.2H5内容
+			* ######1.2.2.1H6内容
 			* 01.2.2.2默认什么字号内容
 
 		* **1.2.3加粗内容**
@@ -60,6 +69,19 @@ date : 2014-10-18
 * 3.内容`颜色`背景
 * 4.[我是链接](http://comtu.github.com)
 
+1. 内容1
+2. 内容2
+
+---
+
+下面是表格
+
+|head1|head2|head3|head4
+|---|:---|---:|:---:|
+|row1text1|row1text2|row1text3|row1text4
+|row2text1|row2text2|row2text3|row2text4
+|row3text1|row3text2|row3text3|row3text4
+|row4text1|row4text2|row4text3|row4text4
 
 ---
 
@@ -87,4 +109,21 @@ int main(int argc, char **argv)
 	}
 	{% endhighlight %}
 {% endraw %}
+
+<hr id="line"/><br/>
+
+
+
+   <section>
+        <h3>最新评论</h3>
+        <ul class="ds-recent-comments" data-num-items="10" data-show-avatars="0" data-show-time="0" data-show-title="0" data-show-admin="0" data-excerpt-length="18"></ul>
+      </section>
+
+ <section style="width:250px;">
+        <h3>最近访客</h3>
+          <ul class="ds-recent-visitors" data-num-items="4" data-avatar-size="45" style="margin-top:10px;"></ul>
+      </section>
+
+
+---
 

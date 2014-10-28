@@ -5,7 +5,7 @@ category : Jekyll
 duoshuo: true
 date : 2014-10-18
 ---
-<!-- more -->
+
 ******
 
 ###1.安装所需要的软件<br />
@@ -14,11 +14,13 @@ date : 2014-10-18
 	使用如:`notepad++` [http://www.notepad-plus-plus.org/](http://www.notepad-plus-plus.org/)<br />
 * **Railsinstaller**    [http://railsinstaller.org/en](http://railsinstaller.org/en)
 
+<!-- more -->
+
 ******
 
 ###2.安装完后生成SSH并导入到Github网站
 * **生成SSH**<br />
-	Railsinstaller安装(默认安装)完后软件提示输入name 其实是Github的用户名 , 输入完后提示输入邮箱 github注册使用的邮箱.<br />
+	Railsinstaller安装(默认安装)完后软件提示输入name 其实是Github的用户名 , 输入完后提示输入邮箱 github注册使用的邮箱<br />
 	以上操作完后会在 `C:\Users\用户名\.ssh文件夹\`下生成密钥与公钥 `id_rsa`(密钥) 与 `id_rsa.pub`(公钥) 
 
 * **导入SSH公钥到GigHub网站** <br />
@@ -103,4 +105,14 @@ date : 2014-10-18
 			命令: gem install rdiscount kramdown
 
 		以上命令涉及到gem install的时候，如果你用的是linux系统，就要用sudo gem install代替。
+
+
+* **参考资料:**
+
+> [Github Pages极简教程](http://yanping.me/cn/blog/2012/03/18/github-pages-step-by-step/)  
+> [【译文】用Jekyll构建静态网站](http://yanping.me/cn/blog/2011/12/15/building-static-sites-with-jekyll/) [原文Building Static Sites with Jekyll](http://code.tutsplus.com/tutorials/building-static-sites-with-jekyll--net-22211)  
+> [为 Jekyll 添加多说评论系统](http://havee.me/internet/2013-07/add-duoshuo-commemt-system-into-jekyll.html)  
+> [在 Windows 上安装 Jekyll](http://cn.yizeng.me/2013/05/10/setup-jekyll-on-windows/#troubleshooting)  
+> [Jekyll 中的语法高亮：Pygments](http://comtu.github.io/blog/2014/10/18/support-pygments-in-Jekyll.html)  
+> [Jekyll 扩展的 Liquid 设计](http://havee.me/internet/2013-11/jekyll-liquid-designers.html)  [原文Liquid for Designers](https://github.com/shopify/liquid/wiki/liquid-for-designers)  
 

@@ -1,8 +1,14 @@
 markdown: kramdown
 highlighter: pygments
 permalink: blog/:year/:month/:day/:title.html
-paginate: 6
+paginate:	
 paginate_path: page/:num
+
+# Build settings
+# markdown: redcarpet
+# redcarpet:
+#     extensions: ["fenced_code_blocks", "tables", "highlight", "strikethrough"]
+
 
 
 blog:

@@ -6,8 +6,6 @@ duoshuo: true
 date : 2014-10-19
 ---
 
-<!-- more -->
-
 ##初始化配置
 
 {% highlight python %}
@@ -33,6 +31,8 @@ git config -1 #列举所有配置
   
 #用户的git配置文件~/.gitconfig  
 {% endhighlight %}
+
+<!-- more -->
 
 ---
 

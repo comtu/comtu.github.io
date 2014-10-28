@@ -5,7 +5,7 @@ category : Jekyll
 duoshuo: true
 date : 2014-10-18
 ---
-<!-- more -->
+
 ******
 
 
@@ -13,8 +13,35 @@ date : 2014-10-18
 
 ##一.安装Pygments
 
-
 Jekyll 里默认的语法高亮插件是 [Pygments](http://pygments.org/)。Pygments [支持多种语言高亮](http://pygments.org/docs/lexers/)。
+
+**一.1)如果你是linux**
+
+
+* **1.安装 pygments**
+
+archlinux:
+
+	$ sudo pacman -S python2-pygments
+
+<!-- more -->
+
+或直接通过 pip 来安装
+
+	$ pip install pygments --user
+
+
+* **2.安装 pygments.rb**
+
+命令使用: 
+
+	$ gem install pygments.rb
+
+
+
+---
+
+**一.2)如果你是Windows**
 
 它需要安装 Python 并在网站的配置文件`_config.yml` 里将 `highlighter` 的值设置为`pygments`。
 
@@ -24,7 +51,7 @@ Jekyll 里默认的语法高亮插件是 [Pygments](http://pygments.org/)。Pygm
 
 ---
 
-* **1.安装 Python**
+* **一.2)1.安装 Python**
 
 前往 [http://www.python.org/download/](http://www.python.org/download/)
 下载合适的 Python windows 安装包，如 Python 2.7.8 Windows Installer。
@@ -45,7 +72,7 @@ Jekyll 里默认的语法高亮插件是 [Pygments](http://pygments.org/)。Pygm
 
 ---
 
-* **2.安装 ‘Easy Install’**
+* **一.2)2.安装 ‘Easy Install’**
 
 浏览 [https://pypi.python.org/pypi/setuptools#installation-instructions](https://pypi.python.org/pypi/setuptools#installation-instructions) 来查看详细的安装指南。
 
@@ -58,7 +85,7 @@ Jekyll 里默认的语法高亮插件是 [Pygments](http://pygments.org/)。Pygm
 
 ---
 
-* **3.安装 Pygments**
+* **一.2)3.安装 Pygments**
 
 
 确保 easy_install 已经正确安装
@@ -85,7 +112,7 @@ Jekyll 里默认的语法高亮插件是 [Pygments](http://pygments.org/)。Pygm
 	pygments: true
 	mardown: redcarpet
 
-注意：新版本 Jekyll 中，`pygments: true` 替换为 `highlighter: pygments`。
+> 注意：新版本 Jekyll 中，`pygments: true` 替换为 `highlighter: pygments`。  
 
 ---
 * **2.生成css文件**
@@ -122,7 +149,7 @@ Jekyll 里默认的语法高亮插件是 [Pygments](http://pygments.org/)。Pygm
 {% endraw %}
 
 
-网上有教程说也可以采用如下的写法,但本人实际尝试后显示不了
+也可以采用这样的写法
 
 	```c
 	/* hello world demo */
@@ -133,6 +160,13 @@ Jekyll 里默认的语法高亮插件是 [Pygments](http://pygments.org/)。Pygm
 	    return 0;
 	}
 	```
+
+```符号需要markdownx解释引擎，
+
+	markdown: redcarpet
+	redcarpet:
+		extensions: ["fenced_code_blocks", "tables", "highlight", "strikethrough"]
+
 
 ---
 
