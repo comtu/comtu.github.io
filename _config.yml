@@ -1,7 +1,7 @@
 markdown: kramdown
 highlighter: pygments
 permalink: blog/:year/:month/:day/:title.html
-paginate:	
+paginate: 6	
 paginate_path: page/:num
 
 # Build settings
