@@ -8,8 +8,8 @@
   {% if page.index == true %}<meta name="keywords" content="{{ site.blog.title }}, {{ site.blog.name }}, {{ site.blog.description }}, {{ site.author.name }}">{% else %}<meta name="keywords" content="{{ page.title }}, {{ site.blog.name }}, {{ site.author.name }}">{% endif %}
   {% if page.index == true %}<title>{{ site.blog.title }}</title>{% else %}<title>{{ page.title }} - {{ site.blog.name }}</title>{% endif %}
   {% if page.index == true %}<link rel="canonical" href="{{ site.blog.url }}">{% else %}<link rel="canonical" href="{{ site.blog.url }}{{ page.url }}">{% endif %}
-  <link rel="icon" href="/res/img/favicon.ico" type="image/x-icon">
-  <link rel="shortcut icon" href="/res/img/favicon.ico" type="image/x-icon">
+  <link rel="icon" id="icon"  href="/res/img/icon/1.ico" type="image/x-icon">
+  <link rel="shortcut icon" id="shortcut_icon" href="/res/img/icon/1.ico" type="image/x-icon">
   <link rel="stylesheet" href="/res/css/public.css">
   <link rel="stylesheet" href="/res/css/light.css">
   <script src="/res/js/light.js"></script>
