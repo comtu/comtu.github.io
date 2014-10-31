@@ -228,122 +228,122 @@ Pygments 样式 默认提供了 monokai、manni、rrt、perldoc、borland、colo
 * **monokai**
 
 
-	![pygments-monokai](/blog/2014/11/18/pygments-monokai.png)  
+	![pygments-monokai](/res/img/blog/2014/11/18/pygments-monokai.png)  
 
 
 * **autumn**
 
 
-	![pygments-autumn](/blog/2014/11/18/pygments-autumn.png)  
+	![pygments-autumn](/res/img/blog/2014/11/18/pygments-autumn.png)  
 
 
 * **borland**
 
 
-	![pygments-borland](/blog/2014/11/18/pygments-borland.png)  
+	![pygments-borland](/res/img/blog/2014/11/18/pygments-borland.png)  
 
 
 * **bw**
 
 
-	![pygments-bw](/blog/2014/11/18/pygments-bw.png)  
+	![pygments-bw](/res/img/blog/2014/11/18/pygments-bw.png)  
 
 
 * **colorful**
 
 
-	![pygments-colorful](/blog/2014/11/18/pygments-colorful.png)  
+	![pygments-colorful](/res/img/blog/2014/11/18/pygments-colorful.png)  
 
 
 
 * **default**
 
 
-	![pygments-default](/blog/2014/11/18/pygments-default.png)  
+	![pygments-default](/res/img/blog/2014/11/18/pygments-default.png)  
 
 
 * **emacs**
 
 
-	![pygments-emacs](/blog/2014/11/18/pygments-emacs.png)  
+	![pygments-emacs](/res/img/blog/2014/11/18/pygments-emacs.png)  
 
 
 * **friendly**
 
 
-	![pygments-friendly](/blog/2014/11/18/pygments-friendly.png)  
+	![pygments-friendly](/res/img/blog/2014/11/18/pygments-friendly.png)  
 
 
 * **fruity**
 
 
-	![pygments-fruity](/blog/2014/11/18/pygments-fruity.png)  
+	![pygments-fruity](/res/img/blog/2014/11/18/pygments-fruity.png)  
 
 
 * **manni**
 
 
-	![pygments-manni](/blog/2014/11/18/pygments-manni.png)  
+	![pygments-manni](/res/img/blog/2014/11/18/pygments-manni.png)  
 
 
 * **monokai**
 
 
-	![pygments-monokai](/blog/2014/11/18/pygments-monokai.png)  
+	![pygments-monokai](/res/img/blog/2014/11/18/pygments-monokai.png)  
 
 
 * **murphy**
 
 
-	![pygments-murphy](/blog/2014/11/18/pygments-murphy.png)  
+	![pygments-murphy](/res/img/blog/2014/11/18/pygments-murphy.png)  
 
 
 * **native**
 
 
-	![pygments-native](/blog/2014/11/18/pygments-native.png)  
+	![pygments-native](/res/img/blog/2014/11/18/pygments-native.png)  
 
 
 * **pastie**
 
 
-	![pygments-pastie](/blog/2014/11/18/pygments-pastie.png)  
+	![pygments-pastie](/res/img/blog/2014/11/18/pygments-pastie.png)  
 
 
 * **perldoc**
 
 
-	![pygments-perldoc](/blog/2014/11/18/pygments-perldoc.png)  
+	![pygments-perldoc](/res/img/blog/2014/11/18/pygments-perldoc.png)  
 
 
 * **rrt**
 
 
-	![pygments-rrt](/blog/2014/11/18/pygments-rrt.png)  
+	![pygments-rrt](/res/img/blog/2014/11/18/pygments-rrt.png)  
 
 
 * **tango**
 
 
-	![pygments-tango](/blog/2014/11/18/pygments-tango.png)  
+	![pygments-tango](/res/img/blog/2014/11/18/pygments-tango.png)  
 
 
 * **trac**
 
 
-	![pygments-trac](/blog/2014/11/18/pygments-trac.png)  
+	![pygments-trac](/res/img/blog/2014/11/18/pygments-trac.png)  
 
 
 * **vim**
 
 
-	![pygments-vim](/blog/2014/11/18/pygments-vim.png)  
+	![pygments-vim](/res/img/blog/2014/11/18/pygments-vim.png)  
 
 
 * **vs**
 
 
-	![pygments-vs](/blog/2014/11/18/pygments-vs.png)  
+	![pygments-vs](/res/img/blog/2014/11/18/pygments-vs.png)  
 
 
 
