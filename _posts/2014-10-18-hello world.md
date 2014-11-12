@@ -1,9 +1,10 @@
 ---
 layout : post
 title : "hello world"
-category : demo
+category : [Demo, Jekyll]
 duoshuo: true
 date : 2014-10-18
+tags : [Jekyll , Demo , Test]
 ---
 
 #H1
@@ -114,15 +115,15 @@ int main(int argc, char **argv)
 
 
 
-   <section>
-        <h3>最新评论</h3>
-        <ul class="ds-recent-comments" data-num-items="10" data-show-avatars="0" data-show-time="0" data-show-title="0" data-show-admin="0" data-excerpt-length="18"></ul>
-      </section>
+<section>
+<h3>最新评论</h3>
+<ul class="ds-recent-comments" data-num-items="10" data-show-avatars="0" data-show-time="0" data-show-title="0" data-show-admin="0" data-excerpt-length="18"></ul>
+</section>
 
- <section style="width:250px;">
-        <h3>最近访客</h3>
-          <ul class="ds-recent-visitors" data-num-items="4" data-avatar-size="45" style="margin-top:10px;"></ul>
-      </section>
+<section style="width:250px;">
+<h3>最近访客</h3>
+<ul class="ds-recent-visitors" data-num-items="4" data-avatar-size="45" style="margin-top:10px;"></ul>
+</section>
 
 
 ---

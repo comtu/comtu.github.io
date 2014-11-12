@@ -4,6 +4,7 @@ title : "Jekyll中的语法高亮:Pygments"
 category : Jekyll 
 duoshuo: true
 date : 2014-10-18
+tags : [Jekyll , Pygments , 语法高亮]
 ---
 
 ******

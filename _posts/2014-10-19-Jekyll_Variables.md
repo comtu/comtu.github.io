@@ -1,9 +1,10 @@
 ---
 layout : post
-title : "Jekyll变量"
+title : "Jekyll目录结构与变量"
 category : Jekyll
 duoshuo: true
 date : 2014-10-19
+tags : Jekyll
 ---
 
 **Jekyll 目录及一些说明**
