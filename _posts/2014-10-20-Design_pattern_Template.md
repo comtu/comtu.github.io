@@ -18,6 +18,7 @@ tags : [设计模式 , 模板模式 , 模板方法模式 , Template]
 		4. 创建实现类继承并实现父类的未实现的函数
 		5. 为了避免子类重写父类的模版代码，需要将模版代码修饰为final
 
+<!-- more -->
 
 {% highlight java %}
 	abstract class RunCode //3.有抽象方法code()所以必须定义为抽象类
