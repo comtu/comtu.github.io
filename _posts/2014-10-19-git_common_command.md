@@ -4,7 +4,7 @@ title : "Git 常用命令整理"
 category : Git
 duoshuo: true
 date : 2014-10-19
-tags : Git
+tags : [Git , 版本控制]
 ---
 
 ##初始化配置

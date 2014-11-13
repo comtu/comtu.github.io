@@ -1,7 +1,7 @@
 ---
 layout : post
 title : "hello world"
-category : [Demo, Jekyll]
+category : Jekyll
 duoshuo: true
 date : 2014-10-18
 tags : [Jekyll , Demo , Test]
