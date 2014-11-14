@@ -4,7 +4,7 @@ title : "单例设计模式"
 category : 设计模式
 duoshuo: true
 date : 2014-10-20
-tags : [设计模式 , 单例设计模式 , Singleton , 饿汉式 , 懒汉式 , Double-checked locking , 双重检查回销]
+tags : [设计模式 , 单例设计模式 , Singleton , 饿汉式 , 懒汉式 , Double-checked locking , 双重检查锁定]
 ---
 
 
