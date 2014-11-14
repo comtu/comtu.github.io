@@ -11,7 +11,7 @@ post: true
     <i class="space"></i>
     <i class="fa fa-tag"></i>
     <a class="post-category" href="/page/category.html#{{ page.categories }}">{{ page.categories }}</a>
-	<i class="space"></i>
+	<br />
 	<i class="fa fa-tags"></i>
 	{% for tag in page.tags %}<a class="post-category" href="/page/tags.html#{{ tag }}">{{ tag }}</a><i class="space"></i>{% endfor %}
   </p>
