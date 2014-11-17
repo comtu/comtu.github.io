@@ -33,11 +33,12 @@ tags : [设计模式 , 单例设计模式 , Singleton , 饿汉式 , 懒汉式 , 
 	在类中自定义一个对象
 	对外提供该对象的公共访问方式
 
-**单例的实现有两中模式**
+**单例的一般实现有两中模式**
 
 > 1. `饿汉式`  指全局的单例实例在类装载时构建。(存在对象生命周期过长问题)    
 > 2. `懒汉式`  指全局的单例实例在第一次被使用时构建。(存在线程安全问题,使用锁后推荐使用)     
-
+> 3. `内部类`  
+> 4. `枚举`  
 
 例:
 
@@ -96,7 +97,7 @@ public class SingletonLazy1{ //懒汉式 _ 双重检查锁定
 ---
 
 {% highlight java %}
-public class SingletonLazy2{
+public class SingletonLazy2{  // 双重检查锁定 
 	//注意在JDK1.4以及更早版本的Java中许多JVM对于 volatile 关键字的实现会导致双重检查加锁失效,此种方法只能用在JDK5及以后版本
 	private volatile static SingletonLazy2 UNIQUE_INSTANCE; //注意 volatile 关键字
 
@@ -116,6 +117,35 @@ public class SingletonLazy2{
 
 {% endhighlight %}
 
+---
+
+**内部类**
+
+{% highlight java %}
+public class SingletonInnerClass {  //内部类
+    private static class SingletonHolder {  
+	private static final SingletonInnerClass INSTANCE = new SingletonInnerClass();  
+    }  
+    private SingletonInnerClass (){}  
+    public static final SingletonInnerClass getInstance() {  
+	 return SingletonHolder.INSTANCE;  
+    }  
+}  
+{% endhighlight %}
+
+
+---
+
+**枚举**
+
+
+{% highlight java %}
+public enum SingletonEnum {   //枚举
+    INSTANCE;  
+    public void whateverMethod() {  
+    }  
+} 
+{% endhighlight %}
 
 ---
 
@@ -125,6 +155,10 @@ class Demo { //调用测试
 		SingletonLazy2 s1 =  SingletonLazy2.getInstance();
 		SingletonLazy2 s2 =  SingletonLazy2.getInstance();
 		System.out.println( s1 == s2 );
+	
+		
+
+		SingletonEnum.INSTANCE.whateverMethod();//枚举
 	}
 }
 {% endhighlight %}
@@ -140,3 +174,4 @@ class Demo { //调用测试
 
 [单例模式的七种写法](http://cantellow.iteye.com/blog/838473)
 
+[枚举增强单例模式的可靠性](http://blog.csdn.net/java2000_net/article/details/3983958#)
