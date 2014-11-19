@@ -1,4 +1,4 @@
-## 简介
+## 简介 :octocat::thumbsup:
 
 这是一款Jekyll博客主题，叫做Jekyll Light。是我引用pexcn大牛的一个博客框架, 没有用到任何CSS框架，简洁美观。  
 
