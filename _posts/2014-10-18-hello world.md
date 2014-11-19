@@ -4,7 +4,7 @@ title : "hello world"
 category : Jekyll
 duoshuo: true
 date : 2014-10-18
-tags : [Jekyll , Demo , Test]
+tags : [Jekyll , Demo , Test , SyntaxHihglighter , pygments]
 SyntaxHihglighter: true
 shTheme: shThemeEclipse # shThemeDefault  shThemeDjango  shThemeEclipse  shThemeEmacs  shThemeFadeToGrey  shThemeMidnight  shThemeRDark
 
