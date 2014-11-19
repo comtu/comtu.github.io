@@ -5,6 +5,9 @@ category : Jekyll
 duoshuo: true
 date : 2014-10-18
 tags : [Jekyll , Demo , Test]
+SyntaxHihglighter: true
+shTheme: shThemeEclipse # shThemeDefault  shThemeDjango  shThemeEclipse  shThemeEmacs  shThemeFadeToGrey  shThemeMidnight  shThemeRDark
+
 ---
 
 #H1
@@ -86,6 +89,8 @@ _斜体_
 
 ---
 
+**[使用 pygments 高亮](http://pygments.org/)**
+
 {% highlight c %}
 /* hello world demo 代码高亮*/
 #include <stdio.h>
@@ -113,6 +118,107 @@ int main(int argc, char **argv)
 
 <hr id="line"/><br/>
 
+**[用 SyntaxHihglighter 高亮](http://alexgorbatchev.com/SyntaxHighlighter/)**
+
+<pre class="brush: js; ">
+function helloSyntaxHighlighter()
+{
+	return "hi!";
+}
+</pre>
+
+{% raw %}
+	<pre class="brush: js; "><!--禁止解析-->
+	function helloSyntaxHighlighter()
+	{
+		return "hi!";
+	}
+	</pre>
+{% endraw %}
+
+<pre class="brush: java; ruler: true; first-line: 0; highlight: [2, 4, 6] ; auto-links: false ; collapse: true ; gutter: false; ">
+/*http://comtu.githut.io*/
+class SingletonTest {
+	private static class SingletonHolder {
+		private static final SingletonTest INSTANCE = new SingletonTest();
+	}
+
+	private SingletonTest() {
+	}
+
+	public static final SingletonTest getInstance() {
+		return SingletonHolder.INSTANCE;
+	}
+}
+
+</pre>
+
+
+
+
+<pre class="brush: java;  collapse: true ; first-line: 10; highlight: [11, 13, 15] " >
+/**
+ * 枚举_单例
+ */
+enum SingletonEnum {  
+    INSTANCE;  
+    public void whateverMethod() {  
+    }  
+}  
+</pre>
+
+---
+
+**[使用 script 方式高亮](http://alexgorbatchev.com/SyntaxHighlighter/manual/installation.html)**
+
+<script type="syntaxhighlighter" class="brush: php ; html-script: true ; collapse: true "><![CDATA[
+  <html>
+  <body>
+      <div style="font-weight: bold"><?= str_replace("\n", "<br/>", $var) ?></div>
+       
+      <?
+      /***********************************
+       ** Multiline block comments
+       **********************************/
+       
+      $stringWithUrl = "http://alexgorbatchev.com";
+      $stringWithUrl = 'http://alexgorbatchev.com';
+           
+      ob_start("parseOutputBuffer");      // Start Code Buffering
+      session_start();
+      ?>
+  </body>
+  </html>
+]]></script>
+
+---
+
+**[使用 pre 方式高亮 . 不支持 < 符号,需要进行转义为 &lt ; (但能很好的支持RSS订阅)](http://alexgorbatchev.com/SyntaxHighlighter/manual/installation.html)**
+
+<pre class="brush: html;  collapse: true">
+  &lt;html>
+  &lt;body>
+      &lt;div style="font-weight: bold">&lt;?= str_replace("\n", "&lt;br/>", $var) ?>&lt;/div>
+       
+      &lt;?
+      /***********************************
+       ** Multiline block comments
+       **********************************/
+       
+      $stringWithUrl = "http://alexgorbatchev.com";
+      $stringWithUrl = 'http://alexgorbatchev.com';
+           
+      ob_start("parseOutputBuffer");      // Start Code Buffering
+      session_start();
+      ?>
+  &lt;/body>
+  &lt;/html>
+</pre>
+	
+
+[SyntaxHihglighter使用方法](http://alexgorbatchev.com/SyntaxHighlighter/manual/installation.html)
+
+[SyntaxHihglighter参数](http://alexgorbatchev.com/SyntaxHighlighter/manual/configuration/)
 
 
 <section>
@@ -125,8 +231,6 @@ int main(int argc, char **argv)
 <ul class="ds-recent-visitors" data-num-items="4" data-avatar-size="45" style="margin-top:10px;"></ul>
 </section>
 
-
 ---
-
 
 

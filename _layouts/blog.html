@@ -12,6 +12,41 @@
   <link rel="shortcut icon" id="shortcut_icon" href="/res/img/icon/1.ico" type="image/x-icon">
   <link rel="stylesheet" href="/res/css/public.css">
   <link rel="stylesheet" href="/res/css/light.css">
+
+
+  {% if site.SyntaxHihglighter == true or page.SyntaxHihglighter == true %}
+  <script type="text/javascript" src="/res/sh/scripts/brush.js"></script>
+  <link type="text/css" rel="stylesheet" href="/res/sh/styles/shCore.css"/>
+
+
+  {% if page.shTheme != null %}
+	{% assign shTheme = page.shTheme %}
+  {% elsif site.shTheme != null %}
+	{% assign shTheme = site.shTheme %}
+  {% else %}
+	{% assign shTheme = 'shThemeDefault' %}
+  {% endif %}
+  <link type="text/css" rel="stylesheet" href="/res/sh/styles/{{ shTheme }}.css"/>
+
+  <script type="text/javascript">
+    SyntaxHighlighter.config.clipboardSwf = '/res/sh/scripts/clipboard.swf';
+	SyntaxHighlighter.config.bloggerMode = true;
+	SyntaxHighlighter.config.strings = {
+            expandSource : '展开代码',
+            viewSource : '查看代码',
+            copyToClipboard : '复制代码',
+            copyToClipboardConfirmation : '代码复制成功',
+            print : '打印',
+            help: '?',
+            alert: '语法高亮\n\n',
+            noBrush: '不能找到刷子: ',
+            brushNotHtmlScript: '刷子没有配置html-script选项',
+            aboutDialog: '<div>ComTu</div>'
+        };
+    SyntaxHighlighter.all();
+  </script>
+  {% endif %}
+
   <script src="/res/js/light.js"></script>
   {% include tongji.html %}
 </head>
