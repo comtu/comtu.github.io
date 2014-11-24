@@ -4,6 +4,7 @@ permalink: blog/:year/:month/:day/:title.html
 paginate: 6	
 paginate_path: page/:num
 
+
 # Build settings
 # markdown: redcarpet
 # redcarpet:

@@ -12,7 +12,7 @@
 
 #icon: fa fa-eyedropper
 #newblank: true
-- href: /page/resource.html
+- href: /resource/index.html
   icon: fa fa-book
   title: 资源收藏
   newblank: fasle

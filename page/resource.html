@@ -3,7 +3,22 @@ layout: blog
 title: 资源收藏
 ---
 
+<link rel="stylesheet" href="/res/css/page.css">
+<h2 class="category">资源收藏</h2>
 
+<ul>
+{% for mem in site.data.collection %}
+    <li>
+	<a href="{{ mem.href }}"{% if mem.newblank == true %}target="_blank"{% endif %}><i class="{{ mem.icon }}"></i>&nbsp;{{ mem.title }}
+    </li>
+	{% for m in mem.tag %}
+	  {{ m }}
+	{% endfor %}
+{% endfor %}
+</ul>
+
+
+<!--
 <link rel="stylesheet" href="/res/css/page.css">
 {% capture tags %}{% for tag in site.tags %}{{ tag | first }}{% unless forloop.last %},{% endunless %}{% endfor %}{% endcapture %}
 {% assign tag = tags | split:',' | sort %}
@@ -25,3 +40,4 @@ title: 资源收藏
 {% endif %}{% endfor %}
 {% endunless %}{% endfor %}
 <br/><br/>
+-->

@@ -91,7 +91,7 @@ _斜体_
 
 **[使用 pygments 高亮](http://pygments.org/)**
 
-{% highlight c %}
+{% highlight c linenos %}
 /* hello world demo 代码高亮*/
 #include <stdio.h>
 int main(int argc, char **argv)
@@ -105,7 +105,7 @@ int main(int argc, char **argv)
 ---
 
 {% raw %}
-	{% highlight c %}
+	{% highlight c %} 
 	/* hello world demo 禁止解析*/
 	#include <stdio.h>
 	int main(int argc, char **argv)
