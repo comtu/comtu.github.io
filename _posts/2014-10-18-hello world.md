@@ -35,8 +35,6 @@ _斜体_
 
 内容`颜色`背景
 
-[我是链接](http://comtu.github.com)
-
 > 内容加边  
 
 > 再加边  
@@ -49,9 +47,11 @@ _斜体_
 
 ---
 
-	伸进
+	缩进
 
 ---
+
+[我是链接,下面的是图片链接](http://comtu.github.com)
 
 ![图片链接](/res/img/icon.jpg)
 
@@ -75,6 +75,8 @@ _斜体_
 
 1. 内容1
 2. 内容2
+4. 内容(注意这里的Markdown源代码)
+23. 内容x
 
 ---
 
@@ -85,7 +87,6 @@ _斜体_
 |row1text1|row1text2|row1text3|row1text4
 |row2text1|row2text2|row2text3|row2text4
 |row3text1|row3text2|row3text3|row3text4
-|row4text1|row4text2|row4text3|row4text4
 
 ---
 
@@ -221,6 +222,17 @@ enum SingletonEnum {
 
 ---
 
+**视频**
+
+<video controls="controls" poster="/res/video/2014-10-18-hello world/anim_page_transformer_zoomout.jpg" width="320" height="auto">
+    <source src="/res/video/2014-10-18-hello world/anim_page_transformer_zoomout.mp4" type="video/mp4">
+    <source src="/res/video/2014-10-18-hello world/anim_page_transformer_zoomout.webm" type="video/webm">
+    <source src="/res/video/2014-10-18-hello world/anim_page_transformer_zoomout.ogv" type="video/ogv">
+</video>
+
+---
+
+
 **Markdown 免费编辑器**
 
 Windows 平台
@@ -251,13 +263,15 @@ Mac 平台
 - [Sublime Text 2](http://www.sublimetext.com/2) + [MarkdownEditing](http://ttscoff.github.com/MarkdownEditing/) / [教程](http://lucifr.com/2012/07/12/markdownediting-for-sublime-text-2/)
 
 
+---
+
 <section>
-<h3>最新评论</h3>
+<h3><b>最新评论</b></h3>
 <ul class="ds-recent-comments" data-num-items="10" data-show-avatars="0" data-show-time="0" data-show-title="0" data-show-admin="0" data-excerpt-length="18"></ul>
 </section>
 
 <section style="width:250px;">
-<h3>最近访客</h3>
+<h3><b>最近访客</b></h3>
 <ul class="ds-recent-visitors" data-num-items="4" data-avatar-size="45" style="margin-top:10px;"></ul>
 </section>
 

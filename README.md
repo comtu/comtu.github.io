@@ -14,7 +14,7 @@
 * 简版页面(渐变特效)
 * 响应式布局
 * 相信用WebKit内核的浏览器浏览，效果会有加成的...
-
+* 支持SyntaxHihglighter代码高亮
 
 ## 使用
 
@@ -41,6 +41,13 @@
 
 把以上这些选项的信息全改成你自己的，就配置完成了。
 
+### SyntaxHihglighter代码高亮
+全局默认关闭SyntaxHihglighter代码高亮
+需要在开头设置`SyntaxHihglighter: true`来开启。  
+并可设置代码高亮的主题如下:
+`shTheme: shThemeEclipse` # shThemeDefault  shThemeDjango  shThemeEclipse  shThemeEmacs  shThemeFadeToGrey  shThemeMidnight  shThemeRDark
+
+
 ### 多说评论框
 _posts文章默认开启评论框，而简版页面默认关闭。  
 _posts文章可以在开头设置`duoshuo: false`来关闭。  
@@ -63,7 +70,6 @@ _posts文章可以在开头设置`duoshuo: false`来关闭。
 定位到博客目录，可以运行以下命令
 
 * 创建文章：`rake post title="Post Name"` 
-* 创建简版页面：`rake life title="Page Name"`
 * 创建页面： `rake page title="Page name"`
 
 ### 页面的使用
@@ -71,8 +77,7 @@ _posts文章可以在开头设置`duoshuo: false`来关闭。
 
 * 普通页面  
 layout项改为`blog`
-* 简版页面  
-layout项改为`life`
+
 * 文章  
 _posts文件夹下的markdown文件的layout项改为`post`，使用简版页面就改成`life`
 
