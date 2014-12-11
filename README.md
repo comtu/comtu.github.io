@@ -44,8 +44,14 @@
 ### SyntaxHihglighter代码高亮
 全局默认关闭SyntaxHihglighter代码高亮(可在_config.yml进行配置)  
 需要在开头设置`SyntaxHihglighter: true`来开启。   
-并可设置代码高亮的主题如下:  
-`shTheme: shThemeEclipse` # shThemeDefault  shThemeDjango  shThemeEclipse  shThemeEmacs  shThemeFadeToGrey  shThemeMidnight  shThemeRDark  
+并可设置代码高亮的主题: `shTheme: shThemeEclipse`   
+shThemeDefault  
+shThemeDjango  
+shThemeEclipse  
+shThemeEmacs  
+shThemeFadeToGrey  
+shThemeMidnight  
+shThemeRDark  
 
 
 ### 多说评论框
