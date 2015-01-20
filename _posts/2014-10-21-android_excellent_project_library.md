@@ -1,7 +1,7 @@
 ---
 layout : post
 title : "Android优秀项目篇"
-category : android
+category : Android
 duoshuo: true
 date : 2014-10-21
 tags : [Android ,GitHub ]
@@ -109,4 +109,24 @@ DEMO演示：
 
 ----
 
+(9).eoe社区 Android 客户端项目
+
+项目介绍: eoe的Android客户端源码 功能模块有:社区精选,新闻资讯,学习教程,社区博客.每个人都可以fork一份代码修改.修改完后可以pull给管理员审核提交.
+
+项目地址:[https://github.com/eoecn/android-app/](https://github.com/eoecn/android-app/)
+
+
+----
+
+(10).网易新闻头条客户端
+
+项目简介: 这是一个新闻客户端,类似于网易新闻头条 .里面集成了多个开源框架如PhotoView android-FlipView 等
+
+项目地址:[https://github.com/tigerguixh/QuickNews](https://github.com/tigerguixh/QuickNews)
+
+![GitHub](https://raw.githubusercontent.com/tigerguixh/QuickNews/master/jietu.gif)
+
+----
+
 还会陆续更新....
+
