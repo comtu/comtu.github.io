@@ -128,5 +128,13 @@ DEMO演示：
 
 ----
 
+(11).开源中国Android客户端
+
+项目介绍: 谁用谁知道. 代码托管在OSChina [简介](http://www.oschina.net/app)
+
+项目地址:[http://git.oschina.net/oschina/android-app](http://git.oschina.net/oschina/android-app)
+
+----
+
 还会陆续更新....
 
