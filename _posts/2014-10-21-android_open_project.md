@@ -883,11 +883,7 @@ Material Design 风格的 Toast，类似 Google inbox 中的提示
 Demo地址：https://play.google.com/store/apps/details?id=com.mrengineer13.snackbar.sample  
 效果图：![Renderings](https://camo.githubusercontent.com/67a39af16f3d46631567c1f7bd7dcddeb3c4c9e9/687474703a2f2f6d6174657269616c2d64657369676e2e73746f726167652e676f6f676c65617069732e636f6d2f696d616765732f636f6d706f6e656e74732d746f617374732d73706563732d737065635f746f6173745f30335f315f6c617267655f6d6470692e706e67)  
 
-1. PopTip  
-支持自定义方向、颜色、边框半径、字体等的 message box   
-项目地址：https://github.com/andreamazz/AMPopTip  
-效果图：![Renderings](https://raw.githubusercontent.com/andreamazz/AMPopTip/master/assets/screenshot.gif)  
-  
+
 
 #### 十二、FlipView  
 1. android-flip  
