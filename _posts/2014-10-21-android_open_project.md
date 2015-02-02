@@ -285,9 +285,9 @@ APP示例：Foursquare, LinkedIn, Zappos, Rdio, Evernote Food, Plume, VLC for An
 1. ArcMenu  
 支持类似Path的左下角动画旋转菜单及横向划出菜单、圆心弹出菜单  
 项目地址：https://github.com/daCapricorn/ArcMenu  
-效果图：![Renderings](https://dl.dropboxusercontent.com/u/11369687/preview0.png)  
-https://dl.dropboxusercontent.com/u/11369687/preview1.png  
-https://dl.dropboxusercontent.com/u/11369687/raymenu.png  
+效果图：![Renderings](https://camo.githubusercontent.com/1fcc783d2e784f7db24feb2b6857f4aa43fc685b/68747470733a2f2f646c2e64726f70626f782e636f6d2f752f31313336393638372f70726576696577302e706e67)
+![comtu](https://camo.githubusercontent.com/7c3d707678e6aa187cdf2ee3ac701d77fba92f48/68747470733a2f2f646c2e64726f70626f782e636f6d2f752f31313336393638372f70726576696577312e706e67)
+![comtu](https://camo.githubusercontent.com/a5050578e15ff2e22deb2c0249b50c69f8f1ec1a/68747470733a2f2f646c2e64726f70626f782e636f6d2f752f31313336393638372f7261796d656e752e706e67)  
 APP示例：Path  
 
 1. android-satellite-menu  
