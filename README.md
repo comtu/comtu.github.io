@@ -28,6 +28,7 @@
 		url:                   # 博客地址
 		duoshuo:               # 多说ID
 		tongji:                # 百度统计ID
+		clickiTongJi: 	       # Clicki统计ID
 		qiniu:                 # 七牛云地址
 	author:
 		name:                  # 作者名称
