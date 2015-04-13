@@ -226,6 +226,14 @@ DEMO演示：
 
 ------
 
+24.Dragger
+项目介绍:Animate your activity!
+项目地址:https://github.com/ppamorim/Dragger
+Demo演示:
+![github](https://camo.githubusercontent.com/bce61066e5add8269dc7aa49bce0a30e03627885/687474703a2f2f692e696d6775722e636f6d2f676f50576771312e676966 "github")
+
+------
+
 视觉篇
 
 
