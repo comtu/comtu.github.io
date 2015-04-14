@@ -227,6 +227,8 @@ Demo地址：[Download here](http://7u2jsw.com1.z0.glb.clouddn.com/githubCustomS
 项目地址：https://github.com/Yalantis/Pull-to-Refresh.Rentals-Android  
 效果图：![Renderings](https://camo.githubusercontent.com/d406ac5a03a2b1fa5cf41fadc8d2408cb8709bdc/68747470733a2f2f6431337961637572716a676172612e636c6f756466726f6e742e6e65742f75736572732f3132353035362f73637265656e73686f74732f313635303331372f7265616c6573746174652d70756c6c5f312d322d332e676966)  
 
+
+
 #### 二、ActionBar  
 1. ActionBarSherlock  
 为Android所有版本提供统一的ActionBar，解决4.0以下ActionBar的适配问题  
@@ -434,6 +436,12 @@ APP示例：iReader
 简化并实现android的TabHost效果，顶部滑动tab，引导页，支持自定义tab样式,自定义滑动块样式和位置,自定义切换tab的过渡动画,子界面的预加载和界面缓存,设置界面是否可滑动  
 项目地址：https://github.com/LuckyJayce/ViewPagerIndicator  
   
+SmartTabLayout  
+A custom ViewPager title strip which gives continuous feedback to the user when scrolling.This library has been added some features and utilities based on android-SlidingTabBasic project of Google Samples.  
+自定义标题:viewpage地带使连续滚动时反馈给用户。这个库添加了一些功能和实用程序基于谷歌android-SlidingTabBasic工程样品。  
+项目地址: https://github.com/ogaclejapan/SmartTabLayout  
+App示例: https://play.google.com/store/apps/details?id=com.ogaclejapan.smarttablayout.demo  
+效果图: ![Renderings](https://raw.githubusercontent.com/ogaclejapan/SmartTabLayout/master/art/demo1.gif)  
 
 #### 五、GridView  
 1. StaggeredGridView  
@@ -629,7 +637,7 @@ Demo地址: https://github.com/tigerguixh/ProgressBar/blob/master/bin/ProgressBa
 包括TextView及所有继承自TextView控件，如EditText、Button、RadioButton  
 1. android-flowtextview  
 文字自动环绕其他View的Layout  
-项目地址：https://code.google.com/p/android-flowtextview/  
+项目地址：https://github.com/deano2390/FlowTextView  
 效果图：http://i949.photobucket.com/albums/ad332/vostroman1500/1.png  
 
 1. Android Form EditText  
@@ -761,6 +769,10 @@ EditText 的 Material Design 实现。包含 [Google Material Design Spec](http:
 项目地址：https://github.com/zcweng/ToggleButton  
 效果图：![Renderings](https://github.com/zcweng/ToggleButton/raw/master/ToggleButtonSample/21879.gif)  
   
+1. SlideSwitch  
+状态切换的开关，可以设置为类似IOS的圆形，也可以设置为矩形，用 View 实现  
+项目地址：https://github.com/Leaking/SlideSwitch
+效果图：![Renderings](https://github.com/Leaking/SlideSwitch/blob/master/Example/TestLibs/res/drawable-hdpi/slide_c.gif)  
 
 1. ExpandableTextView  
 可展开和收缩内容的TextView。  
@@ -779,6 +791,13 @@ Demo地址：https://github.com/flavienlaurent/discrollview/raw/master/sample.ap
 项目地址：https://github.com/MarkMjw/PullScrollView  
 效果图：![Renderings](https://raw.github.com/MarkMjw/PullScrollView/master/Screenshots/1.png)  
 
+1. ArcLayout  
+一个非常简单的弧布局库 
+项目地址: https://github.com/ogaclejapan/ArcLayout  
+Demo地址k: https://play.google.com/store/apps/details?id=com.ogaclejapan.arclayout.demo  
+效果图: ![Renderings](https://raw.githubusercontent.com/ogaclejapan/ArcLayout/master/art/demo1.gif)  
+![renderings](https://raw.githubusercontent.com/ogaclejapan/ArcLayout/master/art/demo2.gif)  
+
 1. ParallaxScrollView  
 支持视差滚动的ScrollView ，背景图片的滚动速度小于ScrollView中子控件的滚动速度  
 项目地址：https://github.com/chrisjenx/ParallaxScrollView  
@@ -794,6 +813,11 @@ Demo地址：https://play.google.com/store/apps/details?id=com.appkraft.parallax
 监听滚动视图滚动事件的库，帮助与Toolbar的交互动效处理与Material Design的实现   
 项目地址：https://github.com/ksoichiro/Android-ObservableScrollView    
 Demo地址：https://play.google.com/store/apps/details?id=com.github.ksoichiro.android.observablescrollview.samples2  
+
+1. OverScrollView   
+有弹性的ScrollView，实现了当手指滑动到ScrollView的顶部、底部时，可以继续的向上、向下拉伸。当释放手指的时候，向上、下回弹   
+项目地址：https://github.com/EverythingMe/OverScrollView
+
 
 #### 十、TimeView  
 包括TimePicker、DatePicker、CalendarView、Clock等时间相关控件  
@@ -836,6 +860,10 @@ Demo地址：https://play.google.com/store/apps/details?id=com.doomonafireball.b
 项目地址：https://github.com/alamkanak/Android-Week-View  
 效果图：![Renderings](https://github.com/alamkanak/Android-Week-View/blob/master/images/screen-shot.png)  
   
+1. ScrollerCalendar  
+实现每行显示一年的12个月份的RecyclerView年历  
+项目地址：https://github.com/guanchao/ScrollerCalendar  
+效果图：![Renderings](https://raw.githubusercontent.com/guanchao/ScrollerCalendar/master/images/sample2.gif)  
 
 #### 十一、TipView  
 包括Toast、角标、UndoBar等提示性控件  
@@ -883,7 +911,15 @@ Material Design 风格的 Toast，类似 Google inbox 中的提示
 Demo地址：https://play.google.com/store/apps/details?id=com.mrengineer13.snackbar.sample  
 效果图：![Renderings](https://camo.githubusercontent.com/67a39af16f3d46631567c1f7bd7dcddeb3c4c9e9/687474703a2f2f6d6174657269616c2d64657369676e2e73746f726167652e676f6f676c65617069732e636f6d2f696d616765732f636f6d706f6e656e74732d746f617374732d73706563732d737065635f746f6173745f30335f315f6c617267655f6d6470692e706e67)  
 
+1. HeadsUp  
+在2.3上使用 android  5.0的 HeadsUp 效果  
+项目地址：https://github.com/zzz40500/HeadsUp  
+效果图：![heads-up.gif](http://upload-images.jianshu.io/upload_images/166866-543a5d26ab71d0f6.gif)
 
+1. Droppy  
+项目地址：https://github.com/shehabic/Droppy
+特点：A simple yet-powerful and fully customizable Android drop-down menu. It supports Text with/without Icons, Separators, and even fully customized views.
+效果力: ![Droppy](https://raw.githubusercontent.com/shehabic/Droppy/screenshots/Droppy_Screenshot.png)
 
 #### 十二、FlipView  
 1. android-flip  
@@ -958,7 +994,7 @@ APP示例：Wordpress Android，Google Analytics
 文档介绍：https://bitbucket.org/danielnadeau/holographlibrary/wiki/Home  
 
 1. XCL-Charts  
-XCL-Charts基于原生的Canvas来绘制各种图表,在设计时，尽量在保证开发效率的同时，给使用者提供足够多的定制化能力。因此使用简便,同时具有相当灵活的定制能力。目前支持3D/非3D柱形图(Bar Chart)、3D/非3D饼图(Pie Chart)、堆���图(Stacked Bar Chart)、面积图(Area Chart)、 折线图(Line Chart)、曲线图(Spline Chart)、环形图(Dount Chart)、南丁格尔玫瑰图(Rose Chart)、仪表盘(Dial Chart)、刻度盘(Gauge Chart)、雷达图(Radar Chart)、圆形图(Circle Chart)等图表。其它特性还包括支持图表缩放、手势移动、动画显示效果、高密度柱形显示、图表分界定制线、多图表的混合显示及同数据源不同类型图表切换等。  
+XCL-Charts基于原生的Canvas来绘制各种图表,在设计时，尽量在保证开发效率的同时，给使用者提供足够多的定制化能力。因此使用简便,同时具有相当灵活的定制能力。目前支持3D/非3D柱形图(Bar Chart)、3D/非3D饼图(Pie Chart)、堆积图(Stacked Bar Chart)、面积图(Area Chart)、 折线图(Line Chart)、曲线图(Spline Chart)、环形图(Dount Chart)、南丁格尔玫瑰图(Rose Chart)、仪表盘(Dial Chart)、刻度盘(Gauge Chart)、雷达图(Radar Chart)、圆形图(Circle Chart)等图表。其它特性还包括支持图表缩放、手势移动、动画显示效果、高密度柱形显示、图表分界定制线、多图表的混合显示及同数据源不同类型图表切换等。  
 项目地址：https://github.com/xcltapestry/XCL-Charts  
 Demo地址：https://github.com/xcltapestry/XCL-Charts/blob/master/XCL-Charts-demo/bin/XCL-Charts-demo.apk?raw=true  
 
@@ -1079,6 +1115,13 @@ Demo地址：https://play.google.com/store/apps/details?id=group.pals.android.li
 文档介绍：https://code.google.com/p/android-lockpattern/wiki/QuickUse  
 APP示例：Android开机的图案密码解锁，支付宝的密码解锁  
 
+1. PatternLock  
+另一个 Android 图案解锁库  
+项目地址：https://github.com/DreaminginCodeZH/PatternLock  
+Demo 地址：https://github.com/DreaminginCodeZH/PatternLock/raw/master/dist/sample.apk  
+效果图：![Renderings](https://github.com/DreaminginCodeZH/PatternLock/raw/master/image/sample_small.png)  
+APP示例：Android开机的图案密码解锁，支付宝的密码解锁  
+
 1. RangeBar  
 类似于SeekBar，不同的是可以选择一个范围内的值而不是单个值  
 项目地址：https://github.com/edmodo/range-bar  
@@ -1186,6 +1229,16 @@ Material Design 风格的 CardView
 Demo地址：https://play.google.com/store/apps/details?id=com.dexafree.materiallistviewexample  
 效果图：![Renderings](https://camo.githubusercontent.com/b71bb064807465b7c9132d7f6072e2064f01fb85/687474703a2f2f692e696d6775722e636f6d2f454e78554741772e706e67)  
  
+1. road-trip  
+设置path的各种动画效果，以及如何实现复杂路径动画，类似于ios中的指纹注册界面的指纹动画效果  
+项目地址：https://github.com/romainguy/road-trip  
+效果图：![Renderings](https://github.com/zhangxin1989/RoadTrip/raw/master/screenshot/Road-Trip-200.gif)  
+
+1. dialogplus
+一个简单的Android对话框，支持不同的弹出模式
+项目地址：https://github.com/orhanobut/dialogplus  
+效果图：![Renderings](https://github.com/orhanobut/dialogplus/blob/master/images/d1.png)  
+
 
 ## 第二部分 工具库  
 主要包括那些不错的开发库，包括依赖注入框架、图片缓存、网络相关、数据库ORM建模、Android公共库、Android 高版本向低版本兼容、多媒体相关及其他。    
@@ -1256,7 +1309,17 @@ Demo地址：https://play.google.com/store/apps/details?id=cn.trinea.android.dem
 Demo地址：https://github.com/liaohuqiu/cube-sdk/raw/master/cube-sdk-sample.apk  
 效果图：![Screen Shot](https://raw.githubusercontent.com/etao-open-source/cube-sdk/dev/screen-shot.png)
 文档介绍：http://cube-sdk.liaohuqiu.net/  
-  
+ 
+1. fresco  
+一款强大的图片缓存工具，由facebook开发
+项目地址：https://github.com/facebook/fresco
+文档介绍：http://frescolib.org/  
+特点：(1) 两个内存缓存加上磁盘缓存构成了三级缓存  
+(2) 支持流式，可以类似网页上模糊渐进式显示图片  
+(3) 对多帧动画图片支持更好，如 Gif、WebP  
+(4) 更多样的显示，如圆角、进度条、点击重试、自定义对焦点  
+(5) 更多样的加载，如支持 EXIF、全面支持 WebP  
+(6) 支持 Android 2.3+ 
 
 #### 三、网络相关  
 1. Asynchronous Http Client for Android  
@@ -1323,6 +1386,7 @@ Android异步网络请求工具，支持缓存、REST等等
 Demo地址：https://github.com/stephanenicolas/RoboDemo/downloads  
   
 
+
 #### 四、数据库 orm工具包  
 orm的db工具类，简化建表、查询、更新、插入、事务、索引的操作  
 
@@ -1359,6 +1423,11 @@ Android Sqlite orm的db工具类，比较显著的特点就是配合 https://git
 根据SQLite生成ContentProvider  
 项目地址：https://github.com/SimonVT/schematic  
   
+1. DBFlow  
+Android SQLite ORM工具库。综合了 Active Android, Schematic, Ollie,Sprinkles等库的优点；通过注解实现，性能好；能生成ContentProvider。  
+项目地址：https://github.com/Raizlabs/DBFlow    
+文档介绍：https://github.com/Raizlabs/DBFlow#usage-docs    
+
 
 #### 五、Android公共库  
 1. Guava  
@@ -1414,6 +1483,15 @@ SAF(Simple Android Framework)是一个简单的android框架，它为开发Andro
 (5) Sqlite ORM(sqlite的orm)  
 (6) Router(Activity、Fragment的Router)  
 (7) Utils(各种常用的工具类) 
+
+1. Barber
+Custom View 神器。通过简单的注解帮助你大大减少 Custom View 中的代码量。由于和 ButterKnife 一样使用了 Annotation Proccessor ，所以对程序性能没有影响。 
+项目地址：https://github.com/hzsweers/barber
+
+1. device-year-class  
+A library that analyzes an Android device's specifications and calculates which year the device would be considered "high end”.(facebook开发的检测手机主流配置工具)  
+项目地址：https://github.com/facebook/device-year-class  
+
 
 #### 六、Android 高版本向低版本兼容  
 1. ActionBarSherlock  
@@ -1884,6 +1962,12 @@ Android Wear 数据同步和消息传送库
 项目地址：https://github.com/MustafaFerhan/DebugLog  
 效果图：![DebugLog](https://camo.githubusercontent.com/37deffede9f9b185886da48e96a4829ebd407260/68747470733a2f2f7261772e6769746875622e636f6d2f4d75737461666146657268616e2f44656275674c6f672f6d61737465722f44656275674c6f672d44656d6f2f6173736574732f7373322e6a7067) 
   
+1. Logger  
+简单、美观而且十分强大的Android日志工具  
+项目地址：https://github.com/orhanobut/logger  
+Demo地址：https://github.com/orhanobut/logger/tree/master/app  
+效果图：![Renderings](https://github.com/orhanobut/logger/blob/master/images/description.png)  
+
 
 ## 第三部分 优秀项目  
 主要介绍那些Android还不错的完整项目，目前包含的项目主要依据是项目有意思或项目分层规范比较好。  
@@ -1961,6 +2045,16 @@ APK地址：https://play.google.com/store/apps/details?id=nl.mpcjanssen.todotxth
 项目地址：https://github.com/romannurik/muzei  
 APK地址：https://play.google.com/store/apps/details?id=net.nurik.roman.muzei  
 
+(14) Scanbook  
+扫描搜索查询图书信息  
+项目地址：https://github.com/JayFang1993/ScanBook        
+APK地址：http://www.wandoujia.com/apps/com.scanbook  
+
+(14) iosched
+The Google I/O 2014 Android App  
+项目地址：https://github.com/google/iosched  
+APK地址：https://play.google.com/store/apps/details?id=com.google.samples.apps.iosched
+效果图: ![iosched](https://github.com/google/iosched/raw/master/art/hero.png)
 
 ## 第四部分 开发工具及测试工具  
 主要介绍和Android开发工具和测试工具相关的开源项目。    
@@ -2102,7 +2196,15 @@ APT是腾讯开源的一个Android平台高效性能测试组件，提供丰富�
 1. Android py-uiautomator  
 py-uiautomator是一个对Android uiautomator用python进行封装的测试框架.  
 项目地址：https://github.com/xiaocong/uiautomator  
-  
+ 
+1. Augmented Traffic Control
+Augmented Traffic Control: A tool to simulate network conditions(模拟网络状况)  
+模拟网络状况，包括带宽、时延抖动、丢包率、错包率、包重排率  
+项目地址：https://github.com/facebook/augmented-traffic-control   
+
+1. stetho  
+Stetho is a debug bridge for Android applications, enabling the powerful Chrome Developer Tools and much more. 使用chrome来调试android设备  
+项目地址：https://github.com/facebook/stetho  
 
 #### 四、开发及编译环境  
 1. Buck  
