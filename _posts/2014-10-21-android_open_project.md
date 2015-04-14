@@ -2414,7 +2414,7 @@ Github地址：https://github.com/inmite
 ----
 
 
-本博客转自[trinea](https://github.com/comtu/android-open-project) 2015/1/20版本   
+本博客转自[trinea](https://github.com/comtu/android-open-project) 2015年3月31日版本   
 还会陆续更新中...   
 
 

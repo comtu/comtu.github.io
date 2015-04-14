@@ -330,8 +330,48 @@ fork给自己 → clone到本地 → coding → push回自己 → github上提�
 
 ---
 
-参考: 
+##GitHub更新fork的版本实践:  
+
+前提   
+你已经在github上fork了别人的分支，并且弄好了跟github的ssh连接。(如果没有ssh连接可使用HTTP,操作的时候会多一个输入用户名密码操作)    
+相关配置详情参考：https://help.github.com    
+
+详细操作:   
+
+1.检出自己在github上fork别人的分支   
+
+	git clone git@github.com:comtu/android-training-course-in-chinese.git   
+
+2.然后增加远程分支（也就是你fork那个人的分支）名为atcic（这个名字任意）到你本地。   
+
+	git remote add atcic git@github.com:kesenhoo/android-training-course-in-chinese.git   
+
+如果你运行命令：git remote -v你会发现多出来了一个Bob的远程分支。如下：  
+
+	atcic   git@github.com:kesenhoo/android-training-course-in-chinese.git (fetch)  
+	atcic   git@github.com:kesenhoo/android-training-course-in-chinese.git (push)  
+	origin  git@github.com:comtu/android-training-course-in-chinese.git (fetch)  
+	origin  git@github.com:comtu/android-training-course-in-chinese.git (push)  
+
+3.然后，把对方的代码拉到你本地。  
+
+	git fetch atcic   
+
+4.最后，合并对方的代码。    
+
+	git merge atcic/master     
+
+5.最最后，把最新的代码推送到你的github上。  
+
+	git push origin master   
+
+
+这样就完成了自己的代码更新。   
+
+
+---
+
+
+Git版本控制大全: 
 
 [http://git-scm.com/book/zh/v1](http://git-scm.com/book/zh/v1)
-
-
