@@ -400,7 +400,7 @@ Java 8 的另外一个有意思的新特性是接口里可以声明静态方法�
 <pre class="brush: java; ">
 private interface DefaulableFactory {
     // Interfaces now allow static methods
-    static Defaulable create( Supplier< Defaulable > supplier ) {
+    static Defaulable create( Supplier&lt; Defaulable > supplier ) {
         return supplier.get();
     }
 }
@@ -466,7 +466,7 @@ public class TestInterfaceDefaultAndStaticMethod {
 	
 	private interface DefaulableFactory {
 		//现在允许静态方法的接口
-	    static Defaulable create( Supplier< Defaulable > supplier ) {
+	    static Defaulable create( Supplier&lt; Defaulable > supplier ) {
 	        return supplier.get();
 	    }
 	}
@@ -490,7 +490,7 @@ Overridden implementation
 
 <pre class="brush: java; ">
 public static class Car {
-    public static Car create( final Supplier< Car > supplier ) {
+    public static Car create( final Supplier&lt; Car > supplier ) {
         return supplier.get();
     }             
  
@@ -512,7 +512,7 @@ public static class Car {
 
 <pre class="brush: java; ">
 final Car car = Car.create( Car::new );
-final List< Car > cars = Arrays.asList( car );
+final List&lt; Car > cars = Arrays.asList( car );
 </pre>
 
 第二种方法引用是静态方法引用，语法是：**`Class::static_method`**请注意这个静态方法只支持一个类型为Car的参数。
@@ -556,7 +556,7 @@ public class TestMethodReferences {
 
 	public static void main(String[] args) {
 		final Car car = Car.create( Car::new );
-		final List< Car > cars = Arrays.asList( car );
+		final List&lt; Car > cars = Arrays.asList( car );
 		cars.forEach( Car::collide );
 		cars.forEach( Car::repair );
 		final Car police = Car.create( Car::new );
@@ -564,7 +564,7 @@ public class TestMethodReferences {
 	}
 	
 	public static class Car {
-	    public static Car create( final Supplier< Car > supplier ) {
+	    public static Car create( final Supplier&lt; Car > supplier ) {
 	        return supplier.get();
 	    }             
 	 
@@ -766,16 +766,16 @@ public class TestParameterNames {
 对于有经验的Maven使用者，–parameters参数可以添加到maven-compiler-plugin的配置部分：
 
 <pre class="brush: xml; ruler: true; auto-links: true ; collapse: true ; gutter: true; ">
-<plugin>
-	<groupId>org.apache.maven.plugins</groupId>
-	<artifactId>maven-compiler-plugin</artifactId>
-	<version>3.1</version>
-	<configuration>
-		<compilerArgument>-parameters</compilerArgument>
-		<source>1.8</source>
-		<target>1.8</target>
-	</configuration>
-</plugin>
+&lt;plugin>
+	&lt;groupId>org.apache.maven.plugins&lt;/groupId>
+	&lt;artifactId>maven-compiler-plugin&lt;/artifactId>
+	&lt;version>3.1&lt;/version>
+	&lt;configuration>
+		&lt;compilerArgument>-parameters&lt;/compilerArgument>
+		&lt;source>1.8&lt;/source>
+		&lt;target>1.8&lt;/target>
+	&lt;/configuration>
+&lt;/plugin>
 </pre>
 
 最新版的Eclipse Kepler SR2 提供了编译设置项，如下图所示：
@@ -823,7 +823,7 @@ map()方法转化Optional当前的值并且返回一个新的Optional实例。or
 
 <pre class="brush: java;">
 
-Optional< String > firstName = Optional.of( "Tom" );
+Optional&lt; String > firstName = Optional.of( "Tom" );
 System.out.println( "First Name is set? " + firstName.isPresent() );        
 System.out.println( "First Name: " + firstName.orElseGet( () -> "[none]" ) ); 
 System.out.println( firstName.map( s -> "Hey " + s + "!" ).orElse( "Hey Stranger!" ) );
@@ -938,7 +938,7 @@ Task类有一个分数的概念（或者说是伪复杂度），其次是还有�
 
 <pre class="brush: java; ruler: true; auto-links: true ; collapse: true ; gutter: true; ">
 
-final Collection< Task > tasks = Arrays.asList(
+final Collection&lt; Task > tasks = Arrays.asList(
     new Task( Status.OPEN, 5 ),
     new Task( Status.OPEN, 13 ),
     new Task( Status.CLOSED, 8 ) 
@@ -995,7 +995,7 @@ System.out.println( "Total points (all tasks): " + totalPoints );
 
 <pre class="brush: java; ruler: true; auto-links: true ; collapse: true ; gutter: true; ">
 // Group tasks by their status
-final Map< Status, List< Task > > map = tasks
+final Map&lt; Status, List&lt; Task > > map = tasks
     .stream()
     .collect( Collectors.groupingBy( Task::getStatus ) );
 System.out.println( map );
@@ -1010,15 +1010,15 @@ System.out.println( map );
 <pre class="brush: java; ruler: true; auto-links: true ; collapse: true ; gutter: true; ">
 
 // Calculate the weight of each tasks (as percent of total points) 
-final Collection< String > result = tasks
-    .stream()                                        // Stream< String >
+final Collection&lt; String > result = tasks
+    .stream()                                        // Stream&lt; String >
     .mapToInt( Task::getPoints )                     // IntStream
     .asLongStream()                                  // LongStream
     .mapToDouble( points -> points / totalPoints )   // DoubleStream
-    .boxed()                                         // Stream< Double >
+    .boxed()                                         // Stream&lt; Double >
     .mapToLong( weigth -> ( long )( weigth * 100 ) ) // LongStream
-    .mapToObj( percentage -> percentage + "%" )      // Stream< String> 
-    .collect( Collectors.toList() );                 // List< String > 
+    .mapToObj( percentage -> percentage + "%" )      // Stream&lt; String> 
+    .collect( Collectors.toList() );                 // List&lt; String > 
          
 System.out.println( result );
 
@@ -1032,7 +1032,7 @@ System.out.println( result );
 
 <pre class="brush: java; ruler: true; auto-links: true ; collapse: true ; gutter: true; ">
 final Path path = new File( filename ).toPath();
-try( Stream< String > lines = Files.lines( path, StandardCharsets.UTF_8 ) ) {
+try( Stream&lt; String > lines = Files.lines( path, StandardCharsets.UTF_8 ) ) {
     lines.onClose( () -> System.out.println("Done!") ).forEach( System.out::println );
 }
 </pre>
