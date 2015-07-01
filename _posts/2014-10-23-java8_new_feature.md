@@ -1165,6 +1165,96 @@ hellohellohello
 
 </pre>
 
+再来点案例:
+
+<pre class="brush: java; ruler: true; auto-links: true ; collapse: true ; gutter: true; ">
+
+	List&lt;String> stringCollection = Arrays.asList("ddd2", "aaa2", "bbb1", "aaa1", "bbb3", "ccc", "bbb2", "ddd1");
+
+	// Filter 过滤
+	stringCollection.stream().filter((s) -> s.startsWith("a")).forEach(System.out::println);
+	System.out.println("=========1==========");
+	// Sort 排序
+	stringCollection.stream().sorted().filter((s) -> s.startsWith("a")).forEach(System.out::println);
+	System.out.println("=========2==========");
+	// Map 映射
+	stringCollection.stream().map(String::toUpperCase).sorted((a, b) -> b.compareTo(a))
+			.forEach(System.out::println);
+	System.out.println("=========3==========");
+	// Match 匹配
+	System.out.println(stringCollection.stream().anyMatch((s) -> s.startsWith("a")));
+	System.out.println(stringCollection.stream().allMatch((s) -> s.startsWith("a")));
+	System.out.println(stringCollection.stream().noneMatch((s) -> s.startsWith("a")));
+	System.out.println("=========4==========");
+	// Count 计数 (最终操作)
+	System.out.println(stringCollection.stream().count());
+	System.out.println(stringCollection.stream().filter((a) -> a.startsWith("a")).count());
+	System.out.println("=========5==========");
+	// Reduce 规约 (最终操作)
+	stringCollection.stream().sorted().reduce((s1, s2) -> s1 + "#" + s2).ifPresent(System.out::println);
+	System.out.println("========6===========");
+	
+	// 并行Streams
+	int max = 1000000;
+	List&lt;String> values = new ArrayList&lt;>(max);
+	for (int i = 0; i &lt; max; i++) {
+		values.add(UUID.randomUUID().toString());
+	}
+	
+	long t0 = System.nanoTime();
+	// 串行排序 sequential sort took:1226 ms
+	long count = values.stream().sorted().count();
+	System.out.println(count);
+	long t1 = System.nanoTime();
+	long millis = TimeUnit.NANOSECONDS.toMillis(t1 - t0);
+	System.out.println(String.format("sequential sort took:%d ms", millis));
+
+	long t2 = System.nanoTime();
+	// 并行排序 sequential sort took:951 ms
+	long count1 = values.parallelStream().sorted().count();
+	System.out.println(count1);
+	long t3 = System.nanoTime();
+	long millis1 = TimeUnit.NANOSECONDS.toMillis(t3 - t2);
+	System.out.println(String.format("parallel sort took:%d ms", millis1));
+
+</pre>
+
+案例运行结果:
+
+<pre class="brush: java; ruler: true; auto-links: true ; collapse: true ; gutter: true; ">
+
+	aaa2
+	aaa1
+	=========1==========
+	aaa1
+	aaa2
+	=========2==========
+	DDD2
+	DDD1
+	CCC
+	BBB3
+	BBB2
+	BBB1
+	AAA2
+	AAA1
+	=========3==========
+	true
+	false
+	false
+	=========4==========
+	8
+	2
+	=========5==========
+	aaa1#aaa2#bbb1#bbb2#bbb3#ccc#ddd1#ddd2
+	========6===========
+	1000000
+	sequential sort took:1258 ms
+	1000000
+	parallel sort took:1061 ms
+
+</pre>
+
+
 
 ### **4.3日期时间API（JSR310)**
 
