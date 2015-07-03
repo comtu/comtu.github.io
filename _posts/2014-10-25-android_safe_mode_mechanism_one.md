@@ -9,9 +9,18 @@ SyntaxHihglighter: true
 shTheme: shThemeMidnight # shThemeDefault  shThemeDjango  shThemeEclipse  shThemeEmacs  shThemeFadeToGrey  shThemeMidnight  shThemeRDark
 ---
 
+目录:
+
+* 1.典型的加密模型
+* 2.对称秘钥算法 (加密解密密钥相同)
+* 3.非对称密钥算法(公钥密码)(加密与解密密钥不同.)
+* 4.密钥交换
+* 5.消息摘要
+* 6.电子签名
+* 7.证书与PKI
 
 
-1.典型的加密模型  
+**1.典型的加密模型**  
 
 	密钥:分为加密密钥和解密密钥
 	明文:没有进行加密,能够直接代表原文含义的信息.
@@ -25,7 +34,7 @@ shTheme: shThemeMidnight # shThemeDefault  shThemeDjango  shThemeEclipse  shThem
 
 <!-- more -->
 	
-2.对称秘钥算法 (加密解密密钥相同)
+**2.对称秘钥算法 (加密解密密钥相同)**
 
 	优缺点:
 		优点: 高效
@@ -83,7 +92,7 @@ shTheme: shThemeMidnight # shThemeDefault  shThemeDjango  shThemeEclipse  shThem
 
 	AES 高级加密标准(Advanced Encryption Standard)
 
-3.非对称密钥算法(公钥密码)(加密与解密密钥不同.)
+**3.非对称密钥算法(公钥密码)(加密与解密密钥不同.)**
 
 	明文P-->加密方法E --> 密文 --> 解密方法D --> 明文P
 	        加密密钥K  密文P=Ek(p)  解密密钥K'
@@ -102,7 +111,7 @@ shTheme: shThemeMidnight # shThemeDefault  shThemeDjango  shThemeEclipse  shThem
 		     没有密钥交换的问题
 		缺点:效率低,对于大数据加密很慢
 
-4.密钥交换
+**4.密钥交换**
 
 	实际的保密会话应用场景
 		1.基于高效的对称加密算法对会话进行加密
@@ -120,7 +129,7 @@ shTheme: shThemeMidnight # shThemeDefault  shThemeDjango  shThemeEclipse  shThem
 		2.双方各自选定key,然后以一定算法变换(使得key不以明文传输)后传输给对方
 		3.双方利用对方交换来的数据和自己选定的key做变换,获得一个一致的结果,作为会话密钥.
 
-5.消息摘要
+**5.消息摘要**
 	
 	HASH与散列函数的定义与特点
 		HASH翻译成散列或者哈希
@@ -145,7 +154,7 @@ shTheme: shThemeMidnight # shThemeDefault  shThemeDjango  shThemeEclipse  shThem
 		HMAC怎么解决的
 			HMAC就是使用key对原始消息变换后再进行HASH.
 
-6.电子签名
+**6.电子签名**
 	
 	公钥密码术的两面性(非对称密钥算法的两面性)
 		1.应用于保密通信场景
@@ -168,7 +177,7 @@ shTheme: shThemeMidnight # shThemeDefault  shThemeDjango  shThemeEclipse  shThem
 		假如原数据P有1G,加密效率低,把原数据1G的数据P获取HASH值,
 		用私钥加密1G数据P的HASH值得到签名signature,发送数据的时候把1G数据P+签名signature
 
-7.证书与PKI
+**7.证书与PKI**
 
 	证书的作用: 公钥的存储和交换
 		公钥作为一个字段存储于数字证书中
