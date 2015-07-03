@@ -1,6 +1,6 @@
 ---
 layout : post
-title : "Android安全模式机制之基础一(现代安全体系基础感念)"
+title : "Android安全模式机制之基础一(现代安全体系基础概念)"
 category : Android
 duoshuo: true
 date : 2014-10-25
@@ -9,15 +9,28 @@ SyntaxHihglighter: true
 shTheme: shThemeMidnight # shThemeDefault  shThemeDjango  shThemeEclipse  shThemeEmacs  shThemeFadeToGrey  shThemeMidnight  shThemeRDark
 ---
 
+<style>
+h3 {
+    line-height: 1.5;
+    letter-spacing: 2px;
+    margin-top: -10px;
+}
+h6 {
+    line-height: 1.5;
+    letter-spacing: 2px;
+    margin-top: -10px;
+}
+</style>
+
 目录:
 
-* 1.典型的加密模型
-* 2.对称秘钥算法 (加密解密密钥相同)
-* 3.非对称密钥算法(公钥密码)(加密与解密密钥不同.)
-* 4.密钥交换
-* 5.消息摘要
-* 6.电子签名
-* 7.证书与PKI
+* ###1.典型的加密模型
+* ###2.对称秘钥算法 (加密解密密钥相同)
+* ###3.非对称密钥算法(公钥密码)(加密与解密密钥不同.)
+* ###4.密钥交换
+* ###5.消息摘要
+* ###6.电子签名
+* ###7.证书与PKI
 
 
 **1.典型的加密模型**  

@@ -1,6 +1,6 @@
 ---
 layout : post
-title : "Android安全模式机制之基础二(操作系统现代安全体系基础感念)"
+title : "Android安全模式机制之基础二(操作系统现代安全体系基础概念)"
 category : Android
 duoshuo: true
 date : 2014-10-26
@@ -8,27 +8,40 @@ tags : [Android安全模式机制 ,进程和进程边界,多用户和多用户�
 SyntaxHihglighter: true
 shTheme: shThemeMidnight # shThemeDefault  shThemeDjango  shThemeEclipse  shThemeEmacs  shThemeFadeToGrey  shThemeMidnight  shThemeRDark
 ---
+<style>
+h3 {
+    line-height: 1.5;
+    letter-spacing: 2px;
+    margin-top: -10px;
+}
+h6 {
+    line-height: 1.5;
+    letter-spacing: 2px;
+    margin-top: -10px;
+}
+
+</style>
 
 目录:
 
-* 1.进程和进程边界
-* 2.多用户和多用户边界
-* 3.进程和文件的UID/GID (UserID/groupId)
-	* 3.1文件资源的权限力度:UID/GID
-	* 3.2文件的可操作权限
-	* 3.3进程的标识: PID , UID , GID , GIDs
-	* 3.4Name和ID的映射
-	* 3.5Chmod和chown命令介绍
-		* 3.5.1Chmod
-		* 3.5.2Chown
-* 4.UID/GID的衔接
-* 5.进程的RealUID和EffectiveUID
-* 6.文件的setUID标识
-* 7.Capability
-	* 7.1进程的Capability
-	* 7.2文件的Capability
-	* 7.3Capability BoundSet
-	* 7.4Spawn进程的Capability
+* ###1.进程和进程边界
+* ###2.多用户和多用户边界
+* ###3.进程和文件的UID/GID (UserID/groupId)
+	* ######3.1文件资源的权限力度:UID/GID
+	* ######3.2文件的可操作权限
+	* ######3.3进程的标识: PID , UID , GID , GIDs
+	* ######3.4Name和ID的映射
+	* ######3.5Chmod和chown命令介绍
+		* ######3.5.1Chmod
+		* ######3.5.2Chown
+* ###4.UID/GID的衔接
+* ###5.进程的RealUID和EffectiveUID
+* ###6.文件的setUID标识
+* ###7.Capability
+	* ######7.1进程的Capability
+	* ######7.2文件的Capability
+	* ######7.3Capability BoundSet
+	* ######7.4Spawn进程的Capability
 
 
 **1.进程和进程边界**
