@@ -1,6 +1,6 @@
 ---
 layout : post
-title : "Android安全模式机制之基础二(操作系统现代安全体系基础概念)"
+title : "Android安全模式机制之二(操作系统现代安全体系基础概念)"
 category : Android
 duoshuo: true
 date : 2014-10-26
@@ -43,6 +43,7 @@ h6 {
 	* ######7.3Capability BoundSet
 	* ######7.4Spawn进程的Capability
 
+---
 
 **1.进程和进程边界**
 	

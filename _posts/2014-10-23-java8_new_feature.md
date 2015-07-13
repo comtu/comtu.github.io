@@ -1546,5 +1546,5 @@ JVM内存永久区已经被metaspace替换（JEP 122）。JVM参数 -XX:PermSize
 [Java 8 特性 – 终极手册](http://ifeve.com/java-8-features-tutorial/)    
 [JAVA8 十大新特性详解](http://www.jb51.net/article/48304.htm)   
 
-本文案例Demo[下载](/res/file/Java8NewFeature.rar)
+本文案例Demo[下载](/res/file/blog/2014/10/23/java8_new_feature/Java8NewFeature.rar)
 

@@ -1,6 +1,6 @@
 ---
 layout : post
-title : "Android安全模式机制之基础一(现代安全体系基础概念)"
+title : "Android安全模式机制之一(现代安全体系基础概念)"
 category : Android
 duoshuo: true
 date : 2014-10-25
@@ -32,6 +32,7 @@ h6 {
 * ###6.电子签名
 * ###7.证书与PKI
 
+---
 
 **1.典型的加密模型**  
 
