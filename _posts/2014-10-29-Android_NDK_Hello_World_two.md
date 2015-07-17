@@ -310,7 +310,7 @@ JNIEXPORT jstring JNICALL Java_com_tu_androidndk_jni_Port_sayHello(
 > 在jni目录新创建一个 **Application.mk** 文件里面增加内容**APP_ABI := x86 armeabi**即可.   
 > 这样就支持x86与armeabi的CPU架构了.   
 > 如果需要支持更多的架构会增加apk的文件大小.   
-> NDK的版本为android-ndk-r10e可支持包含64位的处理器
+> NDK的版本为android-ndk-r10e可支持包含64位的处理器  
 > APP_ABI := x86 armeabi armeabi-v7a mips arm64-v8a x86_64 mips64 
 		
 
