@@ -9,8 +9,27 @@ SyntaxHihglighter: true
 shTheme: shThemeMidnight # shThemeDefault  shThemeDjango  shThemeEclipse  shThemeEmacs  shThemeFadeToGrey  shThemeMidnight  shThemeRDark
 ---
 
+<style>
+h3 {
+    line-height: 1;
+    letter-spacing: 2px;
+    margin-top: 5px;
+}
+h6 {
+    line-height: 1;
+    letter-spacing: 2px;
+    margin-top: 5px;
+}
+</style>
 
-## 1. 安装集成开发环境
+* ### 1.下载集成开发环境
+* ### 2.安装配置环境
+* ### 3.常用功能配置
+	* ###### 3.1自动生成头文件(配置javah)
+	* ###### 3.2生成Sign签名(配置Javap)
+	* ###### 3.3配置C/C++库
+
+## 1. 下载集成开发环境
 
 所需要的开发工具:   
 **Eclipse** 下载地址:[http://www.eclipse.org/downloads/](http://www.eclipse.org/downloads/)   
@@ -24,15 +43,35 @@ shTheme: shThemeMidnight # shThemeDefault  shThemeDjango  shThemeEclipse  shThem
 
 <!-- more -->
 
-## 2. 配置环境
+## 2. 安装配置环境
 	
 #### 2.1. 安装JDK并设置环境变量到path中. 如:javah工具等
 
 #### 2.2. 解压Eclipse到D盘目录如: D:/eclipse
 
 #### 2.3. 为Eclipse安装ADT插件 
-> 解压ADT到到某一个目录后,单独复制`features`与`plugins`这两个文件夹到D:/eclipse/my_plugins/ADT/eclipse/目录下(新创建目录)  
-> 然后到D:/eclipse/dropins目录下新创建一个adt.link文件,里面编写内容:	path=D:/eclipse/my_plugins/ADT/eclipse/
+
+方式一绿色安装: 
+
+> 1.解压ADT到到某一个目录   
+> 2.单独复制`features`与`plugins`这两个文件夹到D:/eclipse/my_plugins/ADT/eclipse/目录下(新创建目录)   
+> 3.到D:/eclipse/dropins目录下新创建一个adt.link文件,里面编写内容:`path=D:/eclipse/my_plugins/ADT/eclipse/`
+
+方式二直接安装:
+
+> 打开Eclpse-->Help-->Install New Software..-->Add-->Name:ADT-->Archive-->选择下载好的ADT.zip文件-->OK-->下方会加载显示出
+> Developer Tools -->全选-->Next-->Next-->选择上面的I accept the ....-->Finish-->进入自动安装状态-->安装完后重启,即可.   
+
+
+Developer Tools其中全部包含有如下
+
+	Android DDMS
+	Android Development Tool
+	Android Hierarchy Viewer
+	Android Native Developme
+	Android Traceview
+	Tracer for OpenGL ES
+
 
 #### 2.4. 解压Android SDK到my_plugins目录下.
 > 配置一下环境变量到path中,方便以后的需要.如:draw9patch工具等等
@@ -42,6 +81,8 @@ shTheme: shThemeMidnight # shThemeDefault  shThemeDjango  shThemeEclipse  shThem
 
 #### 2.6. 如果是下载的Eclipse是C/C++版本的,默认是C/C++视图.修改视图-->点击右上角Open perspective-->选择java
 	
+	如果安装ADT的时候使用的是方式二直接安装ADT.zip的方式,则安装完后无需要再配置C/C++环境,ADT已经包含了.
+
 > 如果非C/C++版本的则为Eclipse安装C/C++ 插件方法如下:
 
 		1.Eclipse里安装CDT-->Help-->Install new software-->弹出窗口中-->
@@ -136,3 +177,99 @@ shTheme: shThemeMidnight # shThemeDefault  shThemeDjango  shThemeEclipse  shThem
 
 	依次选择『Packages』、『Reload』。
 
+---
+
+## 3.常用功能配置
+
+#### 3.1自动生成头文件(配置javah)
+
+	非Ant批量生成头文件,配置是为了简化命令行的操作.
+
+> 1.打开Eclipse  --> 2.Run  --> 3.External Tools  --> 4.External Tool Configurations -->   
+> 5.Program右击选择New --> 6.Name:输入 Generate_C++_Header_File ->7.Main栏目中Location:中选择下面的Variables  
+> 选择system_path --> 8.Locaton输入框里会自动填上${system_path}--> 9.修改内容为${system_path:javah} -->  
+> 10.  在Working Directory中选择Variables--> 11.选择project_loc --> 12.中间输入框会自动填写${project_loc}   
+> 13.修改内容为${_project_loc}/jni --> 14.Arguments:输入内容
+> -classpath ${project_loc}\bin\classes;输入AndroidSDK目录\platforms\android-?\android.jar -d ${project_loc}\jni -jni ${java_type_name}   
+
+例如我的配置是: 
+	
+	Location:
+		${system_path:javah}
+	Working Directory:
+		${project_loc}\jni
+	Arguments:
+	-classpath ${project_loc}\bin\classes;D:\eclipse\my_plugins\android-sdk-windows\platforms\android-17\android.jar -d ${project_loc}\jni -jni ${java_type_name}
+
+![javah](/res/img/blog/2014/10/28/Android_NDK_IDE_environment_one/external_tool_javah.png)
+
+使用方法:
+
+	点选中有native修饰的方法的类 --> Run Generate_C++_Header_File  --> 刷新项目.会在项目/jni目录下生成.h头文件.
+
+![javah](/res/img/blog/2014/10/28/Android_NDK_IDE_environment_one/external_tool_run.png)
+
+---
+
+#### 3.2生成Sign签名(配置Javap) 
+	
+	代替使用cmd命令行生成.提高效率
+	见JNI
+
+> 1.打开Eclipse  --> 2.Run  --> 3.External Tools  --> 4.External Tool Configurations -->   
+> 5.Program右击选择New --> 6.Name:输入javap ->7.Main栏目中Location:中选择下面的Variables  
+> 选择system_path --> 8.Locaton输入框里会自动填上${system_path}--> 9.修改内容为${system_path:javap} -->  
+> 10.  在Working Directory中选择Variables--> 11.选择project_loc --> 12.中间输入框会自动填写${project_loc}   
+> 13.Arguments:输入内容: -classpath ${project_loc}\bin\classes -s -p ${java_type_name}
+
+如我的配置是:
+
+	Location:
+		${system_path:javap}
+	Working Directory:
+		${project_loc}
+	Arguments:
+		-classpath ${project_loc}\bin\classes -s -p ${java_type_name}
+	
+![javah](/res/img/blog/2014/10/28/Android_NDK_IDE_environment_one/external_tool_javap.png)
+
+使用方法:
+	
+	点选有 native 修饰的方法的类--> Run javap
+
+	在Console就会打印出javap运行在cmd命令行一样的效果.生成 Sign 签名 
+
+![javah](/res/img/blog/2014/10/28/Android_NDK_IDE_environment_one/external_tool_run.png)
+
+---
+
+
+#### 3.3配置C/C++库
+	
+	前提,已经有一个Android项目支持NDK.
+		即: 选择项目右击--> Android Tool -->Add Native Support..
+
+如果出现C++代码alt+/无提示可使用此方法解决.
+或者需要引用其它.h资源库,也同样适用.
+	
+
+
+> 1.选择C/C++视图 --> 2.选中项目右击-->Properties --> 3.C/C++ General--> Paths and Symbols   
+> 4.弹出的Paths and Symbols试图中--> Add  --> File system.. --> 选择NDK的目录结构如:  
+> NDK目录\platforms\android-?\arch-arm\usr\include --> Apply --OK 
+
+
+
+如我的配置是:
+	
+	D:\eclipse\my_plugins\android-ndk-r10e\platforms\android-19\arch-arm\usr\include
+	D:\eclipse\my_plugins\android-ndk-r10e\sources\cxx-stl\stlport\stlport      
+	后者是原生C标准头文件库(代码提示,以及看原代码使用.)
+
+![javah](/res/img/blog/2014/10/28/Android_NDK_IDE_environment_one/Properties_C-C++.png)
+
+
+
+---
+
+End
