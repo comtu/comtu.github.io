@@ -14,7 +14,10 @@ tags : [Jekyll , GitHub]
 
 	使用如:`notepad++` [http://www.notepad-plus-plus.org/](http://www.notepad-plus-plus.org/)<br />
 * **Railsinstaller**    [http://railsinstaller.org/en](http://railsinstaller.org/en)
-
+* **Python** [https://www.python.org/downloads/](https://www.python.org/downloads/)
+	
+	安装并为python配置环境变量,由于有部分的组件还会依赖到python，  
+	所以这里建议也安装上python（例如:语法着色器pygments是python组件）
 <!-- more -->
 
 ******

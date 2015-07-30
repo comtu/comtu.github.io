@@ -79,6 +79,8 @@ git diff <branch1>..<branch2> # 在两个分支之间比较
 git diff --staged   # 比较暂存区和版本库差异  
 git diff --cached   # 比较暂存区和版本库差异  
 git diff --stat     # 仅仅比较统计信息  
+
+#退出diff查看状态直接输入Q即可.
 {% endhighlight %}
 
 ---
