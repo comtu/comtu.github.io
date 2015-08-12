@@ -384,11 +384,8 @@ shTheme: shThemeMidnight # shThemeDefault  shThemeDjango  shThemeEclipse  shThem
 <pre class="brush: java; ruler: true;  highlight: [] ; auto-links: false ; collapse: true ; gutter: false;">
 	package com.tu.mtar;
 
-	/*
-	 * 对于多个生产者和消费者. 为什么要定义while判断标记. 原因:让被唤醒的线程再一次判断标记.
-	 * 
-	 * 为什么定义notifyAll,因为需要唤醒对方线程. 因为只用notify,容易出现只唤醒本方线程的情况.导致程序中的所有线程都等待.
-	 */
+	//对于多个生产者和消费者. 为什么要定义while判断标记. 原因:让被唤醒的线程再一次判断标记.
+	//为什么定义notifyAll,因为需要唤醒对方线程. 因为只用notify,容易出现只唤醒本方线程的情况.导致程序中的所有线程都等待.
 	public class ProducerConsumerDemo // 主线程main分别开启四个线程 两进 两出
 	{
 		public static void main(String[] args) {
@@ -418,7 +415,8 @@ shTheme: shThemeMidnight # shThemeDefault  shThemeDjango  shThemeEclipse  shThem
 		private boolean flag = false;
 
 		public synchronized void set(String name) {
-			/* if */while (flag)
+			// if 
+			while (flag)
 				try {
 					wait();
 				} catch (Exception e) {
@@ -432,7 +430,8 @@ shTheme: shThemeMidnight # shThemeDefault  shThemeDjango  shThemeEclipse  shThem
 
 		public synchronized void out()// 当消费者方法都是{}里的内容都是需要同步时可以将函数定义为同步,些时使用的锁是this
 		{
-			/* if */while (!flag)
+			// if 
+			while (!flag)
 				// 不断循环判断本线程是否将生产出来的东西消费了.当出现多个相同线程时.因为有可以再次出现消费线程.
 				try {
 					wait();
