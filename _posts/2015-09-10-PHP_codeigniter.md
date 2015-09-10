@@ -1094,3 +1094,4 @@ Url相关函数 , 设置路由 , 隐藏入口文件, 分页 , 文件上传 , Ses
 
 
 
+[本文案例Demo](/res/file/blog/2015/09/10/PHP_codeigniter/CodeIgniter-3.0.0_Demo.rar)
