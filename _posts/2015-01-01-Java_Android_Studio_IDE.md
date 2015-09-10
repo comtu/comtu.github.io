@@ -9,24 +9,28 @@ SyntaxHihglighter: true
 shTheme: shThemeMidnight # shThemeDefault  shThemeDjango  shThemeEclipse  shThemeEmacs  shThemeFadeToGrey  shThemeMidnight  shThemeRDark
 
 ---
-目录
 
-	基本设置
-	创建工程
-	引用第三方类库(模块)
-	导入Eclipse项目
-	Android Studio目录结构(Project视图)
-	Gradle
-	settings.gradle
-	项目根节点下的build.gradle
-	模块根节点下的build.gradle
-	Gradle命令行
-	加速Android Studio/Gradle构建
-	Eclipse 中使用 Gradle
-	一些常见错误
-
+Android studio 使用笔记.    
+其中内容包括AS基本设置,创建项目,引用第三方类库,导入Eclipse项目,   
+Gradle,加速AS运行速度,Eclipse中使用Gradle,以及一些AS的常见错误.   
 
 <!-- more --> 
+
+目录
+
+* [基本设置](#基本设置)
+* [创建工程](#创建工程)
+* [引用第三方类库(模块)](#引用第三方类库(模块))
+* [导入Eclipse项目](#导入Eclipse项目) 
+* [Android-Studio目录结构(Project视图)](#Android-Studio目录结构(Project视图))
+* [Gradle](#Gradle)
+* [settings.gradle](#settings.gradle)
+* [项目根节点下的build.gradle](#项目根节点下的build.gradle)
+* [模块根节点下的build.gradle](#模块根节点下的build.gradle)
+* [Gradle命令行](#Gradle命令行)
+* [加速Android-Studio/Gradle构建](#加速Android-Studio/Gradle构建)
+* [Eclipse-中使用-Gradle](#Eclipse-中使用-Gradle)
+* [一些常见错误](#一些常见错误)
 
 Android Studio下载   
 
@@ -36,7 +40,7 @@ Android Studio下载
 
 ---
 
-**基本设置**
+**<a id="基本设置"></a>基本设置**
 	
 	一些常用设置项罗列
 
@@ -212,7 +216,7 @@ Ctrl+Q 查看代码中的图片
 
 ---
 
-**创建工程**
+**<a id="创建工程"></a>创建工程**
 
 File-->New-->New Project-->输入项目名,包名,项目存放地址等信息-->   
 选择开发的设备,并选择支持最小SDK版本-->点击"Help me choose"可查看版本目前支持的版本占用情况     
@@ -220,7 +224,7 @@ File-->New-->New Project-->输入项目名,包名,项目存放地址等信息-->
 
 ---
 
-**引用第三方类库(模块)**
+**<a id="引用第三方类库(模块)"></a>引用第三方类库(模块)**
 
 	创建一个类库
 		File->New-->New Module-->其中可以选择多种类型,    
@@ -236,7 +240,7 @@ File-->New-->New Project-->输入项目名,包名,项目存放地址等信息-->
 
 ---
 
-**导入Eclipse项目**
+**<a id="导入Eclipse项目"></a>导入Eclipse项目**
 
 	File-->New-->Import Project-->选择Eclipse项目工程-->提示导入的项目存放地址(建议不要与原项目使用相同的目录
 	,因为会重新拷贝一份代码并修改成Android Studio的环境)-->弹出一提示,说之前引用的jar包以及一些引用的类库,
@@ -245,7 +249,7 @@ File-->New-->New Project-->输入项目名,包名,项目存放地址等信息-->
 
 ---
 
-**Android Studio目录结构(Project视图)**
+**<a id="Android-Studio目录结构(Project视图)"></a>Android Studio目录结构(Project视图)**
 
 	目录结构视图
 	Android studio project 相当于 eclipse workspace   
@@ -289,7 +293,7 @@ File-->New-->New Project-->输入项目名,包名,项目存放地址等信息-->
 
 ---
 
-**Gradle** 
+**<a id="Gradle"></a>Gradle** 
 	
 Gradle是一种动态脚本语言, 基于Groovy  [http://www.groovy-lang.org/](http://www.groovy-lang.org/)   
 能够很方便的通过Maven/lvy管理依赖   
@@ -300,7 +304,7 @@ Gradle是一种动态脚本语言, 基于Groovy  [http://www.groovy-lang.org/](h
 
 ---
 
-**settings.gradle**
+**<a id="settings.gradle"></a>settings.gradle**
 
 案例: 
 
@@ -320,7 +324,7 @@ Gradle是一种动态脚本语言, 基于Groovy  [http://www.groovy-lang.org/](h
 
 ---
 
-**项目根节点下的build.gradle**
+**<a id="项目根节点下的build.gradle"></a>项目根节点下的build.gradle**
 
 案例: 
 
@@ -348,7 +352,7 @@ Gradle是一种动态脚本语言, 基于Groovy  [http://www.groovy-lang.org/](h
 
 ---
 
-**模块根节点下的build.gradle**
+**<a id="模块根节点下的build.gradle"></a>模块根节点下的build.gradle**
 
 案例: 
 
@@ -478,7 +482,7 @@ Gradle是一种动态脚本语言, 基于Groovy  [http://www.groovy-lang.org/](h
 
 ---
 
-**Gradle命令行**
+**<a id="Gradle命令行"></a>Gradle命令行**
 	
 	> gradle命令行运行需要下载一个gradle 并把gradle目录下的bin目录配置到环境变量中. 然后使用cmd
 
@@ -496,7 +500,7 @@ Gradle是一种动态脚本语言, 基于Groovy  [http://www.groovy-lang.org/](h
 
 ---
 
-**加速Android Studio/Gradle构建**
+**<a id="加速Android-Studio/Gradle构建"></a>加速Android Studio/Gradle构建**
 	
 	优化对电脑配置要求比较高.
 	
@@ -557,7 +561,7 @@ org.gradle.configureondemand=true
 
 ---
 
-**Eclipse 中使用 Gradle**
+**<a id="Eclipse-中使用-Gradle"></a>Eclipse 中使用 Gradle**
 
 在Eclipse项目根目录下创建build.gradle文件
 
@@ -590,7 +594,7 @@ org.gradle.configureondemand=true
 
 ---
 
-**常见错误**
+**<a id="一些常见错误"></a>一些常见错误**
 
 出现gradle无法下载等时可以尝试修改一些代码如: 
 
