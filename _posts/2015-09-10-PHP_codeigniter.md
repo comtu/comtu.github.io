@@ -13,7 +13,7 @@ CodeIgniter 是一套给 PHP 网站开发者使用的应用程序开发框架和
 使用 CodeIgniter 可以减少代码的编写量，并将你的精力投入到项目的创造性开发上。
 
 其中内容包括,CI_Controller对象 , 数据库访问 , AR模型(QB模型) , CI类库扩展 ,     
-Url相关函数 , 设置路由 , 隐藏入口文件, 分页 , 文件上传 , Session , 验证码 , 语言包 等内容.
+Url相关函数 , 设置路由 , 隐藏入口文件, 分页 , 文件上传 , Session , 验证码 , 语言包 , CI框架内部解析等内容.
 
 <!-- more -->
 
@@ -29,14 +29,22 @@ Url相关函数 , 设置路由 , 隐藏入口文件, 分页 , 文件上传 , Ses
 * [数据库访问](#数据库访问)
 * [AR模型操作数据库增删改查 active_record (CI3.0之后改名 query_builder QB模型)](#AR模型操作数据库)
 * [CI类库扩展](#CI类库扩展)
+	* [为网站设计不同的主题.前台,后台(扩展控制器CI_Controller,装载器Loader)](#为网站设计不同的主题.前台,后台(扩展控制器CI_Controller,装载器Loader))
+	* [扩展CI的captcha_helper.php实现_验证码](#扩展CI的captcha_helper.php实现_验证码)
+	* [扩展_修改分页生成的代码](#扩展_修改分页生成的代码)
 * [url相关函数](#url相关函数)
 * [设置路由](#设置路由)
 * [隐藏入口文件-index.php](#隐藏入口文件-index.php)
 * [分页](#分页)
 * [文件上传](#文件上传)
+* [图片处理类](#图片处理类)
 * [Session](#Session)
 * [验证码](#验证码)
+* [表单验证](#表单验证)
 * [语言包](#语言包)
+* [购物车类库](#购物车类库)
+* [CI框架内部解析](#CI框架内部解析)
+
 
 ------------------------------------------
   
@@ -51,12 +59,33 @@ Url相关函数 , 设置路由 , 隐藏入口文件, 分页 , 文件上传 , Ses
 
 	CodeIgniter是一个轻量级但功能强大的PHP框架是基于MVC设计模式.
 
+	框架开发和二次开发
+		打个比方:买房子
+		买二手房,直接拎包入住 , 好比二次开发,如:dedecms,PHPCMS(内容管理系统),ECShop(开源免费的网上商店系统)
+		买毛坯房,不能住人,自己去买各种装修材料,请人装修,才能入住.好比框架开发.只提供
+		基础功能和项目结构.
+
+		CI是框架,用于框架开发.
+
 	目录结构说明:
 	    license.txt许可协议
-	    user_guide 用户手册
-	    system 框架目录
-	    application 应用目录
+	    user_guide 用户手册(一般删除)
 	    index.php 入口文件
+	    system 框架核心代码,通常不动的.
+	    application 应用目录
+		|-- cache        缓存目录
+		|-- config       配置文件目录
+		|-- controllers  控制器文件夹
+		|-- core         核心库扩展目录
+		|-- errors       错误页面
+		|-- helpers      自定义辅助函数文件夹
+		|-- hooks        勾子文件夹
+		|-- language     语言包
+		|-- libraries    自定义库文件夹,通常是一些类文件
+		|-- logs         日志
+		|-- models       模型文件夹
+		|-- third_party  第三方库目录,如smarty
+		|-- views        视图文件夹
 
 # <a id="MVC"></a>MVC 
 
@@ -125,6 +154,10 @@ Url相关函数 , 设置路由 , 隐藏入口文件, 分页 , 文件上传 , Ses
 		<?=$item["email"]?>
 		<?php endforeach;?>
 
+		<?php if(empty($carts)):?>
+		<?php else:?>
+		<?php endif;?>
+
 # <a id="模型-model"></a>模型-model
 	
 	模型文件名全部使用小写,建议使用_model为后缀,防止与控制器类名冲突,但里面的类名首字母大写
@@ -164,7 +197,8 @@ Url相关函数 , 设置路由 , 隐藏入口文件, 分页 , 文件上传 , Ses
 		</head>
 		<body>
 			<?php 
-				var_dump( $list);
+			//CI它使用了一个 extract 函数,将数组变量导入到当前的符号表,所以直接使用键名作为变量来访问
+				var_dump( $list); 
 			?>
 		</body>
 		</html>
@@ -210,9 +244,32 @@ Url相关函数 , 设置路由 , 隐藏入口文件, 分页 , 文件上传 , Ses
 		是CI_Input类的实例 --> system/core/CI_Input.php
 		CI_Input类提供方法:
 			$this->input->post('username');         //$_POST['username']
+			$this->input->post('username',true);    //跨站脚本（XSS）过滤
 			$this->input->server('DOCUMENT_ROOT');	//$_SERVER['DOCUMENT_ROOT']
+			$this->input->cookie();
+			$this->input->server()
+			...
 
 	在视图(view)中,直接使用$this来访问超级对象中的属性
+
+	CI支持控制器在子目录中.
+		如果你在建立一个大型的应用程序，你会发现 CodeIgniter 可以很方便的将控制器放到一些子文件夹中。
+
+		只要在 application/controllers 目录下创建文件夹并放入你的控制器就可以了。
+
+		注意：  如果你要使用某个子文件夹下的功能，就要保证 URI 的第一个片段是用于描述这个文件夹的。例如说你有一个控制器在这里：
+
+		application/controllers/products/shoes.php
+
+		调用这个控制器的时候你的 URI 要这么写：
+
+		example.com/index.php/products/shoes/show/123
+		 
+		你的每个子文件夹中需要包含一个默认的控制器，这样如果 URI 中只有子文件夹而没有具体功能的时候它将被调用。
+		只要将你作为默认的控制器名称在 application/config/routes.php 文件中指定就可以了。
+
+		CodeIgniter 也允许你使用 URI 路由 功能来重新定向 URI。
+
 
 # <a id="数据库访问"></a>数据库访问
 
@@ -306,11 +363,11 @@ Url相关函数 , 设置路由 , 隐藏入口文件, 分页 , 文件上传 , Ses
 	
 	配置
 		\application\config\database.php 配置开启AR/QB模型(默认TRUE)
-			$active_record = TRUE; 配置为TRUE表示开启这项功能. (AR模型)
-			$query_builder = TRUE; 配置为TRUE表示开启这项功能. (QB模型)
+			$active_record = TRUE; 配置为TRUE表示开启这项功能. (AR模型_2.2.0)
+			$query_builder = TRUE; 配置为TRUE表示开启这项功能. (QB模型_3.0.0)
 
-			\system\database\DB_active_rec.php (为AR模型原代码)
-			\system\database\DB_query_builder.php (为QB模型的原代码)
+			\system\database\DB_active_rec.php (为AR模型原代码_2.2.0)
+			\system\database\DB_query_builder.php (为QB模型的原代码_2.2.0)
 
 		\application\config\autoload.php 配置自动加载
 			$autoload['libraries'] = array('database');
@@ -326,7 +383,8 @@ Url相关函数 , 设置路由 , 隐藏入口文件, 分页 , 文件上传 , Ses
 				'name'=>'lili',
 				'password'=>md5('lili')			
 			);
-			$bool = $this->db->insert('user',$data);
+			const TBL = 'user';//表名,常量
+			$bool = $this->db->insert(self::TBL,$data);
 			var_dump($bool);
 			echo '<hr>';
 
@@ -419,6 +477,81 @@ Url相关函数 , 设置路由 , 隐藏入口文件, 分页 , 文件上传 , Ses
 		然后在application/controllers/目录下的控制器中使用继承自My_Controller的类即可使用,自定义的控制器.
 	其它类库均类似的扩展.
 	
+<a id="为网站设计不同的主题.前台,后台(扩展控制器CI_Controller,装载器Loader)"></a>案例:为网站设计不同的主题.前台,后台(扩展控制器CI_Controller,装载器Loader)
+		
+		第一步，指定不同的视图View路径 . 在网站根目录下创建 themes 文件夹和 里面再创建default目录
+		第二步，定义一个常量，在config/costants.php,如下
+			在application/config/constants.php 常量配置文件中配置常量.
+			#自定义系统相当常量 (主题目录)
+			define('THEMES_DIR','themes/'); //指明视图路径地址.
+			
+		第三步，扩展CI类
+			视图的加载由loader类完成，(\system\core\Loader.php)如下
+			
+				CI 2.2.0
+					public function __construct()
+					{
+						$this->_ci_ob_level  = ob_get_level();
+						$this->_ci_library_paths = array(APPPATH, BASEPATH);
+						$this->_ci_helper_paths = array(APPPATH, BASEPATH);
+						$this->_ci_model_paths = array(APPPATH);
+						$this->_ci_view_paths = array(APPPATH.'views/'	=> TRUE);
+					}
+				CI 3.0.0
+					protected $_ci_view_paths = array(VIEWPATH => TRUE);
+			
+			扩展 Loader 类 (\application\core\MY_Loader.php)
+				<?PHP
+					defined('BASEPATH') OR exit('No direct script access allowed');
+
+					class MY_Loader extends CI_Loader{
+						//被开启的主题目录
+						protected $_theme = 'default/';
+
+						public function switch_themes_on(){
+							$this->_ci_view_paths = array(FCPATH,THEMES_DIR,$this->_theme => TRUE);
+						}
+
+						public function switch_themes_off(){
+							#just do nothing
+						}
+					}
+			扩展控制器
+				<?PHP
+					defined('BASEPATH') OR exit('No direct script access allowed');
+
+					//前台控制器
+					class HomeController extends CI_Controller{
+						public function __construct(){
+							parent::__construct();
+							#开启皮肤功能
+							$this->load->switch_themes_on();
+						}
+					}
+
+					//后台控制器
+					class AdminController extends CI_Controller{
+						public function __construct(){
+							parent::__construct();
+							#关闭皮肤功能
+							$this->load->switch_themes_off();	
+						}
+					}
+		
+		第四步: 编写不同的控制器
+			application/controllers 下编写前台控制器 并继承 HomeController 
+			application/controllers/admin 编写后台控制器 并继承 AdminController
+
+
+		第五步: 编写不同的视图文件.
+			 themes/default/ 目录下编写前台视图View 
+			 application/views 目录下编写后台试图View
+
+		而模型 model 是共用的.	
+
+案例:[扩展CI的captcha_helper.php实现_验证码](#扩展CI的captcha_helper.php实现_验证码)		
+
+
 # <a id="url相关函数"></a>url相关函数
 	
 	http://codeigniter.org.cn/user_guide/helpers/url_helper.html
@@ -428,8 +561,11 @@ Url相关函数 , 设置路由 , 隐藏入口文件, 分页 , 文件上传 , Ses
 		\application\config\autoload.php 文件中配置
 		$autoload['helper'] = array('url');
 
-	site_url('控制器/方法') 
-	base_url();//返回网站根目录
+	base_url();//返回网站根目录 application\config\config.php中: $config['base_url']=''; 中配置的目录
+	//http://127.0.0.1:8000/CodeIgniter-3.0.0
+
+	site_url('控制器/方法') //返回 base_url/index_page/控制器/方法 ($config['index_page'] = 'index.php';)
+	//如 http://127.0.0.1:8000/CodeIgniter-3.0.0/index.php
 	
 	案例:
 	\application\controllers\url_demo_controllers.php
@@ -622,6 +758,36 @@ Url相关函数 , 设置路由 , 隐藏入口文件, 分页 , 文件上传 , Ses
 		</body>
 		</html>
 
+<a id="扩展_修改分页生成的代码"></a>扩展_修改分页生成的代码
+
+		拷贝system/libraries/Pagination.php 到 application/libraries/目录 直接修改如下:
+			这样做之后CI会自动查找到application/libraries/Pagination.php 做为分页类.
+		CI 3.0.0
+			//Generate the pagination links
+			public function create_links(){//398行
+				//省略很多代码.
+				//原: //650行
+				//return $this->full_tag_open.$output.$this->full_tag_close;
+
+				//修改如下: 自定义内容 当然,发挥自己的想象去修改
+				$baseinfo = "总共 $this->total_rows 条记录，每页显示 $this->per_page 条，
+				总计 $num_pages 页，当前是第  $this->cur_page 页".'&nbsp;&nbsp;&nbsp;';
+				return $baseinfo.$this->full_tag_open.$output.$this->full_tag_close;
+			}
+		CI 2.2.0
+			function create_links(){//115行
+				//省略很多代码.
+				// Add the wrapper HTML if exists //331行
+				//$output = $this->full_tag_open.$output.$this->full_tag_close;
+				//return $output;
+
+				//修改如下: 自定义内容 当然,发挥自己的想象去修改
+				$baseinfo = "总共 $this->total_rows 条记录，每页显示 $this->per_page 条，
+				总计 $num_pages 页，当前是第  $this->cur_page 页".'&nbsp;&nbsp;&nbsp;';
+				return $baseinfo.$output;
+			}
+
+
 # <a id="文件上传"></a>文件上传
 	http://codeigniter.org.cn/user_guide/libraries/file_uploading.html
 	
@@ -689,6 +855,34 @@ Url相关函数 , 设置路由 , 隐藏入口文件, 分页 , 文件上传 , Ses
 	</body>
 	</html>
 
+
+# <a id="图片处理类"></a>图片处理类
+
+	$config['image_library'] = 'gd2';
+	$config['source_image'] = '/path/to/image/mypic.jpg';
+	$config['create_thumb'] = TRUE;
+	$config['maintain_ratio'] = TRUE;
+	$config['width'] = 75;
+	$config['height'] = 50;
+
+	$this->load->library('image_lib', $config); 
+
+	$this->image_lib->resize();  //创建缩略图  
+	// $this->image_lib->crop() //图像裁剪
+	// $this->image_lib->rotate() //图像旋转 
+	// $this->image_lib->watermark() //添加图像水印
+	// $this->image_lib->clear()  //clear函数重置所有之前用于处理图片的值。当你用循环来处理一批图片时，你可能会想使用它。
+	
+	//处理不同的图片有不同的配置,详情见文档
+	http://codeigniter.org.cn/user_guide/libraries/image_lib.html
+
+
+	//获取相应属性
+	$this->image_lib->thumb_marker; 
+	//错误信息
+	$this->image_lib->display_errors();
+
+
 # <a id="Session"></a>Session
 	http://codeigniter.org.cn/user_guide/libraries/sessions.html
 	Session 类将每个用户的 session 信息序列化（serialize）后存储到到 cookie 中（并同时进行加密）。
@@ -704,6 +898,14 @@ Url相关函数 , 设置路由 , 隐藏入口文件, 分页 , 文件上传 , Ses
 			修改为:
 				$config['sess_encrypt_cookie']	= TRUE;
 
+		配置Session关闭浏览器后失效(CI2.2可配置,CI3.0.0无此配置项):
+			原:
+				$config['sess_expire_on_close'] = FALSE;
+			修改为:
+				$config['sess_expire_on_close'] = TRUE;
+			
+			CI3.0.0 需要如下实现(关闭浏览器销毁session,不关闭或者不退出,则一直有效):
+				$config['sess_expiration'] = 0; 
 
 		配置Session密钥:
 			
@@ -726,7 +928,7 @@ Url相关函数 , 设置路由 , 隐藏入口文件, 分页 , 文件上传 , Ses
 			可查看 sess_save_path 配置相关文档
 				http://codeigniter.org.cn/user_guide/libraries/sessions.html
 				http://php.net/manual/en/session.configuration.php#ini.session.save-path
-	实现
+		
 		//加载模块
 		$this->load->library('session');
 		//存储session
@@ -736,6 +938,9 @@ Url相关函数 , 设置路由 , 隐藏入口文件, 分页 , 文件上传 , Ses
 		//删除session
 		$this->session->unset_userdata('user');
 		$this->session->unset_userdata($array_items);//删除多个session
+
+
+Ci的Session实现案例:
 
 		案例见代码: 
 		<?php
@@ -828,7 +1033,9 @@ Url相关函数 , 设置路由 , 隐藏入口文件, 分页 , 文件上传 , Ses
 			修改成(去除前面的;分号): 
 				extension=php_gd2.dll
 			修改完后保存,重启apache
-	实现
+
+CI默认实现:
+
 		//加载模块
 		$this->load->helper('captcha');
 		//创建验证码
@@ -892,6 +1099,168 @@ Url相关函数 , 设置路由 , 隐藏入口文件, 分页 , 文件上传 , Ses
 			}
 		}
 
+<a id="扩展CI的captcha_helper.php实现_验证码"></a>扩展CI的captcha_helper.php实现_验证码:
+
+		一般而言,对于验证码只需要用一次,没必要创建一张图片保存到本地.
+		所以我对验证码类进行了如下扩展: 不存储验证码图片,并实现点击重新获取验证码.
+
+		步骤一: 
+
+			把 system/helpers/captcha_helper.php 文件拷贝到 application/helpers/ 目录下并重命名为:MY_captcha_helper.php
+		
+		步骤二:  去除与目录有关的代码
+
+			修改 MY_captcha_helper.php 里面的源文件进行如下操作:
+			
+			(CI 3.0.0)
+				//处理如果没有设置图片路径而被返回的操作
+				// 		if ($img_path === '' OR $img_url === ''
+				// 			OR ! is_dir($img_path) OR ! is_really_writable($img_path)
+				// 			OR ! extension_loaded('gd'))
+				// 		{
+				// 			return FALSE;
+				// 		}
+				// 		// -----------------------------------
+				// 		// Remove old images
+				// 		// 删除旧图片
+				// 		// -----------------------------------
+				// 		$now = microtime(TRUE);
+				// 		$current_dir = @opendir($img_path);
+				// 		while ($filename = @readdir($current_dir))
+				// 		{
+				// 			if (substr($filename, -4) === '.jpg' && (str_replace('.jpg', '', $filename) + $expiration) < $now)
+				// 			{
+				// 				@unlink($img_path.$filename);
+				// 			}
+				// 		}
+				// 		@closedir($current_dir);
+
+				// -----------------------------------
+				//  Generate the image
+				// 生成图片.
+				// -----------------------------------
+				//处理生成图片--start--
+				// 		$img_url = rtrim($img_url, '/').'/';
+				// 		if (function_exists('imagejpeg'))
+				// 		{
+				// 			$img_filename = $now.'.jpg';
+				// 			imagejpeg($im, $img_path.$img_filename);
+				// 		}
+				// 		elseif (function_exists('imagepng'))
+				// 		{
+				// 			$img_filename = $now.'.png';
+				// 			imagepng($im, $img_path.$img_filename);
+				// 		}
+				// 		else
+				// 		{
+				// 			return FALSE;
+				// 		}
+				// 		$img = '<img '.($img_id === '' ? '' : 'id="'.$img_id.'"').' src="'.$img_url.$img_filename.'" style="width: '.$img_width.'; height: '.$img_height .'; border: 0;" alt=" " />';
+				// 		ImageDestroy($im);
+				// 		return array('word' => $word, 'time' => $now, 'image' => $img, 'filename' => $img_filename);
+				//处理生成图片--end--
+				//并在此处 增加如下四行代码,告诉浏览器返回的是一张图片.
+				header("Content-Type:image/jpeg");  
+				imagejpeg($im);
+				ImageDestroy($im);
+				return $word;//返回生成的验证码字符串
+
+
+			(CI 2.2.0)
+				//处理如果没有设置图片路径而被返回的操作
+				// if ($img_path == '' OR $img_url == ''){
+				// 	return FALSE;
+				// }
+				// if ( ! @is_dir($img_path)){
+				// 	return FALSE;
+				// }
+				// if ( ! is_writable($img_path)){
+				// 	return FALSE;
+				// }
+				// if ( ! extension_loaded('gd')){
+				// 	return FALSE;
+				// }
+				// // -----------------------------------
+				// // Remove old images
+				// // 生成图片.
+				// // -----------------------------------
+				// list($usec, $sec) = explode(" ", microtime());
+				// $now = ((float)$usec + (float)$sec);
+				// $current_dir = @opendir($img_path);
+				// while ($filename = @readdir($current_dir)){
+				// 	if ($filename != "." and $filename != ".." and $filename != "index.html"){
+				// 		$name = str_replace(".jpg", "", $filename);
+				// 		if (($name + $expiration) < $now){
+				// 			@unlink($img_path.$filename);
+				// 		}
+				// 	}
+				// }
+				// @closedir($current_dir);
+				
+				// -----------------------------------
+				//  Generate the image
+				// -----------------------------------
+				// $img_name = $now.'.jpg';
+				// ImageJPEG($im, $img_path.$img_name);
+				// $img = "<img src=\"$img_url$img_name\" width=\"$img_width\" height=\"$img_height\" style=\"border:0;\" alt=\" \" />";
+				// ImageDestroy($im);
+				// return array('word' => $word, 'time' => $now, 'image' => $img);
+				//并在此处 增加如下四行代码,告诉浏览器返回的是一张图片.
+				header("Content-Type:image/jpeg");  
+				imagejpeg($im);
+				ImageDestroy($im);
+				return $word;//返回生成的验证码字符串
+
+			
+		步骤三: 
+			在控制器中使用 captcha
+			<?php
+			defined('BASEPATH') OR exit('No direct script access allowed');
+
+			class Privilege extends CI_Controller {
+				public function __construct(){
+					parent::__construct();
+					//载入验证码辅助函数
+					$this->load->helper('captcha');
+				}
+				
+				public function login(){
+					$this->load->view('login');
+				}
+				
+				public function code(){
+					//创建验证码
+					$word = create_captcha();
+
+					//可以在MY_captcha_helper.php直接配置参数也是OK的.
+					//当然同样适用于配置参数.但可以免去了 CI文档中的 img_path 与 img_url 这两个必要参数了.
+					// $vals = array(
+					// 	'word'      => rand(1000,9999),//可指定验证码内容,如果是中文.需要有支持的字体
+					// 	//'font_path' => './path/to/fonts/texb.ttf',//指定字体_如果使用中文需要指定字体
+					// 	'img_width' => '150',
+					// 	'img_height'    => 30,
+					// 	'expiration'    => 5,//图片存放时间,如果过期,只有在被再次请求才会删除.单位秒
+					// 	'word_length'   => 4, //验证码位数
+					// 	'font_size' => 16,
+					// 	'img_id'    => 'Imageid',
+					// 	'pool'      => '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
+					// 	// White background and border, black text and red grid
+					// 	'colors'    => array(
+					// 	'background' => array(255, 255, 255),
+					// 	'border' => array(255, 255, 255),
+					// 	'text' => array(0, 0, 0),
+					// 	'grid' => array(255, 40, 40)
+					// )
+					// );
+					//$word = create_captcha($vals);
+				}
+			}
+		
+		步骤四: view中显示 .并实现点击图片重新加载新图片的功能:
+			<img src="<?php echo site_url('admin/privilege/code');?>" width="145" height="20" alt="CAPTCHA" border="1"
+			onclick= this.src="<?php echo site_url('admin/privilege/code').'/';?>"+Math.random() style="cursor: pointer;" title="看不清？点击更换另一个验证码。"/>
+
+
 # <a id="表单验证"></a>表单验证
 
 	http://codeigniter.org.cn/user_guide/libraries/form_validation.html
@@ -916,7 +1285,7 @@ Url相关函数 , 设置路由 , 隐藏入口文件, 分页 , 文件上传 , Ses
 			//显示全部错误信息
 			<?php echo validation_errors();?>
 
-	案例见代码: 
+案例见代码: 
 
 		\application\controllers\form_demo.php
 			<?php
@@ -931,7 +1300,8 @@ Url相关函数 , 设置路由 , 隐藏入口文件, 分页 , 文件上传 , Ses
 					
 					// 校验如果这样编写会编写很多规则代码.可以在config进行配置验证文件.也可实现重复利用的效果
 					// $this->form_validation->set_rules('name','用户名','required');
-					// $this->form_validation->set_rules('password','密码','required');
+					// $this->form_validation->set_rules('password','密码','required|min_length[6]|max_length[16]|md5');
+					//$this->form_validation->set_rules('repassword','确认密码','trim|required|md5|matches[password]');//重复密码验证
 					// $this->form_validation->set_rules('email','邮箱',array('required','valid_email'));
 					// // 表单验证
 					// $bool = $this->form_validation->run();
@@ -1010,6 +1380,222 @@ Url相关函数 , 设置路由 , 隐藏入口文件, 分页 , 文件上传 , Ses
 			改成
 				$config['language']	= 'zh_cn';
 
+# <a id="购物车类库"></a>购物车类库
+		
+	http://codeigniter.org.cn/user_guide/libraries/cart.html
+
+	CI3.0.0 官方上标注: 之后购物车类已经废弃，请不要使用。目前保留它只是为了向前兼容。
+
+	引入购物车支持库
+	$this->load->library('cart');
+	//$autoload['libraries'] = array('cart');//或者配置 application/config/autoload.php
+
+	加入购物车
+		//名称有要求
+		$data['id'] = $this->input->post('goods_id',true); //id
+		$data['name'] = $this->input->post('goods_name',true); //商品名称
+		$data['qty'] = $this->input->post('goods_nums',true); //数量
+		$data['price'] = $this->input->post('shop_price',true); //金额
+		
+		$goods_thumb= $this->input->post('goods_thumb',true);
+		$data['options'] = array('goods_thumb'=>$goods_thumb);//更多信息
+
+		if($this->cart->insert($data)){
+			echo 'ok';
+		}else{
+			echo 'error';
+		}
+		
+	//获取购物车数据
+	$data['carts'] = $this->cart->contents();
+
+	//view中获取展示数据
+	<?php foreach ($carts as $v):?>
+		<?php echo base_url('public/uploads').'/'.$v['options']['goods_thumb'];?>
+		<?php echo $v['id'];?>
+		<?php echo $v['name'];?> 
+		<?php echo $v['price'];?>
+		<?php echo $v['qty'];?>
+		<!-- 自动生成 -->
+		<?php echo $v['row_id'];?>
+		<!-- 自动生成 $v['subtotal'] 会自动计算出总金额-->
+		<?php echo $v['subtotal']?>
+	<?php endforeach;?>
+	
+	删除/修改购物车
+		$data['rowid'] = $rowid;
+		$data['qty'] = 0;
+		$this->cart->update($data);
+		redirect('cart/show');
+	
+	注意事项:
+		
+		1. 中文问题(2.2.0存在,3.0.0不存在)
+			$data['name'] = $this->input->post('goods_name',true); //商品名称
+			中name项在 CI3.0.0之前是不支持中文内容的. CI3.0.0版本可支持中文.
+			CI2.2.0修改cart.php原文件来使name支持中文.
+				方法: system/library/Cart.php 拷贝到 application/library 中,找到如下代码并注释即可.
+			
+					// Validate the product name. It can only be alpha-numeric, dashes, underscores, colons or periods.
+					// Note: These can be user-specified by setting the $this->product_name_rules variable.
+					//CI2.2.0的原代码在186行数
+					//if ( ! preg_match("/^[".$this->product_name_rules."]+$/i", $items['name']))
+					//{
+					//	log_message('error', 'An invalid name was submitted as the product name:
+					//	'.$items['name'].' The name can only contain alpha-numeric
+					//	characters, dashes, underscores, colons, and spaces');
+					//	return FALSE;
+					//}
+		2.total_items 问题 (CI2.2.0与CI3.0.0都存在)
+			显示购物车中商品数量。 CI框架中默认是显示出商品数量总数
+			即:如果存放到购物车2双鞋子+1条裤子 <?php echo $this->cart->total_items();?> 获取出来的数据是3件物品,而不是2种商品
+			而如果你的需求是 显示商品种类 .需要修改源代码.
+				方法: system/library/Cart.php 拷贝到 application/library 中,找到如下代码修改:
+					CI3.0.0
+						//代码位置在401行 _save_cart 函数中
+						$this->_cart_contents['cart_total'] += ($val['price'] * $val['qty']);
+						//$this->_cart_contents['total_items'] += $val['qty'];  //原代码
+						$this->_cart_contents['total_items'] ++;  //新代码
+						$this->_cart_contents[$key]['subtotal'] = 
+						($this->_cart_contents[$key]['price'] * $this->_cart_contents[$key]['qty']);
+					
+					CI2.2.0
+						//代码位置在386行 _save_cart 函数中
+						$total += ($val['price'] * $val['qty']);
+						//$items += $val['qty'];//原代码
+						$items ++;//新代码
+
+		3.在我们向购物车中添加商品的时候，如果添加了已经存在于购物车中的商品时，会出现逻辑错误。
+			理论上应该是累加，但实际上是将原来的商品信息给删除了。所以要相应的处理一下：	
+				
+				// 获取/封装数据....
+				//在插入之前,需要判断即将要加入的商品是否已经存在于购物车中
+				$carts = $this->cart->contents();
+				foreach ($carts as $v){
+					if($v['id'] == $data['id']){
+						$data['qty'] += $v['qty'];
+					}
+				}
+				// 插入数据...
+
+
+# <a id="CI框架内部解析"></a>CI框架内部解析
+	
+	CI是一个单入口框架,所有的请求都需要经常index.php文件 . 流程如下:
+                  | --> Routing --> Scourity -->     |-----------------------|
+        index.php |                                  |Application Controller |-->Drivers,Models,Libaies,Helpers,Packages,Scripts
+                  | <-- Caching <--   View   <--     |-----------------------|	 
+
+	
+分析index.php文件.
+
+		$system_path = 'system';
+		$application_folder = 'application';
+		这个和我们的文件夹结构名称一一对应. 当然这个名称是可以更改.
+		
+		中间加载一些系统目录常量等.
+		在index.php结尾尝试打印里面的内容.
+			
+				var_dump(SELF , ENVIRONMENT ,BASEPATH ,FCPATH,  SYSDIR);
+				exit();
+			结果
+				string(9) "index.php"
+				string(11) "development"
+				string(62) "E:/ComTu_Design/PHP/Apache2.2/htdocs/CodeIgniter-3.0.0/system/"
+				string(55) "E:\ComTu_Design\PHP\Apache2.2\htdocs\CodeIgniter-3.0.0/"
+				string(6) "system"
+
+		最后载入
+			require_once BASEPATH.'core/CodeIgniter.php';
+
+分析CodeIgniter.php
+
+		载入Common.php 通用函数库.		
+			require_once(BASEPATH.'core/Common.php');
+				例如:	is_php($version) php版本
+					is_really_writable 是否可写
+					load_class 载入类函数
+					等等
+
+		载入配置文件(常量配置)
+			require_once(APPPATH.'config/constants.php');
+
+		载入核心类文件.
+			$BM =& load_class('Benchmark', 'core'); 
+			$EXT =& load_class('Hooks', 'core');  勾子类
+			$CFG =& load_class('Config', 'core'); 配置文件类
+			$UNI =& load_class('Utf8', 'core'); 编码类
+			$URI =& load_class('URI', 'core'); URI类
+			$RTR =& load_class('Router', 'core', isset($routing) ? $routing : NULL); 路由类
+			$OUT =& load_class('Output', 'core'); 输出类
+			$SEC =& load_class('Security', 'core'); 安全类 
+			$IN  =& load_class('Input', 'core');输入类
+			$LANG =& load_class('Lang', 'core');语言类
+
+		载入CI总控制器.
+			require_once BASEPATH.'core/Controller.php';
+		
+		通过router类对象 $RTR的两个方法获取当前的类名和方法名
+			
+			CI 2.2.0
+				$class  = $RTR->fetch_class();
+				$method = $RTR->fetch_method();
+			
+			CI 3.0.0
+				$class = ucfirst($RTR->class);
+				$method = $RTR->method;
+			
+			比如:输入 http://127.0.0.1:8000/CodeIgniter-3.0.0/form_demo/insert 
+			那么上述代码获取的$class就是控制器form_demo,$method就是insert , 如果没
+			有方法名,则默认index
+
+		New了一个对象,叫做CI, 这个就是CI框架中的超级对象(super class)	
+			$CI = new $class(); //此处,就是超级对象的形成过程.
+			//var_dump($CI); 可以尝试在此处打印一下$CI的信息 . 
+		
+分析CI_Controller类 Controller.php 
+
+			简单的PHP单例设计模式.
+				private static $instance;
+				public static function &get_instance(){
+					return self::$instance;
+				}
+			
+			构造函数中将前面载入的核心类,作为CI对象的属性.
+				foreach (is_loaded() as $var => $class){
+					$this->$var =& load_class($class);
+				}
+
+			然后是载入Loader.php 装载类
+				$this->load =& load_class('Loader', 'core');
+
+	在控制器中出现的$this就是超级对象.
+	超级对象形成之后,我们就可以使用超级对象(超级对象的属性)
+	提供一系列方法完成我们的业务逻辑.如果需要完成其它的功能,可以载入其他的类文件,辅助函数.
+	这些类文件和辅助函数包括CI已经提供好的.也可以是我们自己定义的.
+
+使用中遇到过的问题
+	CI 3.0.0使用中
+	访问 views/目录下的文件时被拦截.如
+	http://127.0.0.1:8000/mycishop/application/views/images/ecshop_logo.gif
+	
+	提示:
+		Forbidden
+		You don't have permission to access /mycishop/application/views/images/ecshop_logo.gif on this server.
+	
+	解决办法:
+		查看与 views 同级的 .htaccess文件 发现是此处招到的拦截.
+		<IfModule authz_core_module>
+		    Require all denied
+		</IfModule>
+		<IfModule !authz_core_module>
+		    #拦截访问.
+		    #Deny from all
+		    #修改成如下代码即可.
+		    Allow from all 
+		</IfModule>
+	配置文件与 [隐藏入口文件-index.php](#隐藏入口文件-index.php) 里面的权限管理类似.
+
 
 
 ///////////////////////////////数据库附件////////////////////////////////////////////////
@@ -1079,9 +1665,13 @@ Url相关函数 , 设置路由 , 隐藏入口文件, 分页 , 文件上传 , Ses
 	| email    | varchar(255) | NO   |     | NULL    |                |
 	+----------+--------------+------+-----+---------+----------------+
 	4 rows in set (0.02 sec)
+	
+	设置编码格式为gbk,解决查看时乱码.
+	mysql> set names gbk;
+	Query OK, 0 rows affected (0.00 sec)
 
 	查询数据库表中的内容
-
+	
 	mysql> select * from bolg_user;
 	+----+-------+----------------------------------+-------+
 	| id | name  | password                         | email |
@@ -1095,3 +1685,5 @@ Url相关函数 , 设置路由 , 隐藏入口文件, 分页 , 文件上传 , Ses
 
 
 [本文案例Demo](/res/file/blog/2015/09/10/PHP_codeigniter/CodeIgniter-3.0.0_Demo.rar)
+
+[本文案例Demo_附加Demo_购物商场](/res/file/blog/2015/09/10/PHP_codeigniter/mycishop.rar)
