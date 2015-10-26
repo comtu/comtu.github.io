@@ -145,6 +145,7 @@ Android Studio下载
 			|	|	|	|	|-----> Show Tabs in single row 显示单行 Hide tabs if there is no space 没有空间,隐藏标签
 			|	|	|	|	|-----> Hide file extension in editor tabs 隐藏文件后缀
 			|	|	|	|	|-----> Show directory in editor tabs for non-unique filenames 文件名相同显示文件路径
+			|	|	|	|	|-----> mark modified tabs with asterisk 用星号标记修改标签(未保存显示*,可结合不自动保存)
 			|	|	|	|----> Tab Closing Policy 标签关闭策略
 			|	|	|	|	|-----> Tab limit 10 标签最大上限 ,后面的选项为优先关闭选项
 			|	|	|--> Code Folding 代码的折叠 设置
