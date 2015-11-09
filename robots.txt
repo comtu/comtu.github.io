@@ -1,3 +1,3 @@
 User-Agent: *
 
-Sitemap: http://comtu.github.io/sitemap.txt
+Sitemap: http://comtu.github.io/sitemap.xml
