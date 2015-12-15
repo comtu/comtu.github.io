@@ -681,7 +681,19 @@ tags : [PHP ,Laravel ,artisan,Integration/Image]
 			//code...
 			$diyConfig = Config::get('app.my_diy_config');//使用
 			//code...
-			
+	
+	自动加载类
+		使用场景:当某一个方法函数经常会被多个不同的类调用时.可做成自动加载的类,减少代码编写量
+		1.创建文件 例如:在app/Libraries/function/functions.php (自定义)里面有如下代码:
+			<?php 
+			funcion abc(){
+				return 'abc';
+			}
+		2.在工程 /bootstrap/autoload.php 中增加如下代码(对应自定义的文件目录):
+			require __DIR__.'/../app/Libraries/function/functions.php';
+		3.使用 例如在Controllers中使用
+			直接使用方法名调用: $data = abc();
+		
 		
 # <a id="数据库"></a>数据库
 
