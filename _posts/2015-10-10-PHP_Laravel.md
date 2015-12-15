@@ -670,7 +670,19 @@ tags : [PHP ,Laravel ,artisan,Integration/Image]
 			
 			//恢复服务
 			pup artisan up 
-
+	
+	自定义配置属性
+		1.在.env中增加属性
+			MY_DIY_CONFIG='test_env'
+		2.在config/app.php内容里增加属性(参数1为.env文件下的配置名,如果未配置.则使用参数2默认值)
+			'my_diy_config' =>env('MY_DIY_CONFIG','test_app'),
+		3.使用 例如在Controllers中使用:
+			use Illuminate\Support\Facades\Config;//引入包
+			//code...
+			$diyConfig = Config::get('app.my_diy_config');//使用
+			//code...
+			
+		
 # <a id="数据库"></a>数据库
 
 	与数据库交互的机制.
