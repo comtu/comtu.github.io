@@ -1,0 +1,198 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>我们一起打飞机</title>
+		<style>
+			canvas{border:1px solid red;}
+			body{text-align:center}
+		</style>
+		<!--兼容性的动画播放方法-->
+		<script src="requestNextAnimationFrame.js"></script>
+		<!--计算帧数的函数-->
+		<script src="countFps.js"></script>
+		<!--坐标转换的函数-->
+		<script src="windowTocanvas.js"></script>
+		<!--引入背景滚动对象-->
+		<script src="bgSprite.js"></script>
+		<!--载入通用精灵对象-->
+		<script src="Sprite.js"></script>
+		<!--载入敌机文件-->
+		<script src="Enemy.js"></script>
+		<!--载入我方飞机文件-->
+		<script src="plane.js"></script>
+		<!--载入我方子弹文件-->
+		<script src="Bullet.js"></script>
+	</head>
+	<body>
+		<canvas id="canvas" width="320" height="568">
+			您的破浏览器不支持，赶快换一个吧~
+		</canvas>
+		<script>
+			//获取绘图环境
+			var canvas=document.getElementById('canvas');
+			var context=canvas.getContext('2d');
+			
+			
+			//创建对象集合 （集合所有精灵）
+			var sprites=[];
+					
+			//创建我方飞机
+			var plane=createPlane();
+			//讲我方飞机添加到精灵对象集合中
+			sprites.push(plane);
+					
+			//添加飞机计时变量  用于记录飞机出现的时间
+			var smallEnemyTime=0;//记录最后一次小飞机出现的时间
+			var middleEnemyTime=0;//记录最后一次中飞机出现的时间
+			var bigEnemyTime=0;//记录最后一次大飞机出现的时间
+			var bulletTime=0;//记录最后一次子弹出现的时间
+			
+			//声明积分变量
+			var score=0;
+			
+			
+			//添加鼠标事件 实现我方飞机的移动
+			//鼠标按下事件
+			//记录鼠标是否按下的变量
+			var mousedown=false;
+			canvas.onmousedown=function(e){
+				mousedown=true;
+			}
+			
+			//鼠标移动事件
+			canvas.onmousemove=function(e){
+				if(mousedown==true){
+					//事件统一
+					e=e||window.event;
+					//获取当前鼠标相对于canvas的坐标
+					var ponit=windowToCanvas(this,e.clientX,e.clientY);
+					//重新设置我方飞机的坐标点
+					
+					plane.left=ponit.x-plane.width/2;
+					plane.top=ponit.y-plane.height/2;
+				}
+				
+			}
+			//松开鼠标事件
+			canvas.onmouseup=function(e){
+				mousedown=false;
+			}
+			
+			
+			
+			
+			function animate(time){
+			
+				//添加飞机操作
+				//小飞机添加
+				if(time-smallEnemyTime>1500){
+					//一次性添加三个小飞机
+					for(var i=0;i<3;i++){
+						sprites.push(createEnemy('smallEnemy'));
+					}
+					//更新最后一次记录时间
+					smallEnemyTime=time;	
+	
+				}
+				
+				//添加中飞机
+				if(time-middleEnemyTime>3000){
+					//添加中飞机
+					sprites.push(createEnemy('middleEnemy'));
+					sprites.push(createEnemy('middleEnemy'));
+					//更新最后一次记录时间
+					middleEnemyTime=time;
+				}
+				
+				//添加大飞机
+				if(time-bigEnemyTime>10000){
+					//添加中飞机
+					sprites.push(createEnemy('bigEnemy'));
+					//更新最后一次记录时间
+					bigEnemyTime=time;
+				}
+				
+				//添加子弹
+				if(time-bulletTime>150){
+					sprites.push(createBullet(plane.left+plane.width/2,plane.top-15));
+					bulletTime=time;
+				}
+				
+				
+				
+				
+				//更新当前背景的位置
+				bgSprite.update(context,time);
+				//绘制背景
+				bgSprite.paint(context);
+				
+				//循环遍历所有精灵对象 更新行为
+				for(var i=0;i<sprites.length;i++){
+					sprites[i].update(context,time);
+					
+					
+					//判断是否有不可见的精灵对象
+					if(sprites[i].visible==false){
+						//在飞机对象删除之前把分数累加起来
+						if(sprites[i].name!='bullet' && sprites[i].name!='plane' ){//判断是否是飞机
+							score=score+sprites[i].score;
+						}
+						
+						//删除不可见的对象
+						sprites.splice(i,1);
+					}	
+				}
+				//循环遍历所有精灵对象 绘制对象
+				for(var i=0;i<sprites.length;i++){
+					//判断子弹是否击中敌机
+					if(sprites[i].name=='bullet'){
+						for(var j=0;j<sprites.length;j++){
+							//挑选不是子弹和我方飞机的对象(三种敌机)
+							if(sprites[j].name!='bullet' && sprites[j].name!='plane'){
+								//判断子弹和每个敌机的位置
+								//子弹的横坐标>飞机左侧位置
+								if(sprites[i].left>sprites[j].left &&
+									//子弹的横坐标<飞机右侧位置（右侧=左侧+宽度）
+									sprites[i].left<sprites[j].left+sprites[j].width &&
+									//子弹的纵坐标>顶部位置
+									sprites[i].top>sprites[j].top &&
+									//子弹纵坐标<底部位置
+									sprites[i].top<sprites[j].top+sprites[j].height){
+								
+									//只有飞机气血>=1的情况下才减血
+									if(sprites[j].hp>=1){
+										//讲当前飞机的气血-1
+										sprites[j].hp-=1;
+										//讲当前子弹变为不可见状态
+										sprites[i].visible=false;
+									}
+									
+								
+								}
+							
+							}
+						}
+					}
+					sprites[i].paint(context);
+				}
+				
+				
+				context.font='26px 黑体 ';
+				//检测当前页面对象个数
+				context.fillText('对象个数:'+sprites.length,150,540);
+				//分数统计
+				context.fillText('总分:'+score,170,30);
+				
+				//帧率计算
+				context.fillText('FPS：'+countFps(),10,30);
+				//再次调用绘制动画方法
+				window.requestNextAnimationFrame(animate);
+			}
+			
+			window.requestNextAnimationFrame(animate);
+			
+			
+		</script>
+	</body>
+</html>

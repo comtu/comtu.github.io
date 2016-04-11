@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<!--百度轻应用-->
+    <script type="text/javascript" name="baidu-tc-cerfication" data-appid="5027706" src="http://apps.bdimg.com/cloudaapi/lightapp.js"></script>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <meta name="description" content="{{ site.blog.title }}">
+  <meta name="author" content="{{ site.author.name }}">
+  {% if page.index == true %}<meta name="keywords" content="{{ site.blog.title }}, {{ site.blog.name }}, {{ site.blog.description }}, {{ site.author.name }}">{% else %}<meta name="keywords" content="{{ page.title }}, {{ site.blog.name }}, {{ site.author.name }}">{% endif %}
+  {% if page.index == true %}<title>{{ site.blog.title }}</title>{% else %}<title>{{ page.title }} - {{ site.blog.name }}</title>{% endif %}
+  {% if page.index == true %}<link rel="canonical" href="{{ site.blog.url }}">{% else %}<link rel="canonical" href="{{ site.blog.url }}{{ page.url }}">{% endif %}
+  <link rel="icon" id="icon"  href="/res/img/icon/1.ico" type="image/x-icon">
+  <link rel="shortcut icon" id="shortcut_icon" href="/res/img/icon/1.ico" type="image/x-icon">
+  <link rel="stylesheet" href="/res/css/public.css">
+  <link rel="stylesheet" href="/res/css/light.css">
+
+
+  {% if site.SyntaxHihglighter == true or page.SyntaxHihglighter == true %}
+  <script type="text/javascript" src="/res/sh/scripts/brush.js"></script>
+  <link type="text/css" rel="stylesheet" href="/res/sh/styles/shCore.css"/>
+
+
+  {% if page.shTheme != null %}
+	{% assign shTheme = page.shTheme %}
+  {% elsif site.shTheme != null %}
+	{% assign shTheme = site.shTheme %}
+  {% else %}
+	{% assign shTheme = 'shThemeDefault' %}
+  {% endif %}
+  <link type="text/css" rel="stylesheet" href="/res/sh/styles/{{ shTheme }}.css"/>
+
+  <script type="text/javascript">
+    SyntaxHighlighter.config.clipboardSwf = '/res/sh/scripts/clipboard.swf';
+	SyntaxHighlighter.config.bloggerMode = false;//true会出现高亮代码"<br />"不被解析.变成换行.
+//	SyntaxHighlighter.config.stripBrs = false;//每一行末尾有<br />，不忽略处理  
+	SyntaxHighlighter.config.strings = {
+            expandSource : '展开代码',
+            viewSource : '查看代码',
+            copyToClipboard : '复制代码',
+            copyToClipboardConfirmation : '代码复制成功',
+            print : '打印',
+            help: '?',
+            alert: '语法高亮\n\n',
+            noBrush: '不能找到刷子: ',
+            brushNotHtmlScript: '刷子没有配置html-script选项',
+            aboutDialog: '<div>ComTu</div>'
+        };
+    SyntaxHighlighter.all();
+  </script>
+  {% endif %}
+
+  <script src="/res/js/light.js"></script>
+  {% include tongji.html %}
+</head>
+<body>
+  <div id="blog">
+    {% include sidebar.html %}
+    <div class="main">
+    {{ content }}
+    {% if page.index == true or page.post == true %}{% include footer.html %}{% endif %}
+    </div>
+  </div>    
+  <div id="top"><a id="rocket" href="javascript:;" title="返回顶部"><i></i></a></div>
+  {% if page.math == true %}<script src="http://cdn.bootcss.com/mathjax/2.4.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script>MathJax.Hub.Config({tex2jax:{inlineMath: [['\\','\\']],displayMath: [['$$','$$']]}});</script>{% endif %}
+</body>
+</html>

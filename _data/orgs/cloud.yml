@@ -1,0 +1,27 @@
+
+name: 云
+icon: fa fa-cloud-download
+members:
+  - name: github
+    link: https://github.com/
+
+  - name: OSC
+    link: http://git.oschina.net/
+
+  - name: gitcafe
+    link: https://gitcafe.com/
+
+  - name: jd
+    link: https://code.jd.com/
+
+  - name: csdn
+    link: https://code.csdn.net/
+
+  - name: google
+    link: http://code.google.com/hosting/
+
+  - name: bitbucket
+    link: https://bitbucket.org/
+
+  - name: qiniu
+    link: https://portal.qiniu.com/
