@@ -1,5 +1,5 @@
 markdown: kramdown
-highlighter: pygments #rouge  
+#highlighter: pygments #rouge  
 permalink: blog/:year/:month/:day/:title.html
 paginate: 6	
 paginate_path: page/:num
