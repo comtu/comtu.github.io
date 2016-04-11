@@ -1,10 +1,15 @@
 markdown: kramdown
-highlighter: rouge
+#highlighter: pygments #rouge  
 permalink: blog/:year/:month/:day/:title.html
 paginate: 6	
 paginate_path: page/:num
 baseurl: ""
-gems: [jekyll-paginate]
+gems: [jekyll-paginate, jekyll-gist]
+
+#增加配置kramdown
+kramdown:
+  input: GFM 
+  syntax_highlighter: rouge
 
 # Build settings
 # markdown: redcarpet
