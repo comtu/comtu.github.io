@@ -4,6 +4,7 @@ permalink: blog/:year/:month/:day/:title.html
 paginate: 6	
 paginate_path: page/:num
 baseurl: ""
+gems: [jekyll-paginate]
 
 # Build settings
 # markdown: redcarpet
