@@ -311,6 +311,8 @@ git push -u origin master                                      # 客户端首次
 git push -u origin develop  # 首次将本地develop分支提交到远程develop分支，并且track  
    
 git remote set-head origin master   # 设置远程仓库的HEAD指向master分支  
+
+git push origin -f  #强制推送当前版本到网络 可结合回滚使用.
 {% endhighlight %}
 
 也可以命令设置跟踪远程库和本地库
@@ -321,7 +323,15 @@ git branch --set-upstream master origin/master
 git branch --set-upstream develop origin/develop  
 {% endhighlight %}
 
+---
 
+##回滚案例:
+
+	git reset --hard HEAD~1 #返回上一个版本 或者 git reset --hard <id> #指定id,本地分支回滚
+
+	git push origin -f  #强制推送当前版本到网络,实现网络版本回滚 . 强制更新远程分支
+	
+	#谨慎操作,此操作会直接删除原来的所有记录.
 ---
 
 ##Github协同流程：
