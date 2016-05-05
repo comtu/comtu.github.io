@@ -1,0 +1,775 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="windows环境下搭建Android开发环境,Android程序自动化打包," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/icon/1.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="h3 {
+    line-height: 1.5;
+    letter-spacing: 2px;
+    margin-top: -10px;
+}
+h6 {
+    line-height: 1.5;
+    letter-spacing: 2px;
+    margin-top: -10px;
+}
+
+
+
+目录:   
+
+1.概述
+2.准备
+3.开始(如果之前有做过前面的步骤可直达第三步)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android程序自动化打包">
+<meta property="og:url" content="http://comtu.github.com/2014/10/24/android_automatic_packaging.html">
+<meta property="og:site_name" content="Comtu">
+<meta property="og:description" content="h3 {
+    line-height: 1.5;
+    letter-spacing: 2px;
+    margin-top: -10px;
+}
+h6 {
+    line-height: 1.5;
+    letter-spacing: 2px;
+    margin-top: -10px;
+}
+
+
+
+目录:   
+
+1.概述
+2.准备
+3.开始(如果之前有做过前面的步骤可直达第三步)">
+<meta property="og:updated_time" content="2016-04-27T07:55:29.535Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android程序自动化打包">
+<meta name="twitter:description" content="h3 {
+    line-height: 1.5;
+    letter-spacing: 2px;
+    margin-top: -10px;
+}
+h6 {
+    line-height: 1.5;
+    letter-spacing: 2px;
+    margin-top: -10px;
+}
+
+
+
+目录:   
+
+1.概述
+2.准备
+3.开始(如果之前有做过前面的步骤可直达第三步)">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Android程序自动化打包 | Comtu </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?e0d9a75a7e53b54cd1e6649facd5906e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Comtu</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android程序自动化打包
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-10-24T00:00:00+08:00" content="2014-10-24">
+              2014-10-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/10/24/android_automatic_packaging.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/2014/10/24/android_automatic_packaging.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <style>
+h3 {
+    line-height: 1.5;
+    letter-spacing: 2px;
+    margin-top: -10px;
+}
+h6 {
+    line-height: 1.5;
+    letter-spacing: 2px;
+    margin-top: -10px;
+}
+
+</style>
+
+<p>目录:   </p>
+<ul>
+<li>1.概述</li>
+<li>2.准备</li>
+<li>3.开始(如果之前有做过前面的步骤可直达第三步)</li>
+</ul>
+<h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1 概述"></a><strong>1 概述</strong></h2><p>在一般的Android开发中，我们通常使用Eclipse自带的导出工具来进行App的签名和发布，Android自动化打包，就是利用脚本将这样一个手动操作的过程转化为一个命令搞定。</p>
+<a id="more"></a>
+<hr>
+<h2 id="2-准备"><a href="#2-准备" class="headerlink" title="2 准备"></a><strong>2 准备</strong></h2><p>需要配置好JDK、Android SDK和Ant的环境，</p>
+<h3 id="2-1-安装配置JDK"><a href="#2-1-安装配置JDK" class="headerlink" title="2.1 安装配置JDK"></a><strong>2.1 安装配置JDK</strong></h3><p>以jdk-8u45-windows-i586安装包为例  </p>
+<p><strong>2.1.1</strong> 双击安装包，假设安装路径默认是C:\Program Files\Java\jdk1.8.0_45，然后点击下一步完成安装。  </p>
+<p><strong>2.1.2</strong> windows XP或者Server下右击“我的电脑”弹出菜单，点击“属性“》“高级“》“环境变量“，windows7则右击“计算机“弹出菜单，点击“属性“》“高级系统设置“》“高级“》“环境变量“ ,在“系统变量”下方点击“新建”，“变量名”输入”<strong><code>JAVA_HOME</code></strong>“，“变量值”输入”<strong><code>C:\Program Files\Java\jdk1.8.0_45</code></strong>“，点击“确认”；在“系统变量”选择变量为“Path”的选项，点击下方的“编辑”，在弹出框中修改“变量值”，在原有值的末尾输入“<strong><code>;%JAVA_HOME%\bin</code></strong>”，注意开头包含一个英文的分号。   </p>
+<p><strong>2.1.3</strong> 点击“开始”》“运行”(或者Win+R)，输入“<strong><code>cmd</code></strong>”，在弹出的命令窗口中输入“<strong><code>javac -version</code></strong>”然后回车，如果下方出现：javac version “1.8.0_45”，说明配置成功。</p>
+<hr>
+<h3 id="2-2安装配置Android-SDK"><a href="#2-2安装配置Android-SDK" class="headerlink" title="2.2安装配置Android SDK"></a><strong>2.2安装配置Android SDK</strong></h3><p><strong>2.2.1</strong> 打开<a href="http://developer.android.com/sdk/index.html#ExistingIDE" target="_blank" rel="external">http://developer.android.com/sdk/index.html#ExistingIDE</a> ，找到SDK Tools Only 找到最新版本的包<strong><a href="http://dl.google.com/android/android-sdk_r24.3.3-windows.zip" target="_blank" rel="external">android-sdk_r24.3.3-windows.zip</a></strong>  ，然后勾选“I have read…”复选框，点击下方的“Download the SDK…..”，将下载完整的SDK工具压缩包。附录<a href="http://pan.baidu.com/s/1i3eUFDb" target="_blank" rel="external">百度云android-sdk_r24.3.2-windows.zip</a>   </p>
+<p><strong>2.2.2</strong> 将第一步下载好的压缩包解压，比如直接放到D盘下，完整路径是D:\android-sdk_r24.3.3-windows。   </p>
+<p><strong>2.2.3</strong> 进入上面这个文件夹，双击SDK Manager.exe，在弹出的窗口中有个Packages栏，勾选其中的“<code>**Tools**</code>”、”Android 4.2.2 (API17)”以及“Extras”下面所有的的选项，点击下方的“<strong><code>Install packages</code></strong>”开始下载，如果这些选项的Status变为“<strong><code>Installed</code></strong>”，说明下载完毕。如果下载速度过慢，用记事本打开C:\WINDOWS\system32\drivers\etc\hosts这个文件，在最下方新输入一行：<strong><code>74.125.237.1    dl-ssl.google.com</code></strong>，然后保存，重新打开SDK Manager.exe再试一次。</p>
+<p><strong>2.2.4</strong> windows XP或者Server下右击“我的电脑”弹出菜单，点击“属性“》“高级“》“环境变量“，在“系统变量”下方点击“新建”，“变量名”<strong><code>输入&quot;ANDROID_HOME</code></strong>“，“变量值”输入”<strong><code>D:\android-sdk_r24.3.3-windows</code></strong>“，点击“确认”；在“系统变量”选择变量为“Path”的选项，点击下方的“编辑”，在弹出框中修改“变量值”，在原有值的末尾输入“<strong><code>;%ANDROID_HOME%\platform-tools</code></strong>”，注意开头包含一个英文的分号。</p>
+<p><strong>2.2.5</strong> 点击“开始”》“运行”，输入“<strong><code>cmd</code></strong>”，在弹出的命令窗口中输入：<strong><code>adb</code></strong>回车，如果下方出现：Android Debug Bridge version …等多行文字，说明配置成功。</p>
+<hr>
+<h3 id="2-3-安装配置Ant"><a href="#2-3-安装配置Ant" class="headerlink" title="2.3 安装配置Ant"></a><strong>2.3 安装配置Ant</strong></h3><p>以Ant1.9.3为例</p>
+<p><strong>2.3.1</strong> 浏览器打开<strong><a href="http://ant.apache.org/bindownload.cgi" target="_blank" rel="external">http://ant.apache.org/bindownload.cgi</a></strong> ，找到<strong>.zip archive: <a href="http://ftp.mirror.tw/pub/apache//ant/binaries/apache-ant-1.9.5-bin.zip" target="_blank" rel="external">apache-ant-1.9.5-bin.zip</a></strong> ，点击下载压缩包   </p>
+<p><strong>2.3.2</strong> 将压缩包解压的某一个目录，比如直接放到D盘下，完整路径是D:\apache-ant-1.9.5。</p>
+<p><strong>2.3.3</strong> windows XP或者Server下右击“我的电脑”弹出菜单，点击“属性“》“高级“》“环境变量“，在“系统变量”下方点击“新建”，“变量名”输入”<strong><code>ANT_HOME</code></strong>“，“变量值”输入”<strong><code>D:\apache-ant-1.9.5</code></strong>，点击“确认”；在“系统变量”选择变量为“Path”的选项，点击下方的“编辑”，在弹出框中修改“变量值”，在原有值的末尾输入“<strong><code>;%ANT_HOME%\bin</code></strong>”，注意开头包含一个英文的分号。   </p>
+<p><strong>2.3.4</strong> 点击“开始”》“运行”(Win+R)，输入“<strong><code>cmd</code></strong>”，在弹出的命令窗口中输入“<strong><code>ant -version</code></strong>”然后回车，如果下方出现：<strong><code>Apache Ant(TM) version 1.9.5 compiled on May 31 2015，</code></strong>说明配置成功。</p>
+<hr>
+<h2 id="3-开始"><a href="#3-开始" class="headerlink" title="3 开始"></a><strong>3 开始</strong></h2><p><strong>3.1</strong> 准备好项目的源码和依赖库源码，最好放在同一级目录下，确保源码和依赖库可在IDE中编译成功，这样就无需调整project.properties文件中依赖库的相对位置了。   </p>
+<p><strong>3.2</strong> 打开CMD命令行，进入到<strong><code>依赖库源码目录</code></strong>(cd命令)，执行<strong><code>android update lib-project -p . -t android-17</code></strong>，这个命令的作用是在依赖库下生成自动打包相关的文件，-p .的意思是在当前根目录下执行，-t android-17的意思是此源码使用android-17 api进行编译，各位根据自己的项目情况自行修改，所有的依赖库都要执行这一步操作。  </p>
+<p><strong>3.3</strong> 打开CMD命令行，进入到源码根目录，执行<strong><code>android update project -p . -t android-17</code></strong>，这个命令的作用是在源码下生成自动打包相关的文件。</p>
+<p><strong>3.4</strong> 打开CMD命令行，进入到源码根目录，执行<strong><code>ant clean</code></strong>，然后<strong><code>ant debug</code></strong>，如果打包成功，可以在源代码的bin目录下看到未签名的apk文件。</p>
+<p><strong>3.5</strong> 想要生成签名文件，需要在源码根目录下建立<strong><code>ant.properties</code></strong>文件，内容如下：</p>
+<pre class="brush: shell;">
+    #包名
+    application.package=you_package_name
+    #项目名，缺省时源码文件名
+    ant.project.name=
+    #编码方式
+    java.encoding=utf-8
+    #编译输出绝对路径
+    out.absolute.dir=d:/out
+    #生成文件绝对路径
+    gos.path=d:/out
+    #签名key文件绝对路径
+    key.store=D:/adt-bundle/Nomouse
+    #签名文件密码
+    key.store.password=password
+    #签名别称，中文的话需要转成utf-8编码，可以使用JDK自带的native2ascii工具
+    key.alias=\u4f01\u4e1a
+    #签名别称密码
+    key.alias.password=password
+</pre>
+
+<p><strong>3.6</strong> 打开CMD命令行，进入到源码根目录，执行<strong><code>ant release</code></strong>，成功的话可以在d:/out目录下看到输出的App签名文件。</p>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/windows环境下搭建Android开发环境/" rel="tag">#windows环境下搭建Android开发环境</a>
+          
+            <a href="/tags/Android程序自动化打包/" rel="tag">#Android程序自动化打包</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/10/23/java8_new_feature.html" rel="next" title="Java8新特性">
+                <i class="fa fa-chevron-left"></i> Java8新特性
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/10/25/android_safe_mode_mechanism_one.html" rel="prev" title="Android安全模式机制之一(现代安全体系基础概念)">
+                Android安全模式机制之一(现代安全体系基础概念) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="/2014/10/24/android_automatic_packaging.html"
+           data-title="Android程序自动化打包" data-url="http://comtu.github.com/2014/10/24/android_automatic_packaging.html">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/icon.jpg"
+               alt="Comtu" />
+          <p class="site-author-name" itemprop="name">Comtu</p>
+          <p class="site-description motion-element" itemprop="description">The time is passing</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">26</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">91</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-概述"><span class="nav-number">1.</span> <span class="nav-text">1 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-准备"><span class="nav-number">2.</span> <span class="nav-text">2 准备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-安装配置JDK"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 安装配置JDK</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2安装配置Android-SDK"><span class="nav-number">2.2.</span> <span class="nav-text">2.2安装配置Android SDK</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-安装配置Ant"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 安装配置Ant</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-开始"><span class="nav-number">3.</span> <span class="nav-text">3 开始</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Comtu</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"comtu"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

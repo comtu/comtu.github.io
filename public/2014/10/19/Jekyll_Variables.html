@@ -1,0 +1,846 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Jekyll," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/icon/1.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="Jekyll 目录及一些说明Jekyll 标准目录树_config.yml   Jekyll的配置文件
+_includes     include 文件所在的文件夹
+_layouts      模版文件夹
+_posts        自己要发布的内容
+_sites        预览时产生的文件都放在该文件夹中">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jekyll目录结构与变量">
+<meta property="og:url" content="http://comtu.github.com/2014/10/19/Jekyll_Variables.html">
+<meta property="og:site_name" content="Comtu">
+<meta property="og:description" content="Jekyll 目录及一些说明Jekyll 标准目录树_config.yml   Jekyll的配置文件
+_includes     include 文件所在的文件夹
+_layouts      模版文件夹
+_posts        自己要发布的内容
+_sites        预览时产生的文件都放在该文件夹中">
+<meta property="og:updated_time" content="2016-04-27T08:23:43.432Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Jekyll目录结构与变量">
+<meta name="twitter:description" content="Jekyll 目录及一些说明Jekyll 标准目录树_config.yml   Jekyll的配置文件
+_includes     include 文件所在的文件夹
+_layouts      模版文件夹
+_posts        自己要发布的内容
+_sites        预览时产生的文件都放在该文件夹中">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Jekyll目录结构与变量 | Comtu </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?e0d9a75a7e53b54cd1e6649facd5906e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Comtu</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Jekyll目录结构与变量
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-10-19T00:00:00+08:00" content="2014-10-19">
+              2014-10-19
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Jekyll/" itemprop="url" rel="index">
+                    <span itemprop="name">Jekyll</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/10/19/Jekyll_Variables.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/2014/10/19/Jekyll_Variables.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Jekyll-目录及一些说明"><a href="#Jekyll-目录及一些说明" class="headerlink" title="Jekyll 目录及一些说明"></a>Jekyll 目录及一些说明</h1><h2 id="Jekyll-标准目录树"><a href="#Jekyll-标准目录树" class="headerlink" title="Jekyll 标准目录树"></a>Jekyll 标准目录树</h2><pre><code>_config.yml   Jekyll的配置文件
+_includes     include 文件所在的文件夹
+_layouts      模版文件夹
+_posts        自己要发布的内容
+_sites        预览时产生的文件都放在该文件夹中
+</code></pre><a id="more"></a>
+<h2 id="Jekyll的安装及配置"><a href="#Jekyll的安装及配置" class="headerlink" title="Jekyll的安装及配置"></a>Jekyll的安装及配置</h2><blockquote>
+<ul>
+<li><p>_includes文件夹中所放的文件是最终要放到模版中的一些代码片段。 </p>
+</li>
+<li><p>_layouts中放的一些模版，模版是用包含page或post内容的。Jekyll的模版使用HTML语法来写，并包含YAML Front Matter。所有的模版都可用Liquid来与网站进行交互。所的的模版都可以使用全局变量site和page，site变量包含该网站所有可以接触得到的内容和元数据(meta-data)，page变量包含的是当前渲染的page或post的所有可以接触得到的数据。 </p>
+</li>
+<li><p>_post文件夹中放的是自己要发布的post文章。post文件的命名规则为YEAR-MONTH-DATE-title.MARKUP，使用rake post会自动将post文件命名合适。而对于page，所有放在根目录下或不以下划线开头的文件夹中有格式的文件都会被Jekyll处理成page。这里说的有格式是指文件含有YAML Front Matter。所有的post和page都要用markdown或者texile或者HTML语法来写，并可以包含Liquid模版的语法。还要有 YAML Front Matter (Jekyll只处理具有YAML Front Matter的文件)。YAML Front Matter必须放在文件的开头，一对—之间，用户可在这一对—间设置预先定义的变量或用户自己的数据</p>
+</li>
+</ul>
+</blockquote>
+<hr>
+<h2 id="Jekyll模板全局变量"><a href="#Jekyll模板全局变量" class="headerlink" title="Jekyll模板全局变量"></a>Jekyll模板全局变量</h2><table>
+<thead>
+<tr>
+<th>变量</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>site</td>
+<td style="text-align:left">全站的信息+_config.yml文件中的配置选项</td>
+</tr>
+<tr>
+<td>page</td>
+<td style="text-align:left">这个变量中包含YAML前置数据,另外加上两个额外的变量值:url和content。</td>
+</tr>
+<tr>
+<td>content</td>
+<td style="text-align:left">在布局模板文件中，这里变量包含了页面的子视图。这个变量将会把渲染后的内容插入到模板文件中。这个变量不能在文章和页面文件中使用。</td>
+</tr>
+<tr>
+<td>paginator</td>
+<td style="text-align:left">一旦paginate配置选项被设置了，这个变量才能被使用。</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="Jekyll模板Site变量"><a href="#Jekyll模板Site变量" class="headerlink" title="Jekyll模板Site变量"></a>Jekyll模板Site变量</h2><table>
+<thead>
+<tr>
+<th>变量</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>site.time</td>
+<td style="text-align:left">当前的时间(当你运行Jekyll时的时间)</td>
+</tr>
+<tr>
+<td>site.posts</td>
+<td style="text-align:left">一个按时间逆序的文章列表。</td>
+</tr>
+<tr>
+<td>site.related_posts</td>
+<td style="text-align:left">如果当前被处理的页面是一个文章文件，那这个变量是一个包含了最多10篇相关文章的列表。默认来说，这些相关文章是低质量但计算快的。为了得到高质量但计算慢的结果，运行Jekyll命令时可以加上–lsi选项。(潜在语意索引)</td>
+</tr>
+<tr>
+<td>site.categories.CATEGORY</td>
+<td style="text-align:left">所有在CATEGORY分类中的文章列表</td>
+</tr>
+<tr>
+<td>site.tags.TAG</td>
+<td style="text-align:left">所有拥有TAG标签的文章的列表</td>
+</tr>
+<tr>
+<td>site.[CONFIGURATION_DATA]</td>
+<td style="text-align:left">截止0.5.2版本，所有在_config.yml中的数据都能够通过site变量调用。举例来说，如果你有一个这样的选项在你的配置文件中:url: <a href="http://higrid.net，那在文章和页面文件中可以这样调用{" target="_blank" rel="external">http://higrid.net，那在文章和页面文件中可以这样调用{</a> { site.url } }。Jekyll并不会自动解析修改过的_config.yml文件，你想要启用新的设置选项，你需要重启Jekyll</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="Jekyll模板Page变量"><a href="#Jekyll模板Page变量" class="headerlink" title="Jekyll模板Page变量"></a>Jekyll模板Page变量</h2><table>
+<thead>
+<tr>
+<th>变量</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>page.content</td>
+<td style="text-align:left">页面中未渲染的内容</td>
+</tr>
+<tr>
+<td>page.title</td>
+<td style="text-align:left">文章的标题</td>
+</tr>
+<tr>
+<td>page.url</td>
+<td style="text-align:left">除去域名以外的URL，例子:/2013/12/14/higrid-net.html</td>
+</tr>
+<tr>
+<td>page.date</td>
+<td style="text-align:left">指定每一篇文章的时间，这个选项能够覆盖一篇文章中前置数据设置的时间，它的格式是这样的:YYYY-MM-DD HH:MM:SS</td>
+</tr>
+<tr>
+<td>page.id</td>
+<td style="text-align:left">每一篇文章的唯一标示符(在RSS中非常有用) 例子：/2008/12/14/higrid-net</td>
+</tr>
+<tr>
+<td>page.categories</td>
+<td style="text-align:left">这篇文章隶属的分类的一个列表，分类是通过在_post目录中的目录结构推导而来的。举例来说，在路径/work/code/_posts/2008-12-24-closures.textile下的文件，这个变量将会是[work,code]。这个变量也能在YAML前置数据中被指定。</td>
+</tr>
+<tr>
+<td>page.tags</td>
+<td style="text-align:left">这篇文章的标签的列表。这些数据能够在YAML前置数据中指定</td>
+</tr>
+<tr>
+<td>page.next</td>
+<td style="text-align:left">按时间序的下一篇文章</td>
+</tr>
+<tr>
+<td>page.content</td>
+<td style="text-align:left">按时间序的上一篇文章</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>注意:任何你自己指定的自定义前置数据都能够通过page调用。举例来说，如果你在页面的前置数据中设置了custom_css: true，那这个值可以在模板可以这样调用:page.custom_css</p>
+</blockquote>
+<hr>
+<h2 id="Jekyll模板Paginator变量"><a href="#Jekyll模板Paginator变量" class="headerlink" title="Jekyll模板Paginator变量"></a>Jekyll模板Paginator变量</h2><table>
+<thead>
+<tr>
+<th>变量</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>paginator.per_page</td>
+<td style="text-align:left">每一个页面上文章的数量</td>
+</tr>
+<tr>
+<td>paginator.posts</td>
+<td style="text-align:left">当前页面上可用的文章</td>
+</tr>
+<tr>
+<td>paginator.total_posts</td>
+<td style="text-align:left">所有文章的数量</td>
+</tr>
+<tr>
+<td>paginator.total_pages</td>
+<td style="text-align:left">所有页面的数量</td>
+</tr>
+<tr>
+<td>paginator.page</td>
+<td style="text-align:left">当前页面的数量</td>
+</tr>
+<tr>
+<td>paginator.previous_page</td>
+<td style="text-align:left">前面的页面的数量</td>
+</tr>
+<tr>
+<td>paginator.next_page</td>
+<td style="text-align:left">接下来的的页面的数量</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="Post或Page的创建及发布"><a href="#Post或Page的创建及发布" class="headerlink" title="Post或Page的创建及发布"></a>Post或Page的创建及发布</h2><p>创建Post文章</p>
+<pre><code>rake post title=&quot;文章标题&quot;
+</code></pre><p>会自动创建一个具有合适文件名和YAML Front Matter的文件(使用时将”文章标题”替换成你要创建的文章的标题)。</p>
+<p>创建Page页面</p>
+<pre><code>rake page name=&quot;页面名称.md&quot;   或者
+rake page name=&quot;pages/页面名称.md&quot;
+</code></pre><p>发布Post或Page</p>
+<pre><code>git add .
+git commit -m &apos;一些说明&apos;
+git push origin master
+</code></pre><hr>
+<p><strong>[<a href="http://jekyllrb.com/docs/variables/" target="_blank" rel="external">原文地址</a>]</strong></p>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Jekyll/" rel="tag">#Jekyll</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/10/18/support-pygments-in-Jekyll.html" rel="next" title="Jekyll中的语法高亮:Pygments">
+                <i class="fa fa-chevron-left"></i> Jekyll中的语法高亮:Pygments
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/10/19/git_common_command.html" rel="prev" title="Git 常用命令整理">
+                Git 常用命令整理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="/2014/10/19/Jekyll_Variables.html"
+           data-title="Jekyll目录结构与变量" data-url="http://comtu.github.com/2014/10/19/Jekyll_Variables.html">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/icon.jpg"
+               alt="Comtu" />
+          <p class="site-author-name" itemprop="name">Comtu</p>
+          <p class="site-description motion-element" itemprop="description">The time is passing</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">26</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">91</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Jekyll-目录及一些说明"><span class="nav-number">1.</span> <span class="nav-text">Jekyll 目录及一些说明</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Jekyll-标准目录树"><span class="nav-number">1.1.</span> <span class="nav-text">Jekyll 标准目录树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Jekyll的安装及配置"><span class="nav-number">1.2.</span> <span class="nav-text">Jekyll的安装及配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Jekyll模板全局变量"><span class="nav-number">1.3.</span> <span class="nav-text">Jekyll模板全局变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Jekyll模板Site变量"><span class="nav-number">1.4.</span> <span class="nav-text">Jekyll模板Site变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Jekyll模板Page变量"><span class="nav-number">1.5.</span> <span class="nav-text">Jekyll模板Page变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Jekyll模板Paginator变量"><span class="nav-number">1.6.</span> <span class="nav-text">Jekyll模板Paginator变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Post或Page的创建及发布"><span class="nav-number">1.7.</span> <span class="nav-text">Post或Page的创建及发布</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Comtu</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"comtu"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

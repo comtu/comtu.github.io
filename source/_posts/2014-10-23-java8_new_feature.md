@@ -1,6 +1,6 @@
 ---
 title : "Java8新特性"
-category : java
+category : Java
 date : 2014-10-23
 tags : [java,lambda,stream , java8, 接口的默认方法和静态方法 ]
 ---

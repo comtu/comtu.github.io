@@ -10,17 +10,17 @@ shTheme: shThemeEclipse # shThemeDefault  shThemeDjango  shThemeEclipse  shTheme
 
 ---
 
-#H1  
+# H1  
 
-##H2  
+## H2  
 
-###H3
+### H3
 
-####H4
+#### H4
 
-#####H5
+##### H5
 
-######H6
+###### H6
 
 默认字号字体
 
@@ -57,13 +57,13 @@ _斜体_
 
 ---
 
-* #1.H1内容
+* # 1.H1内容
 
-	* ##1.1H2内容
-	* ###1.2H3内容
-		* ####1.2.1H4内容
-		* #####1.2.2H5内容
-			* ######1.2.2.1H6内容
+	* ## 1.1H2内容
+	* ### 1.2H3内容
+		* #### 1.2.1H4内容
+		* ##### 1.2.2H5内容
+			* ###### 1.2.2.1H6内容
 			* 01.2.2.2默认什么字号内容
 
 		* **1.2.3加粗内容**
@@ -92,6 +92,7 @@ _斜体_
 
 **[使用 pygments 高亮](http://pygments.org/)**
 
+<pre>
 {% raw %}
 	{% highlight c %} 
 	/* hello world demo 禁止解析*/
@@ -103,6 +104,17 @@ _斜体_
 	}
 	{% endhighlight %}
 {% endraw %}
+</pre>
+
+```c
+	/* hello world demo 禁止解析*/
+	#include <stdio.h>
+	int main(int argc, char **argv)
+	{
+	    printf("Hello, World!\n");
+	    return 0;
+	}
+```
 
 <hr id="line"/><br/>
 

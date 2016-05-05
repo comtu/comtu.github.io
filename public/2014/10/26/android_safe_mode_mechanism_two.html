@@ -1,0 +1,936 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android安全模式机制,进程和进程边界,多用户和多用户边界,进程和文件的UID/GID,Chmod和chown命令介绍,linux,UID/GID的衔接,进程的RealUID和EffectiveUID,setUID,Capability," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/icon/1.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="h3 {
+    line-height: 1.5;
+    letter-spacing: 2px;
+    margin-top: -10px;
+}
+h6 {
+    line-height: 1.5;
+    letter-spacing: 2px;
+    margin-top: -10px;
+}
+
+
+
+目录:
+
+1.进程和进程边界
+2.多用户和多用户边界
+3.进程和文件的UID/GID">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android安全模式机制之二(操作系统现代安全体系基础概念)">
+<meta property="og:url" content="http://comtu.github.com/2014/10/26/android_safe_mode_mechanism_two.html">
+<meta property="og:site_name" content="Comtu">
+<meta property="og:description" content="h3 {
+    line-height: 1.5;
+    letter-spacing: 2px;
+    margin-top: -10px;
+}
+h6 {
+    line-height: 1.5;
+    letter-spacing: 2px;
+    margin-top: -10px;
+}
+
+
+
+目录:
+
+1.进程和进程边界
+2.多用户和多用户边界
+3.进程和文件的UID/GID">
+<meta property="og:updated_time" content="2016-04-27T07:54:23.084Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android安全模式机制之二(操作系统现代安全体系基础概念)">
+<meta name="twitter:description" content="h3 {
+    line-height: 1.5;
+    letter-spacing: 2px;
+    margin-top: -10px;
+}
+h6 {
+    line-height: 1.5;
+    letter-spacing: 2px;
+    margin-top: -10px;
+}
+
+
+
+目录:
+
+1.进程和进程边界
+2.多用户和多用户边界
+3.进程和文件的UID/GID">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Android安全模式机制之二(操作系统现代安全体系基础概念) | Comtu </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?e0d9a75a7e53b54cd1e6649facd5906e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Comtu</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android安全模式机制之二(操作系统现代安全体系基础概念)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-10-26T00:00:00+08:00" content="2014-10-26">
+              2014-10-26
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/10/26/android_safe_mode_mechanism_two.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/2014/10/26/android_safe_mode_mechanism_two.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <style>
+h3 {
+    line-height: 1.5;
+    letter-spacing: 2px;
+    margin-top: -10px;
+}
+h6 {
+    line-height: 1.5;
+    letter-spacing: 2px;
+    margin-top: -10px;
+}
+
+</style>
+
+<p>目录:</p>
+<ul>
+<li>1.进程和进程边界</li>
+<li>2.多用户和多用户边界</li>
+<li>3.进程和文件的UID/GID (UserID/groupId)<ul>
+<li>3.1文件资源的权限力度:UID/GID</li>
+<li>3.2文件的可操作权限</li>
+<li>3.3进程的标识: PID , UID , GID , GIDs</li>
+<li>3.4Name和ID的映射</li>
+<li>3.5Chmod和chown命令介绍<ul>
+<li>3.5.1Chmod</li>
+<li>3.5.2Chown</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>4.UID/GID的衔接</li>
+<li>5.进程的RealUID和EffectiveUID</li>
+<li>6.文件的setUID标识</li>
+<li>7.Capability<ul>
+<li>7.1进程的Capability</li>
+<li>7.2文件的Capability</li>
+<li>7.3Capability BoundSet</li>
+<li>7.4Spawn进程的Capability</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="进程和进程边界"><a href="#进程和进程边界" class="headerlink" title="进程和进程边界"></a>进程和进程边界</h1><pre><code>进程和线程
+    可执行文件:不活动就是废物
+    进程:可执行文件的活动表现,一次生命的历练
+    线程:CPU(核)的调度单位,并发的执行序列,进程的多管齐下
+    资源和调度.
+
+
+进程边界的安全围栏: 
+    Crash的不可扩延性
+    全局数据和服务的不可访问性
+</code></pre><a id="more"></a>
+<h1 id="多用户和多用户边界"><a href="#多用户和多用户边界" class="headerlink" title="多用户和多用户边界"></a>多用户和多用户边界</h1><pre><code>需求背景:
+    资源缺乏
+    中央统一管理
+
+多用户的边界:
+    独立的工作目录
+    可操作/访问的资源
+        资源分类
+        权限管理
+    可执行的操作
+        操作分类
+        权限管理
+
+多用户特性标识(linux): UID 和GID
+    Name只是供看的
+    Identifier才是系统层面的标识
+    用户的行为是一系列进程的行为
+    特性标识其实是进程的UID/GID
+</code></pre><h1 id="进程和文件的UID-GID-UserID-groupId"><a href="#进程和文件的UID-GID-UserID-groupId" class="headerlink" title="进程和文件的UID/GID (UserID/groupId)"></a>进程和文件的UID/GID (UserID/groupId)</h1><h2 id="文件资源的权限力度-UID-GID"><a href="#文件资源的权限力度-UID-GID" class="headerlink" title="文件资源的权限力度:UID/GID"></a>文件资源的权限力度:UID/GID</h2><pre><code>1.文件是一类资源
+2.在Linux中,甚至一切皆是文件,Socket,Driver
+3.文件资源对不同Target(用户)的不同操作权限的需求应运而生
+4.某些场景下,允许多个不同的Target/用户(而不是一个)具有一致的操作权限,怎么办? 
+    Id===&gt; Gid===&gt; 多个用户可以属于一个GID,一个用户可以属于多个GIDs
+5.所以文件权限的管理力度区分3类群体:属于特定UID的用户,属于特定GID的用户(们),其他用户
+6.一个上帝用户存在:ROOT, 其UID = 0 , 上帝用户永远满足属于任何UID
+</code></pre><h2 id="文件的可操作权限"><a href="#文件的可操作权限" class="headerlink" title="文件的可操作权限"></a>文件的可操作权限</h2><pre><code>1.文件/文件夹的可读 r
+2.文件/文件夹的可写 w
+3.文件/文件夹的可执行 x
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">$ ls -l</span><br><span class="line">total 20</span><br><span class="line"> 权限列表        UID       GID</span><br><span class="line">-rw-r--r--    1 comtu    Administ      879 Feb 25 17:39 404.html</span><br><span class="line">-rw-r--r--    1 comtu    Administ     2800 Feb 25 17:39 README.md</span><br><span class="line">-rw-r--r--    1 comtu    Administ     2909 Feb 25 17:39 Rakefile.rb</span><br><span class="line">-rw-r--r--    1 comtu    Administ     1609 Feb 25 17:39 _config.yml</span><br><span class="line">drwxr-xr-x    4 comtu    Administ        0 Feb 25 17:39 _data</span><br><span class="line">drwxr-xr-x    7 comtu    Administ     4096 Feb 25 17:39 _includes</span><br><span class="line">drwxr-xr-x    5 comtu    Administ        0 Feb 25 17:39 _layouts</span><br><span class="line">drwxr-xr-x    3 comtu    Administ        0 Feb 25 17:39 _plugins</span><br><span class="line">drwxr-xr-x   18 comtu    Administ     8192 Jul  1 17:36 _posts</span><br><span class="line">drwxr-xr-x   13 comtu    Administ     4096 Jul  1 13:30 _site</span><br><span class="line">-rw-r--r--    1 comtu    Administ       10 Feb 25 17:39 baidu_verify_</span><br><span class="line">html</span><br><span class="line">-rw-r--r--    1 comtu    Administ     1672 Feb 25 17:39 index.html</span><br><span class="line">drwxr-xr-x    1 comtu    Administ     4096 Feb 25 17:39 page</span><br><span class="line">drwxr-xr-x    1 comtu    Administ     4096 Jun 25 16:18 res</span><br><span class="line">-rw-r--r--    1 comtu    Administ       59 Jun 25 17:45 robots.txt</span><br><span class="line">-rw-r--r--    1 comtu    Administ      350 Apr 13 17:53 search.xml</span><br><span class="line">-rw-r--r--    1 comtu    Administ      209 Feb 25 17:39 sitemap.txt</span><br></pre></td></tr></table></figure>
+<pre><code>drwxr-xr-x
+d|rwx|r-x|r-x
+0|123|456|789
+
+文件夹与文件标识
+    0 : d文件夹    -文件
+UID用户
+    1 : 可读
+    2 : 可写
+    3 : 可执行
+GID用户
+    4 : 可读
+    5 : 不可写
+    6 : 可执行
+其他用户
+    7 : 可读
+    8 : 不可写
+    9 : 可执行
+</code></pre><h2 id="进程的标识-PID-UID-GID-GIDs"><a href="#进程的标识-PID-UID-GID-GIDs" class="headerlink" title="进程的标识: PID , UID , GID , GIDs"></a>进程的标识: PID , UID , GID , GIDs</h2><pre><code>PID : 进程的Unique Identifier(唯一标识) . 每次Running的PID可能相同,或者不同,由系统分配
+UID : 进程的身份标识.每次运行,即便重启后默认都相同
+GID : 进程的(组)身份标识.每次运行,即便重启后默认都相同.不同进程允许有相同的GID(组用户身份标识).
+    同一进程允许属于多个GID.
+GIDs: 进程所属的全部GID
+</code></pre><h2 id="Name和ID的映射"><a href="#Name和ID的映射" class="headerlink" title="Name和ID的映射"></a>Name和ID的映射</h2><pre><code>Android原代码之Name和ID映射表
+/system/core/include/private/android_filesystem_config.h
+</code></pre><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span><br><span class="line"> * Copyright (C) 2007 The Android Open Source Project</span><br><span class="line"> *</span><br><span class="line"> * Licensed under the Apache License, Version 2.0 (the "License");</span><br><span class="line"> * you may not use this file except in compliance with the License.</span><br><span class="line"> * You may obtain a copy of the License at</span><br><span class="line"> *</span><br><span class="line"> *      http://www.apache.org/licenses/LICENSE-2.0</span><br><span class="line"> *</span><br><span class="line"> * Unless required by applicable law or agreed to in writing, software</span><br><span class="line"> * distributed under the License is distributed on an "AS IS" BASIS,</span><br><span class="line"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span><br><span class="line"> * See the License for the specific language governing permissions and</span><br><span class="line"> * limitations under the License.</span><br><span class="line"> */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* This file is used to define the properties of the filesystem</span><br><span class="line">#  images generated by build tools (mkbootfs and mkyaffs2image) and</span><br><span class="line">#  by the device side of adb.</span><br><span class="line">*/</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> _ANDROID_FILESYSTEM_CONFIG_H_</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> _ANDROID_FILESYSTEM_CONFIG_H_</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> &amp;lt;string.h&gt;</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> &amp;lt;sys/stat.h&gt;</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> &amp;lt;sys/types.h&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* This is the master Users and Groups config for the platform.</span><br><span class="line">#  DO NOT EVER RENUMBER.</span><br><span class="line">*/</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_ROOT             0  <span class="comment">/* traditional unix root user */</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_SYSTEM        1000  <span class="comment">/* system server */</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_RADIO         1001  <span class="comment">/* telephony subsystem, RIL */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_BLUETOOTH     1002  <span class="comment">/* bluetooth subsystem */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_GRAPHICS      1003  <span class="comment">/* graphics devices */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_INPUT         1004  <span class="comment">/* input devices */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_AUDIO         1005  <span class="comment">/* audio devices */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_CAMERA        1006  <span class="comment">/* camera devices */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_LOG           1007  <span class="comment">/* log devices */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_COMPASS       1008  <span class="comment">/* compass device */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_MOUNT         1009  <span class="comment">/* mountd socket */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_WIFI          1010  <span class="comment">/* wifi subsystem */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_ADB           1011  <span class="comment">/* android debug bridge (adbd) */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_INSTALL       1012  <span class="comment">/* group for installing packages */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_MEDIA         1013  <span class="comment">/* mediaserver process */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_DHCP          1014  <span class="comment">/* dhcp client */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_SDCARD_RW     1015  <span class="comment">/* external storage write access */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_VPN           1016  <span class="comment">/* vpn system */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_KEYSTORE      1017  <span class="comment">/* keystore subsystem */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_USB           1018  <span class="comment">/* USB devices */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_GPS           1021  <span class="comment">/* GPS daemon */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_UNUSED1       1022  <span class="comment">/* deprecated, DO NOT USE */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_RFU1          1023  <span class="comment">/* RFU */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_RFU2          1024  <span class="comment">/* RFU */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_NFC           1025  <span class="comment">/* nfc subsystem */</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_SHELL         2000  <span class="comment">/* adb and debug shell user */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_CACHE         2001  <span class="comment">/* cache access */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_DIAG          2002  <span class="comment">/* access to diagnostic resources */</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* The 3000 series are intended for use as supplemental group id's only.</span><br><span class="line"> * They indicate special Android capabilities that the kernel is aware of. */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_NET_BT_ADMIN  3001  <span class="comment">/* bluetooth: create any socket */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_NET_BT        3002  <span class="comment">/* bluetooth: create sco, rfcomm or l2cap sockets */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_INET          3003  <span class="comment">/* can create AF_INET and AF_INET6 sockets */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_NET_RAW       3004  <span class="comment">/* can create raw INET sockets */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_NET_ADMIN     3005  <span class="comment">/* can configure interfaces and routing tables. */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_QCOM_ONCRPC   3006  <span class="comment">/* can read/write /dev/oncrpc files */</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> defined(MOTOROLA_UIDS)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_MOT_ACCY      9000  <span class="comment">/* access to accessory */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_MOT_PWRIC     9001  <span class="comment">/* power IC */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_MOT_USB       9002  <span class="comment">/* mot usb */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_MOT_DRM       9003  <span class="comment">/* can access DRM resource. */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_MOT_TCMD      9004  <span class="comment">/* mot_tcmd */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_MOT_SEC_RTC   9005  <span class="comment">/* mot cpcap rtc */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_MOT_TOMBSTONE 9006</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_MOT_TPAPI     9007  <span class="comment">/* mot_tpapi */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_MOT_SECCLKD   9008  <span class="comment">/* mot_secclkd */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// MOTOROLA_UIDS</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_MISC          9998  <span class="comment">/* access to misc storage */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_NOBODY        9999</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_APP          10000 <span class="comment">/* first app user */</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> !defined(EXCLUDE_FS_CONFIG_STRUCTURES)</span></span><br><span class="line"><span class="keyword">struct</span> android_id_info &#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *name;</span><br><span class="line">    <span class="keyword">unsigned</span> aid;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">struct</span> android_id_info android_ids[] = &#123;</span><br><span class="line">    &#123; <span class="string">"root"</span>,      AID_ROOT, &#125;,</span><br><span class="line">    &#123; <span class="string">"system"</span>,    AID_SYSTEM, &#125;,</span><br><span class="line">    &#123; <span class="string">"radio"</span>,     AID_RADIO, &#125;,</span><br><span class="line">    &#123; <span class="string">"bluetooth"</span>, AID_BLUETOOTH, &#125;,</span><br><span class="line">    &#123; <span class="string">"graphics"</span>,  AID_GRAPHICS, &#125;,</span><br><span class="line">    &#123; <span class="string">"input"</span>,     AID_INPUT, &#125;,</span><br><span class="line">    &#123; <span class="string">"audio"</span>,     AID_AUDIO, &#125;,</span><br><span class="line">    &#123; <span class="string">"camera"</span>,    AID_CAMERA, &#125;,</span><br><span class="line">    &#123; <span class="string">"log"</span>,       AID_LOG, &#125;,</span><br><span class="line">    &#123; <span class="string">"compass"</span>,   AID_COMPASS, &#125;,</span><br><span class="line">    &#123; <span class="string">"mount"</span>,     AID_MOUNT, &#125;,</span><br><span class="line">    &#123; <span class="string">"wifi"</span>,      AID_WIFI, &#125;,</span><br><span class="line">    &#123; <span class="string">"dhcp"</span>,      AID_DHCP, &#125;,</span><br><span class="line">    &#123; <span class="string">"adb"</span>,       AID_ADB, &#125;,</span><br><span class="line">    &#123; <span class="string">"install"</span>,   AID_INSTALL, &#125;,</span><br><span class="line">    &#123; <span class="string">"media"</span>,     AID_MEDIA, &#125;,</span><br><span class="line">    &#123; <span class="string">"nfc"</span>,       AID_NFC, &#125;,</span><br><span class="line">    &#123; <span class="string">"shell"</span>,     AID_SHELL, &#125;,</span><br><span class="line">    &#123; <span class="string">"cache"</span>,     AID_CACHE, &#125;,</span><br><span class="line">    &#123; <span class="string">"diag"</span>,      AID_DIAG, &#125;,</span><br><span class="line">    &#123; <span class="string">"net_bt_admin"</span>, AID_NET_BT_ADMIN, &#125;,</span><br><span class="line">    &#123; <span class="string">"net_bt"</span>,    AID_NET_BT, &#125;,</span><br><span class="line">    &#123; <span class="string">"qcom_oncrpc"</span>, AID_QCOM_ONCRPC, &#125;,</span><br><span class="line">    &#123; <span class="string">"sdcard_rw"</span>, AID_SDCARD_RW, &#125;,</span><br><span class="line">    &#123; <span class="string">"vpn"</span>,       AID_VPN, &#125;,</span><br><span class="line">    &#123; <span class="string">"keystore"</span>,  AID_KEYSTORE, &#125;,</span><br><span class="line">    &#123; <span class="string">"usb"</span>,       AID_USB, &#125;,</span><br><span class="line">    &#123; <span class="string">"gps"</span>,       AID_GPS, &#125;,</span><br><span class="line">    &#123; <span class="string">"inet"</span>,      AID_INET, &#125;,</span><br><span class="line">    &#123; <span class="string">"net_raw"</span>,   AID_NET_RAW, &#125;,</span><br><span class="line">    &#123; <span class="string">"net_admin"</span>, AID_NET_ADMIN, &#125;,</span><br><span class="line">#<span class="keyword">if</span> defined(MOTOROLA_UIDS)</span><br><span class="line">    &#123; <span class="string">"mot_accy"</span>,  AID_MOT_ACCY, &#125;,</span><br><span class="line">    &#123; <span class="string">"mot_pwric"</span>, AID_MOT_PWRIC, &#125;,</span><br><span class="line">    &#123; <span class="string">"mot_usb"</span>,   AID_MOT_USB, &#125;,</span><br><span class="line">    &#123; <span class="string">"mot_drm"</span>,   AID_MOT_DRM, &#125;,</span><br><span class="line">    &#123; <span class="string">"mot_tcmd"</span>,  AID_MOT_TCMD, &#125;,</span><br><span class="line">    &#123; <span class="string">"mot_sec_rtc"</span>,  AID_MOT_SEC_RTC, &#125;,</span><br><span class="line">    &#123; <span class="string">"mot_tombstone"</span>, AID_MOT_TOMBSTONE, &#125;,</span><br><span class="line">    &#123; <span class="string">"mot_tpapi"</span>,  AID_MOT_TPAPI, &#125;,</span><br><span class="line">    &#123; <span class="string">"mot_secclkd"</span>,  AID_MOT_SECCLKD, &#125;,</span><br><span class="line">#endif</span><br><span class="line">    &#123; <span class="string">"misc"</span>,      AID_MISC, &#125;,</span><br><span class="line">    &#123; <span class="string">"nobody"</span>,    AID_NOBODY, &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> android_id_count \</span><br><span class="line">    (sizeof(android_ids) / sizeof(android_ids[0]))</span></span><br><span class="line">    </span><br><span class="line"><span class="keyword">struct</span> fs_path_config &#123;</span><br><span class="line">    <span class="keyword">unsigned</span> mode;</span><br><span class="line">    <span class="keyword">unsigned</span> uid;</span><br><span class="line">    <span class="keyword">unsigned</span> gid;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *prefix;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Rules for directories.</span><br><span class="line">#  These rules are applied based on "first match", so they</span><br><span class="line">#  should start with the most specific path and work their</span><br><span class="line">#  way up to the root.</span><br><span class="line">*/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">struct</span> fs_path_config android_dirs[] = &#123;</span><br><span class="line">    &#123; <span class="number">00770</span>, AID_SYSTEM, AID_CACHE,  <span class="string">"cache"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">00771</span>, AID_SYSTEM, AID_SYSTEM, <span class="string">"data/app"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">00771</span>, AID_SYSTEM, AID_SYSTEM, <span class="string">"data/app-private"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">00771</span>, AID_SYSTEM, AID_SYSTEM, <span class="string">"data/dalvik-cache"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">00771</span>, AID_SYSTEM, AID_SYSTEM, <span class="string">"data/data"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">00771</span>, AID_SHELL,  AID_SHELL,  <span class="string">"data/local/tmp"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">00771</span>, AID_SHELL,  AID_SHELL,  <span class="string">"data/local"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">01771</span>, AID_SYSTEM, AID_MISC,   <span class="string">"data/misc"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">00770</span>, AID_DHCP,   AID_DHCP,   <span class="string">"data/misc/dhcp"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">00771</span>, AID_SYSTEM, AID_SYSTEM, <span class="string">"data"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">00750</span>, AID_ROOT,   AID_SHELL,  <span class="string">"sbin"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">00755</span>, AID_ROOT,   AID_SHELL,  <span class="string">"system/bin"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">00755</span>, AID_ROOT,   AID_SHELL,  <span class="string">"system/vendor"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">00755</span>, AID_ROOT,   AID_SHELL,  <span class="string">"system/xbin"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">00755</span>, AID_ROOT,   AID_ROOT,   <span class="string">"system/etc/ppp"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">00777</span>, AID_ROOT,   AID_ROOT,   <span class="string">"sdcard"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">00771</span>, AID_SYSTEM, AID_SYSTEM, <span class="string">"sd-ext"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">00755</span>, AID_ROOT,   AID_ROOT,   <span class="number">0</span> &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Rules for files.</span><br><span class="line">#  These rules are applied based on "first match", so they</span><br><span class="line">#  should start with the most specific path and work their</span><br><span class="line">#  way up to the root. Prefixes ending in * denotes wildcard</span><br><span class="line">#  and will allow partial matches.</span><br><span class="line">*/</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">struct</span> fs_path_config android_files[] = &#123;</span><br><span class="line">    &#123; <span class="number">00440</span>, AID_ROOT,      AID_SHELL,     <span class="string">"system/etc/init.goldfish.rc"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">00550</span>, AID_ROOT,      AID_SHELL,     <span class="string">"system/etc/init.goldfish.sh"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">00440</span>, AID_ROOT,      AID_SHELL,     <span class="string">"system/etc/init.trout.rc"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">00550</span>, AID_ROOT,      AID_SHELL,     <span class="string">"system/etc/init.ril"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">00550</span>, AID_ROOT,      AID_SHELL,     <span class="string">"system/etc/init.testmenu"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">00550</span>, AID_DHCP,      AID_SHELL,     <span class="string">"system/etc/dhcpcd/dhcpcd-run-hooks"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">00440</span>, AID_BLUETOOTH, AID_BLUETOOTH, <span class="string">"system/etc/dbus.conf"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">00440</span>, AID_BLUETOOTH, AID_BLUETOOTH, <span class="string">"system/etc/bluetooth/main.conf"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">00440</span>, AID_BLUETOOTH, AID_BLUETOOTH, <span class="string">"system/etc/bluetooth/input.conf"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">00440</span>, AID_BLUETOOTH, AID_BLUETOOTH, <span class="string">"system/etc/bluetooth/audio.conf"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">00444</span>, AID_NET_BT,    AID_NET_BT,    <span class="string">"system/etc/bluetooth/blacklist.conf"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">00640</span>, AID_SYSTEM,    AID_SYSTEM,    <span class="string">"system/etc/bluetooth/auto_pairing.conf"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">00444</span>, AID_RADIO,     AID_AUDIO,     <span class="string">"system/etc/AudioPara4.csv"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">00555</span>, AID_ROOT,      AID_ROOT,      <span class="string">"system/etc/ppp/*"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">00555</span>, AID_ROOT,      AID_ROOT,      <span class="string">"system/etc/rc.*"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">00644</span>, AID_SYSTEM,    AID_SYSTEM,    <span class="string">"data/app/*"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">00644</span>, AID_SYSTEM,    AID_SYSTEM,    <span class="string">"data/app-private/*"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">00644</span>, AID_APP,       AID_APP,       <span class="string">"data/data/*"</span> &#125;,</span><br><span class="line">	<span class="comment">/* the following three files are INTENTIONALLY set-gid and not set-uid.</span><br><span class="line">	 * Do not change. */</span></span><br><span class="line">    &#123; <span class="number">02755</span>, AID_ROOT,      AID_NET_RAW,   <span class="string">"system/bin/ping"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">02750</span>, AID_ROOT,      AID_INET,      <span class="string">"system/bin/netcfg"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">02755</span>, AID_SYSTEM,    AID_GRAPHICS,  <span class="string">"system/bin/screenshot"</span> &#125;,</span><br><span class="line">	<span class="comment">/* the following five files are INTENTIONALLY set-uid, but they</span><br><span class="line">	 * are NOT included on user builds. */</span></span><br><span class="line">    &#123; <span class="number">06755</span>, AID_ROOT,      AID_ROOT,      <span class="string">"system/xbin/su"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">06755</span>, AID_ROOT,      AID_ROOT,      <span class="string">"system/xbin/librank"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">06755</span>, AID_ROOT,      AID_ROOT,      <span class="string">"system/xbin/procrank"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">06755</span>, AID_ROOT,      AID_ROOT,      <span class="string">"system/xbin/procmem"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">06755</span>, AID_ROOT,      AID_ROOT,      <span class="string">"system/xbin/tcpdump"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">04770</span>, AID_ROOT,      AID_RADIO,     <span class="string">"system/bin/pppd-ril"</span> &#125;,</span><br><span class="line">		<span class="comment">/* the following file is INTENTIONALLY set-uid, and IS included</span><br><span class="line">		 * in user builds. */</span></span><br><span class="line">    &#123; <span class="number">06750</span>, AID_ROOT,      AID_SHELL,     <span class="string">"system/bin/run-as"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">06755</span>, AID_ROOT,      AID_ROOT,      <span class="string">"system/xbin/hcitool"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">00755</span>, AID_ROOT,      AID_SHELL,     <span class="string">"system/bin/*"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">00755</span>, AID_ROOT,      AID_SHELL,     <span class="string">"system/xbin/*"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">00755</span>, AID_ROOT,      AID_SHELL,     <span class="string">"system/vendor/bin/*"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">00750</span>, AID_ROOT,      AID_SHELL,     <span class="string">"sbin/*"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">00755</span>, AID_ROOT,      AID_ROOT,      <span class="string">"bin/*"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">00750</span>, AID_ROOT,      AID_SHELL,     <span class="string">"init*"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">00750</span>, AID_ROOT,      AID_SHELL,     <span class="string">"system/etc/init.d/*"</span> &#125;,</span><br><span class="line">    &#123; <span class="number">00644</span>, AID_ROOT,      AID_ROOT,       <span class="number">0</span> &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">fs_config</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *path, <span class="keyword">int</span> dir,</span><br><span class="line">			     <span class="keyword">unsigned</span> *uid, <span class="keyword">unsigned</span> *gid, <span class="keyword">unsigned</span> *mode)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">struct</span> fs_path_config *pc;</span><br><span class="line">    <span class="keyword">int</span> plen;</span><br><span class="line">    </span><br><span class="line">    pc = dir ? android_dirs : android_files;</span><br><span class="line">    plen = <span class="built_in">strlen</span>(path);</span><br><span class="line">    <span class="keyword">for</span>(; pc-&gt;prefix; pc++)&#123;</span><br><span class="line">	<span class="keyword">int</span> len = <span class="built_in">strlen</span>(pc-&gt;prefix);</span><br><span class="line">	<span class="keyword">if</span> (dir) &#123;</span><br><span class="line">	    <span class="keyword">if</span>(plen &amp;lt; len) <span class="keyword">continue</span>;</span><br><span class="line">	    <span class="keyword">if</span>(!<span class="built_in">strncmp</span>(pc-&gt;prefix, path, len)) <span class="keyword">break</span>;</span><br><span class="line">	    <span class="keyword">continue</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">/* If name ends in * then allow partial matches. */</span></span><br><span class="line">	<span class="keyword">if</span> (pc-&gt;prefix[len <span class="number">-1</span>] == <span class="string">'*'</span>) &#123;</span><br><span class="line">	    <span class="keyword">if</span>(!<span class="built_in">strncmp</span>(pc-&gt;prefix, path, len - <span class="number">1</span>)) <span class="keyword">break</span>;</span><br><span class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> (plen == len)&#123;</span><br><span class="line">	    <span class="keyword">if</span>(!strncmp(pc-&gt;prefix, path, len)) <span class="keyword">break</span>;</span><br><span class="line">	&#125;</span><br><span class="line">    &#125;</span><br><span class="line">    *uid = pc-&gt;uid;</span><br><span class="line">    *gid = pc-&gt;gid;</span><br><span class="line">    *mode = (*mode &amp; (~<span class="number">07777</span>)) | pc-&gt;mode;</span><br><span class="line">    </span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> 0</span></span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>,<span class="string">"&amp;lt; '%s' '%s' %d %d %o &gt;\n"</span>, </span><br><span class="line">	    path, pc-&gt;prefix ? pc-&gt;prefix : <span class="string">""</span>, *uid, *gid, *mode);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+<pre><code>Android提供了dumpsys工具来dump出所有的服务信息，通过以下命令可以查看系统注册的所有服务：adb shell dumpsys  
+dumpsys 用来给出手机中所有应用程序的信息，并且也会给出现在手机的状态。
+因为内容太多把dumpsys的内容存储到C盘文件中方便查看.如下
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\comtu&gt;adb shell</span><br><span class="line">shell@android:/ $ su</span><br><span class="line">shell@android:/ # cd data</span><br><span class="line">shell@android:/data # mkdir test</span><br><span class="line">shell@android:/data # cd test</span><br><span class="line">shell@android:/data/test # dumpsys &gt; dumpsys.txt</span><br><span class="line">shell@android:/data/test # ls -l</span><br><span class="line">ls -l</span><br><span class="line">-rw-rw-rw- root     root      1706976 2015-07-03 08:57 dumpsys.txt</span><br><span class="line">shell@android:/data/test # exit</span><br><span class="line">exit</span><br><span class="line">shell@android:/ $ exit</span><br><span class="line">exit</span><br><span class="line">C:\Users\comtu&gt;adb pull /data/test/dumpsys.txt c:/</span><br><span class="line">5649 KB/s (1706976 bytes in 0.295s)</span><br></pre></td></tr></table></figure>
+<pre><code>其中dumpsys.txt文件一段关于QQ配置的片段可查找到如下内容:
+        userId=10081 gids=[3003, 1028, 1015] &lt;---gids可在android_filesystem_config.h查找到对应的映射关系
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">Package [com.tencent.mobileqq] (426f1258):</span><br><span class="line">  userId=10081 gids=[3003, 1028, 1015]</span><br><span class="line">  pkg=Package&#123;42b7e890 com.tencent.mobileqq&#125;</span><br><span class="line">  codePath=/data/app/partner-QQ.apk</span><br><span class="line">  resourcePath=/data/app/partner-QQ.apk</span><br><span class="line">  nativeLibraryPath=/data/app-lib/partner-QQ</span><br><span class="line">  versionCode=122 targetSdk=7</span><br><span class="line">  versionName=4.7.0</span><br><span class="line">  applicationInfo=ApplicationInfo&#123;42b136f8 com.tencent.mobileqq&#125;</span><br><span class="line">  flags=[ HAS_CODE ALLOW_CLEAR_USER_DATA ALLOW_BACKUP ]</span><br><span class="line">  dataDir=/data/data/com.tencent.mobileqq</span><br><span class="line">  supportsScreens=[small, medium, large, resizeable, anyDensity]</span><br><span class="line">  usesOptionalLibraries:</span><br><span class="line">    com.google.android.media.effects</span><br><span class="line">    com.motorola.hardware.frontcamera</span><br><span class="line">  timeStamp=2015-05-05 17:36:43</span><br><span class="line">  firstInstallTime=2015-05-05 17:36:43</span><br><span class="line">  lastUpdateTime=2015-05-05 17:36:43</span><br><span class="line">  signatures=PackageSignatures&#123;426f1320 [426f1ed0]&#125;</span><br><span class="line">  permissionsFixed=true haveGids=true installStatus=1</span><br><span class="line">  pkgFlags=[ HAS_CODE ALLOW_CLEAR_USER_DATA ALLOW_BACKUP ]</span><br><span class="line">  User 0:  installed=true blocked=false stopped=true notLaunched=false enabled=0</span><br><span class="line">  grantedPermissions:</span><br><span class="line">    android.permission.READ_EXTERNAL_STORAGE</span><br><span class="line">    android.permission.CHANGE_WIFI_MULTICAST_STATE</span><br><span class="line">    com.tencent.photos.permission.DATA</span><br><span class="line">    android.permission.GET_TASKS</span><br><span class="line">    android.permission.WRITE_EXTERNAL_STORAGE</span><br><span class="line">    android.permission.WRITE_CALL_LOG</span><br><span class="line">    com.tencent.msg.permission.pushnotify</span><br><span class="line">    android.permission.ACCESS_WIFI_STATE</span><br><span class="line">    android.permission.ACCESS_COARSE_LOCATION</span><br><span class="line">    android.permission.READ_CONTACTS</span><br><span class="line">    android.permission.CALL_PHONE</span><br><span class="line">    android.permission.WRITE_CONTACTS</span><br><span class="line">    com.tencent.permission.VIRUS_SCAN</span><br><span class="line">    android.permission.READ_PHONE_STATE</span><br><span class="line">    android.permission.READ_CALENDAR</span><br><span class="line">    android.permission.READ_SMS</span><br><span class="line">    android.permission.CAMERA</span><br><span class="line">    android.permission.ACCESS_FINE_LOCATION</span><br><span class="line">    android.permission.BROADCAST_STICKY</span><br><span class="line">    android.permission.PERSISTENT_ACTIVITY</span><br><span class="line">    android.permission.FLASHLIGHT</span><br><span class="line">    android.permission.RECORD_AUDIO</span><br><span class="line">    android.permission.WAKE_LOCK</span><br><span class="line">    android.permission.ACCESS_NETWORK_STATE</span><br><span class="line">    com.tencent.msf.permission.ACCOUNT_NOTICE</span><br><span class="line">    com.android.launcher.permission.INSTALL_SHORTCUT</span><br><span class="line">    com.tencent.msf.permission.account.sync</span><br><span class="line">    android.permission.SEND_SMS</span><br><span class="line">    com.android.launcher.permission.UNINSTALL_SHORTCUT</span><br><span class="line">    android.permission.KILL_BACKGROUND_PROCESSES</span><br><span class="line">    android.permission.MODIFY_AUDIO_SETTINGS</span><br><span class="line">    android.permission.DISABLE_KEYGUARD</span><br><span class="line">    android.permission.WRITE_CALENDAR</span><br><span class="line">    com.qq.qcloud.permission.ACCESS_ALBUM_BACKUP_LIST</span><br><span class="line">    android.permission.SYSTEM_ALERT_WINDOW</span><br><span class="line">    android.permission.WRITE_SETTINGS</span><br><span class="line">    android.permission.INTERNET</span><br><span class="line">    android.permission.CHANGE_WIFI_STATE</span><br><span class="line">    android.permission.VIBRATE</span><br><span class="line">    android.permission.READ_CALL_LOG</span><br><span class="line">    com.android.launcher.permission.READ_SETTINGS</span><br><span class="line">    android.permission.CHANGE_NETWORK_STATE</span><br></pre></td></tr></table></figure>
+<h2 id="Chmod和chown命令介绍"><a href="#Chmod和chown命令介绍" class="headerlink" title="Chmod和chown命令介绍"></a>Chmod和chown命令介绍</h2><h3 id="Chmod"><a href="#Chmod" class="headerlink" title="Chmod"></a>Chmod</h3><pre><code>1.文件R/W/X的系统内部采用3Bit表示,R为最高位比特,置位为0x04,
+    W为中间比特,置位为0x02,X为最低比特,置位为0x01
+
+    4(读R) , 2(写W) , 1(执行X)
+    7=4+2+1 所有权限
+    6=4+2   读写
+    5=4+1   读执行
+    4       读
+    3=3+1   写执行
+    2
+    1
+    664表示给予UID,GID读写权限,给予其它只读权限
+
+2.Shell中表示时,置位使用相应R/W/X表示,未置位使用-
+3.操作文件面向群体的操作权限时,使用Chmod,可以直接使用数字,
+    也可使用助记符( a:all , u:owner user , g:group , +:add one premission , -:remove one permission)
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">-rw-rw-r-- system   system         12 2015-07-02 18:02 test.txt</span><br><span class="line">shell@android:/data/test # chmod 777 test.txt</span><br><span class="line">chmod 777 test.txt</span><br><span class="line">shell@android:/data/test # ls -l</span><br><span class="line">ls -l</span><br><span class="line">-rwxrwxrwx system   system         12 2015-07-02 18:02 test.txt</span><br><span class="line">shell@android:/data/test #</span><br><span class="line">shell@android:/data/test # chmod 664 test.txt</span><br><span class="line">chmod 664 test.txt</span><br><span class="line">shell@android:/data/test # ls -l</span><br><span class="line">ls -l</span><br><span class="line">-rw-rw-r-- system   system         12 2015-07-02 18:02 test.txt</span><br><span class="line">shell@android:/data/test #</span><br></pre></td></tr></table></figure>
+<h3 id="Chown"><a href="#Chown" class="headerlink" title="Chown"></a>Chown</h3><pre><code>通过chown改变文件的拥有者和群组。在更改文件的所有者UID或所属群组GID时，可以使用用户名称和用户识别码设置。
+    Shell命令中通常采用Name方式修改,而不是ID方式.普通用户不能将自己的文件改变成其他的拥有者。其操作权限一般为管理员。
+一般格式: chown newUID:newGID FileName
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">shell@android:/data # mkdir test</span><br><span class="line">mkdir test</span><br><span class="line">shell@android:/data # cd test</span><br><span class="line">cd test</span><br><span class="line">shell@android:/data/test # echo &quot;hello world&quot; &gt; test.txt</span><br><span class="line">echo &quot;hello world&quot; &gt; test.txt</span><br><span class="line">shell@android:/data/test # ls</span><br><span class="line">ls</span><br><span class="line">test.txt</span><br><span class="line">shell@android:/data/test # ls -l</span><br><span class="line">ls -l</span><br><span class="line">-rw-rw-rw- root     root           12 2015-07-02 18:02 test.txt</span><br><span class="line">shell@android:/data/test # chown system:system test.txt</span><br><span class="line">chown system:system test.txt</span><br><span class="line">shell@android:/data/test # ls -l</span><br><span class="line">ls -l</span><br><span class="line">-rw-rw-rw- system   system         12 2015-07-02 18:02 test.txt</span><br><span class="line">shell@android:/data/test #</span><br></pre></td></tr></table></figure>
+<h1 id="UID-GID的衔接"><a href="#UID-GID的衔接" class="headerlink" title="UID/GID的衔接"></a>UID/GID的衔接</h1><pre><code>1.Linux一切皆是文件
+2.文件基于UID/GID来划分它的面向群体,对它的面向群体定义不同的操作权限
+3.用户的行为映射为进程的运行
+4.进程的运行使用进程的UID/GID来标识自己的身份
+5.进程的UID/GID&lt;=====&gt;文件的UID/GID 完美衔接~~
+6.进程的UID/GID除了被授予可操作文件的范畴外,非文件范畴的需要进行权限控制的操作
+    (如重启系统等特权操作)继续通过进程的UID/GID身份来进行控制和授权.
+7.比如,对于Reboot这个API,其入口处可以check calling的Process的UID,如果不是Root,则Reject
+</code></pre><h1 id="进程的RealUID和EffectiveUID"><a href="#进程的RealUID和EffectiveUID" class="headerlink" title="进程的RealUID和EffectiveUID"></a>进程的RealUID和EffectiveUID</h1><pre><code>linux下real uid被用于描述用户是谁，文件的拥有者，effective uid指程序执行时的用户组别，
+用于判断程序是否有权去进行一些操作（例如读写文件），因此real uid是针对用户和文件(拥有者)而言，
+而effective是针对运行的程序而言。一般来讲一个用户执行一个程序，
+程序的effective uid会被设置为用户的real uid，这个effective uid与该程序的real uid(文件所有者)无关，只与执行者有关。
+
+Real UID 是身份的标识 , 但没有&quot;实权&quot;
+
+Effective UID 是权利的标识 
+    文件,资源以及特权API操作时对进程是否有权限的识别的UID,即是指Effectivie UID
+
+身份与权利的关系
+    一般情况下,身份和权利是一至的,即Real UID = Effective UID.
+    所以,默认ps cmd输出的UID指的是Effective UID , 而没有输出Real UID
+
+Root用户的特权
+    ROOT可以调用SetXUID对自己的身份进行升降.
+
+UID的世袭
+    子进程的Real UID = Effective UID = 父进程的Real UID (子嗣不能继承其特权Effective UID而仅能继承其Real UID)
+</code></pre><h1 id="文件的setUID标识"><a href="#文件的setUID标识" class="headerlink" title="文件的setUID标识"></a>文件的setUID标识</h1><pre><code>setUID可以让普通用户暂时获得文件权限的读写.
+
+和基本的RWX设置类似,有助记符和直接数字设置.直接数字设置时,采用4位数字,第一位标志setUID
+如下:
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">shell@android:/data/test $ ls -l</span><br><span class="line">ls -l</span><br><span class="line">-rw-rw-rw- shell    shell           7 2015-07-03 09:22 comtu.txt</span><br><span class="line">-rw-rw-rw- root     root      1706976 2015-07-03 08:57 dumpsys.txt</span><br><span class="line">-rw-rw-r-- system   system         12 2015-07-02 18:02 test.txt</span><br><span class="line">shell@android:/data/test $ chmod 4775 comtu.txt</span><br><span class="line">chmod 4775 comtu.txt</span><br><span class="line">shell@android:/data/test $ ls -l</span><br><span class="line">ls -l</span><br><span class="line">-rwsrwxr-x shell    shell           7 2015-07-03 09:22 comtu.txt</span><br><span class="line">-rw-rw-rw- root     root      1706976 2015-07-03 08:57 dumpsys.txt</span><br><span class="line">-rw-rw-r-- system   system         12 2015-07-02 18:02 test.txt</span><br><span class="line">shell@android:/data/test $ chmod 0775 comtu.txt</span><br><span class="line">chmod 0775 comtu.txt</span><br><span class="line">shell@android:/data/test $ ls -l</span><br><span class="line">ls -l</span><br><span class="line">-rwxrwxr-x shell    shell           7 2015-07-03 09:22 comtu.txt</span><br><span class="line">-rw-rw-rw- root     root      1706976 2015-07-03 08:57 dumpsys.txt</span><br><span class="line">-rw-rw-r-- system   system         12 2015-07-02 18:02 test.txt</span><br><span class="line">shell@android:/data/test $ chmod u+s comtu.txt</span><br><span class="line">chmod u+s comtu.txt</span><br><span class="line">Bad mode</span><br><span class="line">10|shell@android:/data/test $</span><br></pre></td></tr></table></figure>
+<pre><code>说明
+    chmod 4775 comtu.txt
+
+    4775 第一位4表示开启setUID, 第二位7表示UID获取读写执行权限,
+        第三位7表示Gid获取读写执行权限,最后5表示其它用户只有读与执行权限
+
+    chmod 0775 comtu.txt
+    0775 第一位0表示关闭setUID
+
+    chmod u+s comtu.txt
+    使用助记符,因为我使用的是Android的adb shell 是简化般linux对助记符不支持,如果使用ubuntu等则可进行操作.
+</code></pre><h1 id="Capability"><a href="#Capability" class="headerlink" title="Capability"></a>Capability</h1><pre><code>Capability细粒度的权限控制
+
+进程的Capability
+    permitted Capability Sets 
+        当前进程的权利的围栏,最大权利的范围,是Effective Capability Sets的超集
+    Effectivte Capability Sets 
+        当前进程的实际使用(支配)的权利集,该集内的Capability必须从属于Permitted Capability Sets . 
+        该集合与Effective UID类似,是实际的权利标识.
+    Inheritable Capability Sets
+        子进程唯一可以直接继承的Capability Sets. 在Capability模式下,
+        只有子进程的Inheritable Capability Sets = 父进程的Inheritable Capability Sets . 其他的皆是NO
+文件的Capability
+    Permitted Capability Sets
+        该可执行文件可以为进程带来的Permitted Capability Sets
+    Effective Capability Set
+        仅1bit,Enable or disable , 标识该可执行文件running所在的进程的
+        Permitted Capability Sets是否自动全部Assign到其Effective Capability Sets. 
+        通常用于与传统的Root-setUID可执行文件向下兼容.
+    Inheritable Capability Sets
+        与进程的Inheritable Capability Sets 一起作用(位与)以决定新的进程的Permitted capability Sets
+
+Capability BoundSet
+    Capability BoundSet是进程的属性
+    是进程自己为自己设定的安全围栏(Capability Sets) , 
+        限制可执行文件的Permitted Capability Sets仅有局部能转化的Permitted Capability Sets
+    Capability BoundSet能被子进程继承
+    Init进程默认Capability BoundSet为全1
+
+Spawn进程的Capability
+    P&apos;子进程  P父进程  F子进程运行起来的执行文件
+
+    P&apos;(permitted) = (P(inheritable)&amp;F(inheritable))|(F(permitted)&amp;cap_bset)
+    P&apos;(effective) = F(effective)?P&apos;(permitted):0
+    P&apos;(inheritable) = P(inheritable)
+</code></pre>
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android安全模式机制/" rel="tag">#Android安全模式机制</a>
+          
+            <a href="/tags/进程和进程边界/" rel="tag">#进程和进程边界</a>
+          
+            <a href="/tags/多用户和多用户边界/" rel="tag">#多用户和多用户边界</a>
+          
+            <a href="/tags/进程和文件的UID-GID/" rel="tag">#进程和文件的UID/GID</a>
+          
+            <a href="/tags/Chmod和chown命令介绍/" rel="tag">#Chmod和chown命令介绍</a>
+          
+            <a href="/tags/linux/" rel="tag">#linux</a>
+          
+            <a href="/tags/UID-GID的衔接/" rel="tag">#UID/GID的衔接</a>
+          
+            <a href="/tags/进程的RealUID和EffectiveUID/" rel="tag">#进程的RealUID和EffectiveUID</a>
+          
+            <a href="/tags/setUID/" rel="tag">#setUID</a>
+          
+            <a href="/tags/Capability/" rel="tag">#Capability</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/10/25/android_safe_mode_mechanism_one.html" rel="next" title="Android安全模式机制之一(现代安全体系基础概念)">
+                <i class="fa fa-chevron-left"></i> Android安全模式机制之一(现代安全体系基础概念)
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/10/27/android_safe_mode_mechanism_three.html" rel="prev" title="Android安全模式机制之三(实际运用)">
+                Android安全模式机制之三(实际运用) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="/2014/10/26/android_safe_mode_mechanism_two.html"
+           data-title="Android安全模式机制之二(操作系统现代安全体系基础概念)" data-url="http://comtu.github.com/2014/10/26/android_safe_mode_mechanism_two.html">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/icon.jpg"
+               alt="Comtu" />
+          <p class="site-author-name" itemprop="name">Comtu</p>
+          <p class="site-description motion-element" itemprop="description">The time is passing</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">26</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">91</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#进程和进程边界"><span class="nav-number">1.</span> <span class="nav-text">进程和进程边界</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#多用户和多用户边界"><span class="nav-number">2.</span> <span class="nav-text">多用户和多用户边界</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#进程和文件的UID-GID-UserID-groupId"><span class="nav-number">3.</span> <span class="nav-text">进程和文件的UID/GID (UserID/groupId)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#文件资源的权限力度-UID-GID"><span class="nav-number">3.1.</span> <span class="nav-text">文件资源的权限力度:UID/GID</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件的可操作权限"><span class="nav-number">3.2.</span> <span class="nav-text">文件的可操作权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进程的标识-PID-UID-GID-GIDs"><span class="nav-number">3.3.</span> <span class="nav-text">进程的标识: PID , UID , GID , GIDs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Name和ID的映射"><span class="nav-number">3.4.</span> <span class="nav-text">Name和ID的映射</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Chmod和chown命令介绍"><span class="nav-number">3.5.</span> <span class="nav-text">Chmod和chown命令介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Chmod"><span class="nav-number">3.5.1.</span> <span class="nav-text">Chmod</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Chown"><span class="nav-number">3.5.2.</span> <span class="nav-text">Chown</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#UID-GID的衔接"><span class="nav-number">4.</span> <span class="nav-text">UID/GID的衔接</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#进程的RealUID和EffectiveUID"><span class="nav-number">5.</span> <span class="nav-text">进程的RealUID和EffectiveUID</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件的setUID标识"><span class="nav-number">6.</span> <span class="nav-text">文件的setUID标识</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Capability"><span class="nav-number">7.</span> <span class="nav-text">Capability</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Comtu</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"comtu"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

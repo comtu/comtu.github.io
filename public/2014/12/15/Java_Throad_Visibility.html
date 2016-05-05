@@ -1,0 +1,1055 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="synchronized,volatile,ReentrantLock,原子性,可见性,重排序," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/icon/1.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="目录:
+1. 共享变量在线程间的可见性
+    1.1 Java内存模型(JMM)
+    1.2 共享变量可见性实现的原理
+    1.3 重排序
+    1.4 as-if-serial语义
+
+2. synchronized实现可见性
+
+3. volatile实现可见性
+    3.1 volatile适用场景
+4. synchoronized和volatile比较">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java线程可见性">
+<meta property="og:url" content="http://comtu.github.com/2014/12/15/Java_Throad_Visibility.html">
+<meta property="og:site_name" content="Comtu">
+<meta property="og:description" content="目录:
+1. 共享变量在线程间的可见性
+    1.1 Java内存模型(JMM)
+    1.2 共享变量可见性实现的原理
+    1.3 重排序
+    1.4 as-if-serial语义
+
+2. synchronized实现可见性
+
+3. volatile实现可见性
+    3.1 volatile适用场景
+4. synchoronized和volatile比较">
+<meta property="og:updated_time" content="2016-04-27T03:15:42.141Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java线程可见性">
+<meta name="twitter:description" content="目录:
+1. 共享变量在线程间的可见性
+    1.1 Java内存模型(JMM)
+    1.2 共享变量可见性实现的原理
+    1.3 重排序
+    1.4 as-if-serial语义
+
+2. synchronized实现可见性
+
+3. volatile实现可见性
+    3.1 volatile适用场景
+4. synchoronized和volatile比较">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Java线程可见性 | Comtu </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?e0d9a75a7e53b54cd1e6649facd5906e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Comtu</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Java线程可见性
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-12-15T00:00:00+08:00" content="2014-12-15">
+              2014-12-15
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/12/15/Java_Throad_Visibility.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/2014/12/15/Java_Throad_Visibility.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>目录:</p>
+<pre><code>1. 共享变量在线程间的可见性
+    1.1 Java内存模型(JMM)
+    1.2 共享变量可见性实现的原理
+    1.3 重排序
+    1.4 as-if-serial语义
+
+2. synchronized实现可见性
+
+3. volatile实现可见性
+    3.1 volatile适用场景
+4. synchoronized和volatile比较
+</code></pre><a id="more"></a>
+<hr>
+<h1 id="共享变量在线程间的可见性"><a href="#共享变量在线程间的可见性" class="headerlink" title="共享变量在线程间的可见性"></a>共享变量在线程间的可见性</h1><pre><code>可见性:一个线程对共享变量值的修改,能够及时地被其他线程看到.
+共享变量: 如果一个变量在多个线程的工作中都存在副本,那么这个变量就是这个几个线程的共享变量.
+</code></pre><h2 id="Java内存模型-JMM"><a href="#Java内存模型-JMM" class="headerlink" title="Java内存模型(JMM)"></a>Java内存模型(JMM)</h2><pre><code>Java内存模型(Java Memory Model)描述了Java程序中各种变量(线程共享变量)的访问规则,   
+以及在JVM中将变量存储到内存和从内存中读取出变量这样的底层细节.
+&gt; 所有的变量都存储在主内存中
+&gt; 每个线程都有自己独立的工作内存,里面保存该线程使用到的变量的副本(主内存中该变量的一份拷贝)
+
+
+
+线程1         线程2     线程3    
+↑↓             ↑↓         ↑↓    
+-------------------------------------    
+工作内存1  工作内存2   工作内存3    
+x的副本1   x的副本2    x的副本3    
+↑↓              ↑↓        ↑↓    
+-------------------------------------    
+        主内存   
+       共享变量x    
+
+两条规定
+
+    &gt; 线程对共享变量的所有操作都必须在自己的工作内存中进行,不能直接从主内存中读写
+    &gt; 不同线程之间无法直接访问其他线程工作内存中的变量,线程间变量值的传递需要通过主内存来完成.
+</code></pre><h2 id="共享变量可见性实现的原理"><a href="#共享变量可见性实现的原理" class="headerlink" title="共享变量可见性实现的原理"></a>共享变量可见性实现的原理</h2><pre><code>线程1对共享变量的修改要想被线程2及时看到,必须要经过如下2个步骤:
+&gt; 把工作内存1中更新过的共享变量刷新到主内存中
+&gt; 将主内存中读取共享变量的值工作内存2中.
+</code></pre><p>要实现共享变量的可见性,必须保证两点:</p>
+<pre><code>&gt; 线程修改后的共享变量值能够及时从工作内存刷新到主内存中
+&gt; 其他线程能够及时把共享变量的最新值从主内存更新到自己的工作内存中.
+</code></pre><h2 id="重排序"><a href="#重排序" class="headerlink" title="重排序"></a>重排序</h2><pre><code>&gt; 重排序:代码书写的顺序与实际执行的顺序不同,指令重排序是编译器或者处理器为了提高程序性能而做的优化
+    1.编译器优化的重排序(编译器优化)
+    2.指令级并行重排序(处理器优化)
+    3.内存系统的重排序(处理器优化)
+
+
+例如:
+    代码顺序:
+    int number = 1
+    int result = 0
+
+    有可能执行顺序:
+    int result = 0
+    int number = 1
+</code></pre><h2 id="as-if-serial"><a href="#as-if-serial" class="headerlink" title="as-if-serial"></a>as-if-serial</h2><pre><code>无论如何重排序,程序执行的结果应该与代码顺序执行结果一致
+(Java编译器,运行时和处理器都会保证Java在单线程下遵循as-if-serial语义
+
+例如:
+int num1 = 1;//第1行代码
+int num2 = 2;//第2行代码
+int sum = num1+num2;//第3行代码 
+
+单线程:第1,2行的顺序可以重排,但第3行不能
+重排序不会给单线程带来内存可见性问题.
+多线程中程序交错执行时,重排序可能会造成内存可见性问题
+</code></pre><p>可见性的实现方式</p>
+<pre><code>Java语言层面(不包括jdk1.5之后的concurrent包下的高级特性)支持的可见性实现方式:
+&gt; synchronized
+&gt; voatile
+</code></pre><hr>
+<h1 id="synchronized实现可见性"><a href="#synchronized实现可见性" class="headerlink" title="synchronized实现可见性"></a>synchronized实现可见性</h1><pre><code>synchronized能够实现:
+    &gt; 原子性(同步)
+    &gt; 可见性
+
+JMM关于synchronized的两条规定:
+    &gt; 线程解锁前,(离开synchronized代码块前),必须把共享变量的最新值刷新到主内存中.
+    &gt; 线程加锁时,(进入synchronized代码块前),将清空工作内存中共享变量的值,    
+        从而使用共享变量时需要从主内存中重新读取最新的值.
+    (注意:加锁,解锁需要同一把锁)
+    线程解锁前对共享变量的修改在下次加锁时对其他线程可见.
+
+synchronized实现可见性
+    线程执行互斥代码的过程:
+    1.获得互斥锁
+    2.清空工作内存
+    3.从主内存拷贝变量的最新副本到工作内存
+    4.执行代码
+    5.将更改后的共享变量的值刷新到主内存
+    6.释放互斥锁
+</code></pre><pre class="brush: java; ruler: true; first-line: 0; highlight: [] ; auto-links: true ; collapse: true ; gutter: true; ">    
+    package com.tu.test.visibility;
+
+    public class SynchronizedDemo {
+        // 共享变量
+        private boolean ready = false;
+        private int result = 0;
+        private int number = 1;
+
+        // 写操作
+        public void write() {
+            ready = true; // 1.1
+            try {//为了得到结果一
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+            }
+            number = 2; // 1.2
+        }
+
+        // 读操作
+        public void read() {
+            if (ready) {// 2.1
+                result = number * 3;// 2.2
+            }
+            System.out.println("result的值为：" + result );
+        }
+
+        // 内部线程类
+        private class ReadWriteThread extends Thread {
+            // 根据构造方法中传入的flag参数,确定线程执行读操作还是写操作
+            private boolean flag;
+
+            public ReadWriteThread(boolean flag) {
+                this.flag = flag;
+            }
+
+            @Override
+            public void run() {
+                if (flag) {
+                    write();
+                } else
+                    read();
+            }
+        }
+
+        public static void main(String[] args) {
+            for (int i = 0; i < 100; i++) {
+                SynchronizedDemo synDemo = new SynchronizedDemo();
+                synDemo.new ReadWriteThread(true).start();
+                synDemo.new ReadWriteThread(false).start();
+                // 结果有可能会出现如下情况
+                //结果一: 1.1->2.1->2.2->1.2 结果:result = 3  <-交错 结果二:="" 1.1-="">2.1->1.2->2.2 结果:result = 6  <-交错 结果三:="" 1.1-="">1.2->2.1->2.2 结果:result = 6
+                //结果四: 2.1->1.1->1.2 结果:result = 0
+            }
+        }
+    }
+
+</-交错></-交错></pre>
+
+<p>可见性分析</p>
+<pre><code>导致共享变量在线程间不可见的原因:
+    1.线程的交叉执行
+    2.重排序结合线程交叉执行
+    3.共享变量更新后的值没有在工作内存与主内存间及时更新
+
+synchronized解决方案:
+    1.原子性()
+    2.原子性
+    3.可见性
+</code></pre><pre class="brush: java; ruler: true; first-line: 0; highlight: [] ; auto-links: true ; collapse: true ; gutter: true; ">    
+    // 写操作
+    public synchronized void write() {
+        ready = true; // 1.1
+        number = 2; // 1.2
+    }
+
+    // 读操作
+    public synchronized void read() {
+        if (ready) {// 2.1
+            result = number * 3;// 2.2
+        }
+        System.out.println("result的值为：" + result );
+    }
+    //给代码加锁后结果就不同了.`
+    // 结果有可能会出现如下情况
+    //结果三: 1.1->1.2->2.1->2.2 结果:result = 6
+    //结果四: 2.1->1.1->1.2 结果:result = 0
+    //这两种结果是由线程间谁先争取到CPU的使用权而得出来的不同结果.
+</pre>
+
+<hr>
+<h1 id="volatile实现可见性"><a href="#volatile实现可见性" class="headerlink" title="volatile实现可见性"></a>volatile实现可见性</h1><pre><code>深入来说:通过加入内存屏障和禁止重排序优化来实现的.
+&gt; 对volatile变量执行写操作时,会在写操作后加入一条store屏障指令
+&gt; 对volatile变量执行读操作时,会在读操作前加入一条load屏障指令
+(Java提供了8条屏障指令)
+
+通俗地讲: volatile变量在第次被线程访问时,都强迫从主内存中重读该变量的值,
+而当该变量发生变化时,又会强迫线程将最新的值刷新到主内存.
+这样任何时刻,不同的线程总能看到该变量的最新值.
+
+线程写volatile变量的过程:
+1.改变线程工作内存中volatile变量副本的值
+2.将改变后的副本的值从工作内存刷新到主内存
+
+线程读volatile变量的过程
+1.从主内存中读取volatile变量的最新值到线程在工作内存中.
+2.从工作内存中读取volatile变量的副本
+
+
+volatile不能保证volatile变量复合操作的原子性:
+private int number = 0;
+number++; //不是原子操作, 多线程时有可能会交叉执行或重排序.
+1.读取number的值
+2.将number的值加1
+3.写入最新的number的值
+----
+synchronized(this){
+    number++;
+}
+加入synchronized,变为原子操作
+1.读取number的值
+2.将number的值加1
+3.写入最新的number的值
+以上3步骤不会被交错执行不会被重排序
+----
+private volatile int number = 0;
+变为volatile变量,无法保证原子性
+</code></pre><pre class="brush: java; ruler: true; first-line: 0; highlight: [] ; auto-links: true ; collapse: true ; gutter: true; ">
+    package com.tu.test.visibility;
+
+    public class VolatileDemo {
+        private volatile int number = 0;
+
+        public int getNumber() {
+            return this.number;
+        }
+
+        public void increase() {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            this.number++;
+        }
+
+        public static void main(String[] args) {
+            final VolatileDemo volMemo = new VolatileDemo();
+            for (int i = 0; i < 500; i++) {
+                new Thread() {
+                    public void run() {
+                        volMemo.increase();
+                    };
+                }.start();
+            }
+
+            // 如果还有子线程在运行,主线程就让出CPU资源
+            // 直到所有的子线程都运行完了,主线程再继续往下执行
+            while (Thread.activeCount() > 1) {
+                Thread.yield();
+            }
+
+            //正常应该打印number的值为500.但因为number++不是原子
+            //操作所以值变的不确定,有可能会小于500的值
+            System.out.println("number" + volMemo.getNumber());
+        }
+    }
+
+</pre>
+
+<p>程序分析:</p>
+<pre><code>假设number=5;
+1.线程A读取number的值
+2.线程B读取number的值
+3.线程B执行加1操作
+4.线程B写入最新的number的值
+5.线程A执行加1操作
+6.线程A写入最新的number的值.把线程B的值覆盖了.
+7.两次number++只增加了1
+这是因为number自增操作的原子性的原因.
+</code></pre><p>解决方案有:</p>
+<pre><code>&gt; 保证number自增操作的原子性:
+&gt; 使用synchronized关键字   
+&gt; 使用JDK1.5后推出的 ReentrantLock (java.until.concurrent.locks包下)   
+&gt; 使用JDK1.5后推出的 AtomicInterger (java.util.concurrent.atomic包下)   
+</code></pre><pre class="brush: java; ruler: true; first-line: 0; highlight: [] ; auto-links: true ; collapse: true ; gutter: true; ">
+
+//原
+//private volatile int number = 0;
+//修改
+private int number = 0;
+
+//原
+//public void increase() {
+//    try {
+//        Thread.sleep(100);
+//    } catch (InterruptedException e) {
+//        // TODO Auto-generated catch block
+//        e.printStackTrace();
+//    }
+//    this.number++;
+//}
+//修改 使用 synchronized 实现原子性
+public void increase() {
+    try {
+        Thread.sleep(100);
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+    synchronized (this) {
+        this.number++;
+    }
+}
+
+//修改使用 ReentrantLock 实现原子性
+private Lock lock = new ReentrantLock();
+public void increase() {
+    try {
+        Thread.sleep(100);
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+    lock.lock();//加锁
+    try {
+        this.number++;
+    } finally {
+        lock.unlock();//解锁 .防止try有异常.JDK推荐写法try..finally
+    }
+}
+
+</pre>
+
+
+
+<h2 id="volatile适用场景"><a href="#volatile适用场景" class="headerlink" title="volatile适用场景"></a>volatile适用场景</h2><pre><code>因volatile只能保证变量的可见性,不能保证操作的原子性.
+
+要在多线程中安全的使用volatile变量,必须同时满足:
+&gt; 1.对变量的写入操作不依赖其当前值(即改变后的volatile的值与改变前的值不要有关系)
+    不满足: number++ , count = count*5等这类操作.
+    满足: boolean变量,记录温度变化的变量等.
+&gt; 2.该变量没有包含在具有其他变量的不变式中.   
+    (即程序中有多个volatile变量,那么,每个volatile变量的状态要独立其它volatile变量)
+    例如:
+    程序中有两个volatile变量low 与up
+    不满足: 不变式low&lt;up
+</code></pre><hr>
+<h1 id="synchronized和volatile比较"><a href="#synchronized和volatile比较" class="headerlink" title="synchronized和volatile比较"></a>synchronized和volatile比较</h1><pre><code>&gt; volatile不需要加锁,比synchronized更轻量级,不会阻塞线程.
+&gt; 从内存可见性角度讲,volatile读相当于加锁,volatile写相当于解释锁
+&gt; synchronized即能保证可见性,又能保证原子性,而volatile只能保证可见性,无法保证原子性.
+</code></pre><hr>
+<p>问题补充:</p>
+<pre><code>即使没有保证可见性的措施,很多时候共享变量依然能够在主内存和工作内存见得到及时更新:
+    一般只有在短时间内高并发的情况下才会出现变量得不到及时更新的情况,因为
+    CPU在执行时会很快地刷新缓存,所以一般情况下很难看到这种问题.
+
+
+对64位(long,double)变量的读写可能不是原子操作:
+    &gt;Java内存模型允许JVM将没有被volatile修饰的64位数据类型的读写操作
+    划分为两次32位的读写操作来进行.
+
+    导致问题: 有可能会出现读取到&quot; 半个变量 &quot;的情况
+    解决方法: 加volatile关键字 
+    实际上很多商用JVM已经为long,double作为原子性来进行操作处理
+</code></pre><hr>
+<h1 id="Demo下载"><a href="#Demo下载" class="headerlink" title="Demo下载"></a>Demo下载</h1><p><a href="/res/file/blog/2014/12/15/Java_Throad_Visibility/ThreadTheVisibility.rar">本文案例Demo</a></p>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/synchronized/" rel="tag">#synchronized</a>
+          
+            <a href="/tags/volatile/" rel="tag">#volatile</a>
+          
+            <a href="/tags/ReentrantLock/" rel="tag">#ReentrantLock</a>
+          
+            <a href="/tags/原子性/" rel="tag">#原子性</a>
+          
+            <a href="/tags/可见性/" rel="tag">#可见性</a>
+          
+            <a href="/tags/重排序/" rel="tag">#重排序</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/12/14/Java_Thread.html" rel="next" title="Java线程">
+                <i class="fa fa-chevron-left"></i> Java线程
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/12/16/Java_Throad_Pool.html" rel="prev" title="Java线程池">
+                Java线程池 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="/2014/12/15/Java_Throad_Visibility.html"
+           data-title="Java线程可见性" data-url="http://comtu.github.com/2014/12/15/Java_Throad_Visibility.html">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/icon.jpg"
+               alt="Comtu" />
+          <p class="site-author-name" itemprop="name">Comtu</p>
+          <p class="site-description motion-element" itemprop="description">The time is passing</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">26</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">91</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#共享变量在线程间的可见性"><span class="nav-number">1.</span> <span class="nav-text">共享变量在线程间的可见性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Java内存模型-JMM"><span class="nav-number">1.1.</span> <span class="nav-text">Java内存模型(JMM)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#共享变量可见性实现的原理"><span class="nav-number">1.2.</span> <span class="nav-text">共享变量可见性实现的原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重排序"><span class="nav-number">1.3.</span> <span class="nav-text">重排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#as-if-serial"><span class="nav-number">1.4.</span> <span class="nav-text">as-if-serial</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#synchronized实现可见性"><span class="nav-number">2.</span> <span class="nav-text">synchronized实现可见性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#volatile实现可见性"><span class="nav-number">3.</span> <span class="nav-text">volatile实现可见性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#volatile适用场景"><span class="nav-number">3.1.</span> <span class="nav-text">volatile适用场景</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#synchronized和volatile比较"><span class="nav-number">4.</span> <span class="nav-text">synchronized和volatile比较</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Demo下载"><span class="nav-number">5.</span> <span class="nav-text">Demo下载</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Comtu</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"comtu"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

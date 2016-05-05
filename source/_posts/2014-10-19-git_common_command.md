@@ -259,10 +259,10 @@ git push origin :<remote_branch>  #先删除本地分支(git br -d <branch>)，�
 git branch iss53  
   
 #切换工作目录到iss53  
-git chekcout iss53  
+git checkout iss53  
   
 #将上面的命令合在一起，创建iss53分支并切换到iss53  
-git chekcout –b iss53  
+git checkout –b iss53  
   
 #合并iss53分支，当前工作目录为master  
 git merge iss53  

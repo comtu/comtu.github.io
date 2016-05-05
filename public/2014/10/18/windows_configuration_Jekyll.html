@@ -1,0 +1,755 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Jekyll,GitHub," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/icon/1.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="1.安装所需要的软件
+文本编辑器(不要使用Windows自带的编辑器) 
+  使用如:notepad++ http://www.notepad-plus-plus.org/
+
+Railsinstaller    http://railsinstaller.org/en
+Python https://www.python.org/downloads/
+  安装并为python配置环境变量,由于有部">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows平台配置Jekyll环境并与GitHub连接">
+<meta property="og:url" content="http://comtu.github.com/2014/10/18/windows_configuration_Jekyll.html">
+<meta property="og:site_name" content="Comtu">
+<meta property="og:description" content="1.安装所需要的软件
+文本编辑器(不要使用Windows自带的编辑器) 
+  使用如:notepad++ http://www.notepad-plus-plus.org/
+
+Railsinstaller    http://railsinstaller.org/en
+Python https://www.python.org/downloads/
+  安装并为python配置环境变量,由于有部">
+<meta property="og:updated_time" content="2016-04-27T08:26:55.359Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Windows平台配置Jekyll环境并与GitHub连接">
+<meta name="twitter:description" content="1.安装所需要的软件
+文本编辑器(不要使用Windows自带的编辑器) 
+  使用如:notepad++ http://www.notepad-plus-plus.org/
+
+Railsinstaller    http://railsinstaller.org/en
+Python https://www.python.org/downloads/
+  安装并为python配置环境变量,由于有部">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Windows平台配置Jekyll环境并与GitHub连接 | Comtu </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?e0d9a75a7e53b54cd1e6649facd5906e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Comtu</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Windows平台配置Jekyll环境并与GitHub连接
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-10-18T00:00:00+08:00" content="2014-10-18">
+              2014-10-18
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Jekyll/" itemprop="url" rel="index">
+                    <span itemprop="name">Jekyll</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/10/18/windows_configuration_Jekyll.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/2014/10/18/windows_configuration_Jekyll.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <hr>
+<h1 id="1-安装所需要的软件"><a href="#1-安装所需要的软件" class="headerlink" title="1.安装所需要的软件"></a>1.安装所需要的软件<br></h1><ul>
+<li><p><strong>文本编辑器</strong>(不要使用Windows自带的编辑器) </p>
+<p>  使用如:<code>notepad++</code> <a href="http://www.notepad-plus-plus.org/" target="_blank" rel="external">http://www.notepad-plus-plus.org/</a><br></p>
+</li>
+<li><strong>Railsinstaller</strong>    <a href="http://railsinstaller.org/en" target="_blank" rel="external">http://railsinstaller.org/en</a></li>
+<li><p><strong>Python</strong> <a href="https://www.python.org/downloads/" target="_blank" rel="external">https://www.python.org/downloads/</a></p>
+<p>  安装并为python配置环境变量,由于有部分的组件还会依赖到python，<br>  所以这里建议也安装上python（例如:语法着色器pygments是python组件）</p>
+<a id="more"></a>
+</li>
+</ul>
+<hr>
+<h1 id="2-安装完后生成SSH并导入到Github网站"><a href="#2-安装完后生成SSH并导入到Github网站" class="headerlink" title="2.安装完后生成SSH并导入到Github网站"></a>2.安装完后生成SSH并导入到Github网站</h1><ul>
+<li><p><strong>生成SSH</strong><br><br>  Railsinstaller安装(默认安装)完后软件提示输入name 其实是Github的用户名 , 输入完后提示输入邮箱 github注册使用的邮箱<br><br>  以上操作完后会在 <code>C:\Users\用户名\.ssh文件夹\</code>下生成密钥与公钥 <code>id_rsa</code>(密钥) 与 <code>id_rsa.pub</code>(公钥) </p>
+</li>
+<li><p><strong>导入SSH公钥到GigHub网站</strong> <br><br>  (作用是使用git提交时可以使用 git@github.com:comtu/comtu.github.io.git 的地址,直接 push 数据到github网站,无需要使用Https链接每次push数据输入用户名密码)<br><br>  公钥使用文本方式打开复制里面的所有内容(ctrl+A -&gt;ctrl+C 包括空格和新行)–&gt; 登录Gighub网站 –&gt; <code>settings(设置)</code> –&gt; <code>SSH keys</code> –&gt; <code>Add SSH key</code> –&gt; <code>输入Title</code>(可随便填写,但建议编写有意义的名字) –&gt; 粘贴内容到<code>Key</code>中 –&gt; <code>Add key</code></p>
+</li>
+</ul>
+<hr>
+<h1 id="3-测试Git连接是否正常"><a href="#3-测试Git连接是否正常" class="headerlink" title="3.测试Git连接是否正常"></a>3.测试Git连接是否正常</h1><p>运行Git Bash (<code>开始菜单--&gt; RailsInstaller --&gt; Git Bash</code>) 安装Railsinstaller后会默认在C盘根目录创建一个Sites目录 , 运行的GitBash也会自动定位到Sites目录</p>
+<ul>
+<li>测试Git连接是否正常输入:<code>ssh -T git@github.com</code></li>
+</ul>
+<p>运行会提示:<br>    The authent icity of host ‘github.com(204.232.175.90)’ can’t be established .<br>    RSA key fingerprint is ……<br>    Ary you sure you want to continue connecting (yes/no)? </p>
+<p>输入<br>    <code>yes</code></p>
+<p>之后会显示<br>    Warning: Permanently added ‘github.com.204.232.175.90’ (RSA) to the list of known hosts .<br>    Permission denied (publickey).</p>
+<hr>
+<h1 id="4-修改配置避免jekyll在windows下字符集错误"><a href="#4-修改配置避免jekyll在windows下字符集错误" class="headerlink" title="4.修改配置避免jekyll在windows下字符集错误"></a>4.修改配置避免jekyll在windows下字符集错误</h1><h2 id="4-1-修改bash的字符集"><a href="#4-1-修改bash的字符集" class="headerlink" title="4.1.修改bash的字符集"></a>4.1.修改bash的字符集</h2><pre><code>Win7系统中(C:\Users\用户名),Xp系统中(C:\Documents and Settings\用户名)下,
+找到.bash_profile文件,在其内容里增加如下内容
+    set LC_ALL=en_US.UTF-8
+    set LANG=en_US.UTF-8
+注意:
+    在Windows系统下没有办法创建.xxx的文件名,所以可以借用git bash命令行来创建:
+    1. 输入 echo &apos;set LC_ALL=en_US.UTF-8&apos; &gt; .bash_profile 命令创建一个内容为&apos;&apos;内容的文件
+        comtu@CN-CS-PC73 /C/Sites
+        $ echo &apos;set LC_ALL=en_US.UTF-8&apos; &gt; .bash_profile
+    2.文件管理器打开文件目录C:\Sites 将文件.bash_profile使用文本编辑器的方式打开在内容里面
+    增加成如下内容保存
+        set LC_ALL=en_US.UTF-8
+        set LANG=en_US.UTF-8
+        还有一个行空行
+    3.将.bash_profile文件拷贝到Win7系统中(C:\Users\用户名),
+    Xp系统中(C:\Documents and Settings\用户名)下.
+</code></pre><h2 id="4-2-所有文档使用UTF-8无BOM格式"><a href="#4-2-所有文档使用UTF-8无BOM格式" class="headerlink" title="4.2.所有文档使用UTF-8无BOM格式"></a>4.2.所有文档使用UTF-8无BOM格式</h2><pre><code>在windows下新建的文本文件默认为ANSI格式,而Jekyll只认UTF-8,可以使用第三方文本编辑器进行格式转换如,
+    notepad++中转换
+        格式--&gt;转为UTF-8无BOM格式
+    EditPlus中转换
+        文件--&gt;另存为--&gt;编码(UTF-8)--&gt;选择目录--&gt;保存
+</code></pre><h2 id="4-3-使用Unix换行符"><a href="#4-3-使用Unix换行符" class="headerlink" title="4.3.使用Unix换行符"></a>4.3.使用Unix换行符</h2><pre><code>在notepad++中，可以开启“显示所有字符”选项，这样就可以看出文档用的是Windows的换行符还是Unix的换行符。
+在这种模式下，Windows的换行符显示的是CR LF，Unix的换行符显示的是LF , MAC 的换行符显示的是CR
+    notepad++中转换
+        编辑--&gt;档案格式转换--&gt;转换为Unix格式
+使用是使用Notepad++文档编辑器则可以在创建的时候就默认为Unix格式
+    设置--&gt;首选项--&gt;新建--&gt;格式--&gt;Unix
+                   编码--&gt;UTF-8(无BOM)
+</code></pre><h2 id="4-4-注意YAML头部的格式"><a href="#4-4-注意YAML头部的格式" class="headerlink" title="4.4.注意YAML头部的格式"></a>4.4.注意YAML头部的格式</h2><pre><code>模板文件的元数据以YAML的格式展现，YAML头部经常会出现三个问题：
+    1.三短线前面不能有空格；
+    2.“名: 值”对里冒号后面要有空格；
+    3.回车后不要有Tab符；
+    4.示数组成员开始的-号后面要有空格
+</code></pre><hr>
+<h1 id="5-安装jekyll和相关的包"><a href="#5-安装jekyll和相关的包" class="headerlink" title="5.安装jekyll和相关的包"></a>5.安装jekyll和相关的包</h1><pre><code>在国内需要配置gem数据源地址,翻墙或者在国外则无需设置
+    输入以下两条命令:
+        命令: gem sources --remove http://rubygems.org/
+        命令: gem sources -a http://ruby.taobao.org/
+    然后用 命令: gem sources -l 看看现在源列表
+        *** CURRENT SOURCES ***
+        http://ruby.taobao.org
+    如果显示如上信息则可以进行安装Jekyll了 
+        命令: gem install jekyll
+    Jekyll需要用到directory_watcher、liquid、open4、maruku和classifier这几个包，用上面的命令可以自动安装。
+    Jekyll默认用maruku来解析markdown语言，你也可以用别的程序来解析，比如rdiscount或kramdown，都给装上吧：
+        命令: gem install rdiscount kramdown
+
+    以上命令涉及到gem install的时候，如果你用的是linux系统，就要用sudo gem install代替。
+</code></pre><ul>
+<li><strong>参考资料:</strong></li>
+</ul>
+<blockquote>
+<p><a href="http://yanping.me/cn/blog/2012/03/18/github-pages-step-by-step/" target="_blank" rel="external">Github Pages极简教程</a><br><a href="http://yanping.me/cn/blog/2011/12/15/building-static-sites-with-jekyll/" target="_blank" rel="external">【译文】用Jekyll构建静态网站</a> <a href="http://code.tutsplus.com/tutorials/building-static-sites-with-jekyll--net-22211" target="_blank" rel="external">原文Building Static Sites with Jekyll</a><br><a href="http://havee.me/internet/2013-07/add-duoshuo-commemt-system-into-jekyll.html" target="_blank" rel="external">为 Jekyll 添加多说评论系统</a><br><a href="http://cn.yizeng.me/2013/05/10/setup-jekyll-on-windows/#troubleshooting" target="_blank" rel="external">在 Windows 上安装 Jekyll</a><br><a href="http://comtu.github.io/blog/2014/10/18/support-pygments-in-Jekyll.html" target="_blank" rel="external">Jekyll 中的语法高亮：Pygments</a><br><a href="http://havee.me/internet/2013-11/jekyll-liquid-designers.html" target="_blank" rel="external">Jekyll 扩展的 Liquid 设计</a>  <a href="https://github.com/shopify/liquid/wiki/liquid-for-designers" target="_blank" rel="external">原文Liquid for Designers</a>  </p>
+</blockquote>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Jekyll/" rel="tag">#Jekyll</a>
+          
+            <a href="/tags/GitHub/" rel="tag">#GitHub</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/10/18/hello world.html" rel="next" title="hello world">
+                <i class="fa fa-chevron-left"></i> hello world
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/10/18/support-pygments-in-Jekyll.html" rel="prev" title="Jekyll中的语法高亮:Pygments">
+                Jekyll中的语法高亮:Pygments <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="/2014/10/18/windows_configuration_Jekyll.html"
+           data-title="Windows平台配置Jekyll环境并与GitHub连接" data-url="http://comtu.github.com/2014/10/18/windows_configuration_Jekyll.html">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/icon.jpg"
+               alt="Comtu" />
+          <p class="site-author-name" itemprop="name">Comtu</p>
+          <p class="site-description motion-element" itemprop="description">The time is passing</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">26</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">91</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-安装所需要的软件"><span class="nav-number">1.</span> <span class="nav-text">1.安装所需要的软件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-安装完后生成SSH并导入到Github网站"><span class="nav-number">2.</span> <span class="nav-text">2.安装完后生成SSH并导入到Github网站</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-测试Git连接是否正常"><span class="nav-number">3.</span> <span class="nav-text">3.测试Git连接是否正常</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-修改配置避免jekyll在windows下字符集错误"><span class="nav-number">4.</span> <span class="nav-text">4.修改配置避免jekyll在windows下字符集错误</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-修改bash的字符集"><span class="nav-number">4.1.</span> <span class="nav-text">4.1.修改bash的字符集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-所有文档使用UTF-8无BOM格式"><span class="nav-number">4.2.</span> <span class="nav-text">4.2.所有文档使用UTF-8无BOM格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-使用Unix换行符"><span class="nav-number">4.3.</span> <span class="nav-text">4.3.使用Unix换行符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-4-注意YAML头部的格式"><span class="nav-number">4.4.</span> <span class="nav-text">4.4.注意YAML头部的格式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-安装jekyll和相关的包"><span class="nav-number">5.</span> <span class="nav-text">5.安装jekyll和相关的包</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Comtu</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"comtu"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

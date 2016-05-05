@@ -1,7 +1,7 @@
 ---
 layout : post
 title : "Android上开源的酷炫的交互动画和视觉效果"
-category : android
+category : Android
 duoshuo: true
 date : 2014-10-21
 tags : [Android ,GitHub ]

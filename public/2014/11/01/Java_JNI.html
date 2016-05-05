@@ -1,0 +1,1254 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="AndroidNDK,NDK,JNI," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/icon/1.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="h3 {
+    line-height: 1;
+    letter-spacing: 2px;
+    margin-top: 5px;
+}
+h6 {
+    line-height: 1;
+    letter-spacing: 2px;
+    margin-top: 5px;
+}
+
+
+
+1.JNI简介
+2.最简单的Java调用C/C++代码的步骤
+3.在C/C++本地代码中访问Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JNI">
+<meta property="og:url" content="http://comtu.github.com/2014/11/01/Java_JNI.html">
+<meta property="og:site_name" content="Comtu">
+<meta property="og:description" content="h3 {
+    line-height: 1;
+    letter-spacing: 2px;
+    margin-top: 5px;
+}
+h6 {
+    line-height: 1;
+    letter-spacing: 2px;
+    margin-top: 5px;
+}
+
+
+
+1.JNI简介
+2.最简单的Java调用C/C++代码的步骤
+3.在C/C++本地代码中访问Java">
+<meta property="og:image" content="http://comtu.github.com/res/img/blog/2014/11/01/Java_JNI/demo.gif">
+<meta property="og:updated_time" content="2016-04-27T03:34:30.622Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JNI">
+<meta name="twitter:description" content="h3 {
+    line-height: 1;
+    letter-spacing: 2px;
+    margin-top: 5px;
+}
+h6 {
+    line-height: 1;
+    letter-spacing: 2px;
+    margin-top: 5px;
+}
+
+
+
+1.JNI简介
+2.最简单的Java调用C/C++代码的步骤
+3.在C/C++本地代码中访问Java">
+<meta name="twitter:image" content="http://comtu.github.com/res/img/blog/2014/11/01/Java_JNI/demo.gif">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> JNI | Comtu </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?e0d9a75a7e53b54cd1e6649facd5906e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Comtu</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                JNI
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-11-01T00:00:00+08:00" content="2014-11-01">
+              2014-11-01
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/11/01/Java_JNI.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/2014/11/01/Java_JNI.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <style>
+h3 {
+    line-height: 1;
+    letter-spacing: 2px;
+    margin-top: 5px;
+}
+h6 {
+    line-height: 1;
+    letter-spacing: 2px;
+    margin-top: 5px;
+}
+</style>
+
+<ul>
+<li>1.JNI简介</li>
+<li>2.最简单的Java调用C/C++代码的步骤</li>
+<li><p>3.在C/C++本地代码中访问Java代码简介</p>
+<ul>
+<li>3.1 JNIEnv 类型</li>
+<li>3.2 jobject</li>
+<li>3.3 jclass</li>
+<li>3.4 Java的类型在C/C++中的映射关系</li>
+</ul>
+</li>
+<li><p>4.在C/C++本地代码中访问Java类中的属性与方法</p>
+<ul>
+<li>4.1 jfieldID/jmethodID</li>
+<li>4.2 Sign签名</li>
+<li>4.3 使用Javap命令来产生Sign签名</li>
+<li>4.4 取得Java属性/设定Java属性值</li>
+<li>4.5 Java方法的调用</li>
+</ul>
+</li>
+<li>5.在C/C++本地代码中创建Java的对象<ul>
+<li>5.1 NewObject</li>
+<li>5.2 AllocObject</li>
+</ul>
+</li>
+<li><p>6.在C/C++本地代码中访问/创建Java的String字符串对象</p>
+<ul>
+<li>6.1 GetStringChars / GetStringUTFChars / ReleaseStringChars / ReleaseStringUTFChars</li>
+<li>6.2 GetStringCritical / ReleaseStringCritical</li>
+<li>6.3 GetStringRegion / GetStringUTFRegion</li>
+<li>6.4 字符串相关函数</li>
+</ul>
+</li>
+<li><p>7.在C/C++本地代码中操作Java的数组对象</p>
+<ul>
+<li>7.1处理基本类型数组</li>
+<li>7.2处理对象类型数组</li>
+</ul>
+</li>
+<li><p>8.全局引用/局部引用/弱全局引用</p>
+<ul>
+<li>8.1局部引用</li>
+<li>8.2全局引用</li>
+<li>8.2全局引用</li>
+<li>8.4关于引用的一些函数</li>
+</ul>
+</li>
+<li><p>9.JNI优化</p>
+</li>
+</ul>
+<a id="more"></a>
+<hr>
+<h1 id="JNI简介"><a href="#JNI简介" class="headerlink" title="JNI简介"></a>JNI简介</h1><p>Java是跨平台的语言,但是在有些时候仍然是有需要调用要地代码(这些代码通常是由C/C++编写).<br>原Sun公司现Oracle公司提供的JNI是Java平台的一个功能强大的接口.<br>这个JNI接口提供了Java与操作系统本地代码互相调用的功能.  </p>
+<hr>
+<h1 id="最简单的Java调用C-C-代码的步骤"><a href="#最简单的Java调用C-C-代码的步骤" class="headerlink" title="最简单的Java调用C/C++代码的步骤:"></a>最简单的Java调用C/C++代码的步骤:</h1><pre><code>1.首先在Java类中声明一个native的方法  
+2.使用javah命令生成包含native方法声明的C/C++头文件  
+3.按照生成的C/C++头文件来写C/C++源文件.  
+4.将C/C++源文件编译成动态连接库(DLL , OS)  
+5.把DLL文件加入到Path环境变量下.  
+6.Java类中加载DLL,然后调用声明的native方法  
+</code></pre><hr>
+<h1 id="在C-C-本地代码中访问Java代码简介"><a href="#在C-C-本地代码中访问Java代码简介" class="headerlink" title="在C/C++本地代码中访问Java代码简介"></a>在C/C++本地代码中访问Java代码简介</h1><p>在被调用的C/C++函数中也可以反过来访问Java程序中的类<br>javah工具生成的C/C++函数声明中,可以看到有头两个参数 <strong>JNIEnv,jobject/jclass</strong></p>
+<p><pre class="brush: java;  highlight: [4,3]"><br>    package com.tu.hellojni.jni;<br>    public class Port {<br>        public native String sayHello();//非静态函数<br>        public static native void sayHi(String str);//静态函数<br>    }<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">```c</span><br><span class="line">	JNIEXPORT jstring JNICALL Java_com_tu_hellojni_jni_Port_sayHello (JNIEnv *, jobject);</span><br><span class="line">	JNIEXPORT void JNICALL Java_com_tu_hellojni_jni_Port_sayHi (JNIEnv *, jclass, jstring);</span><br></pre></td></tr></table></figure></pre></p>
+<hr>
+<h2 id="JNIEnv-类型"><a href="#JNIEnv-类型" class="headerlink" title="JNIEnv 类型"></a>JNIEnv 类型</h2><blockquote>
+<p>JNIEnv类型实际上代表了Java环境,通过这个JNIEnv*指针,就可以对Java端的代码进行操作.  </p>
+</blockquote>
+<pre><code>例如,创建Java类的对象,调用Java对象的方法,镬取Java对象的属性等等.    
+    JNIEnv的指针会被JNI传入到本地方法的实现函数中来对Java端的代码进行操作.    
+
+JNIEnv类中有很多函数可以用:  
+
+NewObject/NewString/New&lt;TYPE&gt;Array 创建一个对象,创建一个字符串, 创建一个对应类型的数组   
+Get/Set&lt;TYPE&gt;Field 获取/设置 某个类的属性     
+Get/SetStatic&lt;TYPE&gt;Field 获取/设置某个类的静态属性    
+Call&lt;TYPE&gt;Method/CallStatic&lt;TYPE&gt;Method 调用某一个类里的方法/调用某一个类的静态方法   
+等等的函数  
+</code></pre><hr>
+<h2 id="jobject"><a href="#jobject" class="headerlink" title="jobject"></a>jobject</h2><blockquote>
+<p>jobject <code>指向Java对象的实例</code> , 非静态函数中时会有jobject参数.<br>这个jobject指向的是如: Port p = new Port; 所指向的就是p对象.  </p>
+</blockquote>
+<hr>
+<h2 id="jclass"><a href="#jclass" class="headerlink" title="jclass"></a>jclass</h2><blockquote>
+<p>jclass <code>指向的是代表那个类的class对象</code>. 静态函数中会有jclass参数.<br>这个jclass指向的是如: Port.sayHi(“hi”); 所指向的是Port.class对象.  </p>
+<p>jclass的取得</p>
+</blockquote>
+<pre><code>为了能够在C/C++中使用Java类.JNI.h头文件中专门定义了jclass类型来表示java中的Class类
+</code></pre><p>JNIEnv类中有如下几个简单的函数可以取得jclass:</p>
+<ul>
+<li>jclass FindClass(const char* clsName); 通过完整的类名取得Class  </li>
+<li>jclass GetObjectClass(jobject obj); 通过对象获取到class对象. 类似于 Java中的 Object中getClass方法  </li>
+<li>jclass GetSuperClass(jclass obj); 通过当前jclass获取到父类的class  </li>
+</ul>
+<p>其中FindClass 会在classPath系统环境变量下寻找类.</p>
+<pre><code>传入完整类名,注意包与包之间是用&quot;/&quot;而不是&quot;.&quot;来分隔.
+如:
+jclass cls_string = env-&gt;FindClass(&quot;java/lang/String&quot;);
+</code></pre><hr>
+<h2 id="Java的类型在C-C-中的映射关系"><a href="#Java的类型在C-C-中的映射关系" class="headerlink" title="Java的类型在C/C++中的映射关系"></a>Java的类型在C/C++中的映射关系</h2><table>
+<thead>
+<tr>
+<th>Java类型</th>
+<th style="text-align:left">本地类型</th>
+<th style="text-align:right">JNI定义的别名</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>int</td>
+<td style="text-align:left">long</td>
+<td style="text-align:right">jint/jsize</td>
+</tr>
+<tr>
+<td>long</td>
+<td style="text-align:left">__int64</td>
+<td style="text-align:right">jlong</td>
+</tr>
+<tr>
+<td>byte</td>
+<td style="text-align:left">signed char</td>
+<td style="text-align:right">jbyte</td>
+</tr>
+<tr>
+<td>boolean</td>
+<td style="text-align:left">uncigned char</td>
+<td style="text-align:right">jboolean</td>
+</tr>
+<tr>
+<td>char</td>
+<td style="text-align:left">unsigned short</td>
+<td style="text-align:right">jchar</td>
+</tr>
+<tr>
+<td>short</td>
+<td style="text-align:left">short</td>
+<td style="text-align:right">jshort</td>
+</tr>
+<tr>
+<td>float</td>
+<td style="text-align:left">float</td>
+<td style="text-align:right">jfloat</td>
+</tr>
+<tr>
+<td>double</td>
+<td style="text-align:left">double</td>
+<td style="text-align:right">jdouble</td>
+</tr>
+<tr>
+<td>object</td>
+<td style="text-align:left">_jobject*</td>
+<td style="text-align:right">jobject</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h1 id="在C-C-本地代码中访问Java类中的属性与方法"><a href="#在C-C-本地代码中访问Java类中的属性与方法" class="headerlink" title="在C/C++本地代码中访问Java类中的属性与方法"></a>在C/C++本地代码中访问Java类中的属性与方法</h1><h2 id="jfieldID-jmethodID"><a href="#jfieldID-jmethodID" class="headerlink" title="jfieldID/jmethodID"></a>jfieldID/jmethodID</h2><blockquote>
+<p>在C/C++本地代码中访问Java端的代码,一个常见的应用就是获取类的属性和调用类的方法,为了<br>在C/C++中表示属性和方法,JNI在Jni.h头文件中定义了<strong>jfieldID</strong>,<strong>JmethodID</strong>类型来分别代表Java类的属性和方法.  </p>
+</blockquote>
+<pre><code>我们在访问,或是设置Java属性的时候,首先就要先在本地代码获取代表该Java属性的jfieldID,
+然后才能在本地代码进行Java属性操作.
+同样的,我们需要呼叫Java端的方法时,也是需要取得代表该方法的jmethodID才能进行Java方法调用.
+
+使用JNIEnv的
+    GetFieldID/GetMethodID 取得属性/方法ID ( jfieldID / jmethodID)
+    GetStaticFieldID/GetStaticMethodID 取得静态属性/方法ID ( jfieldID / jmethodID )
+
+    来取得相应的jfieldID和jmethodID
+</code></pre><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">jfieldID <span class="title">GetFieldID</span><span class="params">(jclass clazz,<span class="keyword">const</span> <span class="keyword">char</span>* name,<span class="keyword">const</span> <span class="keyword">char</span>* sign)</span></span>;</span><br><span class="line"><span class="function">jfieldID <span class="title">GetStaticFieldID</span><span class="params">(jclass clazz,<span class="keyword">const</span> <span class="keyword">char</span>* name,<span class="keyword">const</span> <span class="keyword">char</span>* sign)</span></span>;</span><br><span class="line"><span class="function">jmethodID <span class="title">GetMethodID</span><span class="params">(jclass clazz,<span class="keyword">const</span> <span class="keyword">char</span>* name,<span class="keyword">const</span> <span class="keyword">char</span>* sign)</span></span>;</span><br><span class="line"><span class="function">jmethodID <span class="title">GetStaticMethodID</span><span class="params">(jclass clazz,<span class="keyword">const</span> <span class="keyword">char</span>* name,<span class="keyword">const</span> <span class="keyword">char</span>* sign)</span></span>;</span><br></pre></td></tr></table></figure>
+<pre><code>GetMethodID也能取得构造函数的jmethodID. 创建一个Java对象时可以调用
+指定的构造方法,这个将在下面的时候做介绍.
+    如:env-&gt;GetMethodID(data_Clazz,&quot;&lt;init&gt;&quot;,&quot;()V&quot;);
+
+类似Java的Reflect(反射机制)需要指定类跟属性/方法我哑取得相应的jfieldID跟jmethodID.
+
+方法参数: jclass clazz调用指定某个类. const char* name常量字符串,代表属性或者方法的名称.
+    const char* sign是当类中有两个重载方法时签名.
+
+例如: TestNative类中有两个重载方法:
+</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Java</span></span><br><span class="line"><span class="keyword">package</span> com.tu.hellojni.jni;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestNative</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">function</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"TestNative.function(int i)"</span> + i);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">function</span><span class="params">(<span class="keyword">double</span> d)</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"TestNative.function(double d)"</span> + d);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>然后在C/C++代码中需要调用其中一个function方法的话.
+//首先取得要调用的方法所在的类
+
+jclass clazz_TestNative = env-&gt;FindClass(&quot;com/tu/hellojni/jni/TestNative&quot;);
+//取得jmethodID之后才进行调用
+jmethodID id_func = env-&gt;GetMethodID(clazz_testNative,&quot;function&quot;,&quot;??????&quot;);
+
+但是到底取得的是
+void function(int i )还是
+void function(double d)的jmethodID呢?
+这就是sign的作用了.它用于指定要取得的属性/方法类型.
+这里的sign如果指定为&quot;(I)V&quot;则取回void function(int)的jmethodID
+        如果指定为(D)V&quot;则取回void function(double)的jmethodID
+</code></pre><hr>
+<h2 id="Sign签名"><a href="#Sign签名" class="headerlink" title="Sign签名"></a>Sign签名</h2><pre><code>用来表示要取得的属性/方法的类型
+</code></pre><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>相应的签名</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>boolean</td>
+<td>Z</td>
+</tr>
+<tr>
+<td>byte</td>
+<td>B</td>
+</tr>
+<tr>
+<td>char</td>
+<td>C</td>
+</tr>
+<tr>
+<td>short</td>
+<td>S</td>
+</tr>
+<tr>
+<td>int</td>
+<td>I</td>
+</tr>
+<tr>
+<td>long</td>
+<td>J</td>
+</tr>
+<tr>
+<td>float</td>
+<td>F</td>
+</tr>
+<tr>
+<td>double</td>
+<td>D</td>
+</tr>
+<tr>
+<td>void</td>
+<td>V</td>
+</tr>
+<tr>
+<td>object</td>
+<td>L用/分隔包的完整类名: Ljava/lang/String;</td>
+</tr>
+<tr>
+<td>Array</td>
+<td>[签名 如[I 整形数组 如[Ljava/lang/Object; 对象数组</td>
+</tr>
+<tr>
+<td>Method</td>
+<td>(参数1类型签名,参数2类型签名…)返回值类型签名 如:(ILjava/util/Date;[I)I</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="使用Javap命令来产生Sign签名"><a href="#使用Javap命令来产生Sign签名" class="headerlink" title="使用Javap命令来产生Sign签名"></a>使用Javap命令来产生Sign签名</h2><pre><code>从上面代码中的签名可以看出.如果是比较复杂的签名编写起来还是比较麻烦的.
+所以JDK也提供了一个工具javap来查看一个类的声明,其中就可以设置输出每个方法/属性的签名.
+
+语法: 
+    javap -s -p [full Class Name]
+    -s 表示输出签名信息
+    -p 同-private,输出包含private 访问权限的成员信息
+
+使用方法:
+    1.cmd定位到工程目录下.
+    2.使用javap输入信息.
+</code></pre><p><pre class="brush: shell;  highlight: []"><br>        C:\Users\ComTu&gt;cd E:\ComTu_Design\workspace\workspace-Android\HelloJ<br>        C:\Users\ComTu&gt;E:<br>        E:\ComTu_Design\workspace\workspace-Android\HelloJNI&gt;cd bin/classes</pre></p>
+<pre><code>E:\ComTu_Design\workspace\workspace-Android\HelloJNI\bin\classes&gt;jav
+Compiled from &quot;Port.java&quot;
+public class com.tu.hellojni.jni.Port extends java.lang.Object{
+public int property;
+  Signature: I
+public com.tu.hellojni.jni.Port();
+  Signature: ()V
+public native java.lang.String sayHello();
+  Signature: ()Ljava/lang/String;
+public static native void sayHi(java.lang.String);
+  Signature: (Ljava/lang/String;)V
+public native void testSign();
+  Signature: ()V
+public void functionOverride();
+  Signature: ()V
+public void functionOverride(int);
+  Signature: (I)V
+public int function(int, java.util.Date, int[]);
+  Signature: (ILjava/util/Date;[I)I
+}
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">[在Eclipse中配置Javap快捷操作](/blog/2014/10/28/Android_NDK_IDE_environment_one.html)</span><br><span class="line"></span><br><span class="line">---	</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## 取得Java属性/设定Java属性值</span><br><span class="line"></span><br><span class="line">		取得了相应属性的 jfieldID 之后就可以用</span><br><span class="line"></span><br><span class="line">		Set&lt;TYPE&gt;Field</span><br><span class="line">		Get&lt;TYPE&gt;Field</span><br><span class="line"></span><br><span class="line">		SetStatic&lt;TYPE&gt;Filed</span><br><span class="line">		GetStatic&lt;TYPE&gt;File等函数来对Java属性进行操作了.  --&gt;TYPE泛指各种数据类型.</span><br><span class="line">	</span><br><span class="line">		如: Boolean , Byte , Double , Float ,  Int  , Long , Short , Object</span><br><span class="line">		</span><br><span class="line">		怎样获取数组属性呢?</span><br><span class="line">			可以使用GetObjectField来取得数组类型的属性.</span><br><span class="line">		</span><br><span class="line">		案例:</span><br><span class="line"></span><br><span class="line">```java</span><br><span class="line">	//Java</span><br><span class="line">	public class Port&#123;</span><br><span class="line">		/** C进行get/set成员变量 */</span><br><span class="line">		public int property = 55;</span><br><span class="line"></span><br><span class="line">		/** C进行Get/Set静态成员变量 */</span><br><span class="line">		public static boolean isShow = false;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//C</span></span><br><span class="line">jclass port_clazz = env-&gt;GetObjectClass(obj);</span><br><span class="line"><span class="comment">//获取java成员变量</span></span><br><span class="line"><span class="comment">//public int property;</span></span><br><span class="line">jfieldID fieldId_prop = env-&gt;GetFieldID(port_clazz, <span class="string">"property"</span>, <span class="string">"I"</span>);</span><br><span class="line">jint prop = env-&gt;GetIntField(obj, fieldId_prop);<span class="comment">//取值</span></span><br><span class="line">__android_log_print(ANDROID_LOG_INFO, <span class="string">"JNIMsg"</span>, <span class="string">"\n c-int: %d"</span>, prop);</span><br><span class="line"><span class="comment">//给java成员变量赋值</span></span><br><span class="line">env-&gt;SetIntField(obj, fieldId_prop, <span class="number">100L</span>);<span class="comment">//赋值100L表示c中的100常整数类型.</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//获取静态变量</span></span><br><span class="line">jfieldID fieldId_isShow = env-&gt;GetStaticFieldID(port_clazz, <span class="string">"isShow"</span>, <span class="string">"Z"</span>);</span><br><span class="line">jboolean jb = env-&gt;GetStaticBooleanField(port_clazz, fieldId_isShow);</span><br><span class="line">__android_log_print(ANDROID_LOG_INFO, <span class="string">"JNIMsg"</span>, <span class="string">"\n c-boolean: %d"</span>, jb);</span><br><span class="line">jboolean b = !jb;</span><br><span class="line">env-&gt;SetStaticBooleanField(port_clazz, fieldId_isShow, b);<span class="comment">//给静态变量赋值</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="Java方法的调用"><a href="#Java方法的调用" class="headerlink" title="Java方法的调用"></a>Java方法的调用</h2><pre><code>JNIEnv 提供了众多的Call&lt;TYPE&gt;Method 跟 CallStatic&lt;TYPT&gt;Method,还有
+CallNonvirtual&lt;TYPE&gt;Method函数.需要通过 GetMethodID 取得相应方法的 jmethodID来
+传入到函数参数中.
+
+调用实例方法的三种形式:
+    //第一种:最常用的方式
+    Call&lt;TYPE&gt;Method(jobject obj,jmethodID id,...); 
+    //第二种:当调用这个函数的时候有一个指向参数表的va_list变量时使用的_很少使用到这种方式
+    Call&lt;TYPE&gt;MethodV(jobject obj,jmethodID id, va_list lst);
+    //第三种:当调用这个函数的时候有一个指向jvalue或者jvalue数组的指针时用的
+    Call&lt;TYPE&gt;MethodA(jobject obj,jmethodID id, jvalue * v);
+
+调用静态方法的三种形式:
+    CallStatic&lt;TYPE&gt;Method(jclass class , jmethodID id, ...);
+    CallStatic&lt;TYPE&gt;MethodV(jclass class , jmethodID id, va_list lst);
+    CallStatic&lt;TYPE&gt;MethodA(jclass class , jmethodID id, jvalue * v);
+
+第三种中的 jvalue 这个类型是一个联合体.
+源代码jni.h中:
+</code></pre><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//C</span></span><br><span class="line">		<span class="keyword">typedef</span> <span class="keyword">union</span> jvalue &#123;</span><br><span class="line">		    jboolean    z;</span><br><span class="line">		    jbyte       b;</span><br><span class="line">		    jchar       c;</span><br><span class="line">		    jshort      s;</span><br><span class="line">		    jint        i;</span><br><span class="line">		    jlong       j;</span><br><span class="line">		    jfloat      f;</span><br><span class="line">		    jdouble     d;</span><br><span class="line">		    jobject     l;</span><br><span class="line">		&#125; jvalue;</span><br></pre></td></tr></table></figure>
+<pre><code>案例: 
+</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Java</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Port</span> </span>&#123;</span><br><span class="line">	<span class="comment">/** C调用重载成员函数_非静态方法 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">functionOverride</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"Port.functionOverride()--参数:property&gt;"</span> + property + <span class="string">"--isShow&gt;"</span> + isShow);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** C调用重载成员函数_非静态方法 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">functionOverride</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"Port.functionOverride(int i)--&gt;"</span> + i + <span class="string">"--参数:property&gt;"</span> + property + <span class="string">"--isShow&gt;"</span> + isShow);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** C调用多参数签名_非静态方法 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">function</span><span class="params">(<span class="keyword">int</span> foo, Date date, <span class="keyword">int</span>[] arr)</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"Port.function()foo&gt;"</span> + foo + <span class="string">"===date&gt;"</span> + date + <span class="string">"==arr&gt;"</span> + arr);</span><br><span class="line">		<span class="keyword">return</span> foo;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** C调用成员函数 的三种形式 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">function</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">double</span> d, <span class="keyword">char</span> c)</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"===&gt;Port.function()i&gt;"</span> + i + <span class="string">"===d&gt;"</span> + d + <span class="string">"==c&gt;"</span> + c);</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//C</span></span><br><span class="line">jclass port_clazz = env-&gt;GetObjectClass(obj);</span><br><span class="line"><span class="comment">//调用调用Java里的Port类的void functionOverride()重载函数_非静态函数</span></span><br><span class="line">jmethodID id_func1 = env-&gt;GetMethodID(port_clazz, <span class="string">"functionOverride"</span>, <span class="string">"()V"</span>);</span><br><span class="line">env-&gt;CallVoidMethod(obj, id_func1);<span class="comment">//调用</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//调用调用java里的Port类的void functionOverride(int )C调用重载函数_非静态函数</span></span><br><span class="line">jmethodID id_func2 = env-&gt;GetMethodID(port_clazz, <span class="string">"functionOverride"</span>, <span class="string">"(I)V"</span>);</span><br><span class="line">env-&gt;CallVoidMethod(obj, id_func2, <span class="number">1L</span>);<span class="comment">//调用,并需要一个参数</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//调用调用java里的Port类的public int function(int foo, Date data, int[] arr) --&gt;(ILjava/util/Date;[I)I</span></span><br><span class="line">jmethodID methodID_func = env-&gt;GetMethodID(port_clazz, <span class="string">"function"</span>, <span class="string">"(ILjava/util/Date;[I)I"</span>);</span><br><span class="line">env-&gt;CallIntMethod(obj, methodID_func, <span class="number">100L</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>);<span class="comment">//调用Port的function方法,后面跟随三个参数</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">jmethodID methodID_func_IDC = env-&gt;GetMethodID(port_clazz, <span class="string">"function"</span>, <span class="string">"(IDC)Z"</span>);</span><br><span class="line"><span class="comment">//调用实例方法的第一种形式: Call&amp;lt;TYPE&gt;Method(jobject obj,jmethodID id,...);</span></span><br><span class="line">env-&gt;CallBooleanMethod(obj, methodID_func_IDC, <span class="number">100L</span>, <span class="number">3.14</span>, L<span class="string">'1'</span>);<span class="comment">// 100L长整型,3.14double, L'1'宽字符</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//调用实例方法的第三种形式:</span></span><br><span class="line">jvalue * j = new jvalue[<span class="number">3</span>];</span><br><span class="line">j[<span class="number">0</span>].i = <span class="number">50L</span>;</span><br><span class="line">j[<span class="number">1</span>].d = <span class="number">3.1415</span>;</span><br><span class="line">j[<span class="number">2</span>].c = L<span class="string">'5'</span>;</span><br><span class="line">env-&gt;CallBooleanMethodA(obj, methodID_func_IDC, j);</span><br><span class="line"><span class="keyword">delete</span>[] j;<span class="comment">//删除回收</span></span><br></pre></td></tr></table></figure>
+<pre><code>调用一个对象的父类的方法:
+    在JNI中定义的 CallNonvirtual&lt;TYPE&gt;Method 就能够实现子类对象调用父类方法的功能.
+
+    要使用它,首先要取得父类及要调用的父类方法的 jmethodID,方可.
+
+案例:
+</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Java</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Father</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"===&gt;Father.function()"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Child</span> <span class="keyword">extends</span> <span class="title">Father</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"===&gt;Child.function()"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Port</span> </span>&#123;</span><br><span class="line">	<span class="comment">/** C调用_子父类关系类 */</span></span><br><span class="line">	<span class="keyword">public</span> Father father = <span class="keyword">new</span> Child();	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//C</span></span><br><span class="line"><span class="comment">//调用子父类的成员变量方法:</span></span><br><span class="line">jfieldID id_father = env-&gt;GetFieldID(port_clazz, <span class="string">"father"</span>, <span class="string">"Lcom/tu/hellojni/jni/Father;"</span>);</span><br><span class="line">jobject father = env-&gt;GetObjectField(obj, id_father);</span><br><span class="line"></span><br><span class="line">jclass clazz_Father = env-&gt;FindClass(<span class="string">"com/tu/hellojni/jni/Father"</span>);</span><br><span class="line">jmethodID id_father_function = env-&gt;GetMethodID(clazz_Father, <span class="string">"function"</span>, <span class="string">"()V"</span>);</span><br><span class="line"></span><br><span class="line">env-&gt;CallVoidMethod(father, id_father_function);</span><br><span class="line"></span><br><span class="line"><span class="comment">//	以上代码相当于:</span></span><br><span class="line"><span class="comment">//  Port port = new Port();</span></span><br><span class="line"><span class="comment">//	Father f = port.father; //--&gt;father成员变量是:public Father father = new Child();</span></span><br><span class="line"><span class="comment">//	f.function();</span></span><br><span class="line"><span class="comment">//运行结果: ===&gt;Child.function()</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//	调用父类的方法</span></span><br><span class="line">env-&gt;CallNonvirtualVoidMethod(father, clazz_Father, id_father_function);</span><br><span class="line"><span class="comment">//运行结果:===&gt;Father.function()</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h1 id="在C-C-本地代码中创建Java的对象"><a href="#在C-C-本地代码中创建Java的对象" class="headerlink" title="在C/C++本地代码中创建Java的对象"></a>在C/C++本地代码中创建Java的对象</h1><pre><code>创建Java对象有两种方式. (NewObject / AllocObject)
+</code></pre><h2 id="5-1-NewObject"><a href="#5-1-NewObject" class="headerlink" title="5.1 NewObject"></a>5.1 NewObject</h2><blockquote>
+<p>使用函数 NewObject 可以用来创建对象  </p>
+</blockquote>
+<pre><code>jobject NewObject(jclass clazz , jmethodID methodID,...)
+
+GetMethodID能够取得构造方法的 jmethodID .如果传入的要取得的方法名称设定为&quot;&lt;init&gt;&quot;就能够取得构造方法.  
+构造方法的方法返回值类型的签名始终为Void.
+
+    案例:
+</code></pre><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//C</span></span><br><span class="line"><span class="comment">//创建一个日期类Date对象并调用getTime方法</span></span><br><span class="line">jclass clazz_date = env-&gt;FindClass(<span class="string">"java/util/Date"</span>);</span><br><span class="line">jmethodID mid_date = env-&gt;GetMethodID(clazz_date,<span class="string">"&amp;lt;init&gt;"</span>,<span class="string">"()V"</span>);</span><br><span class="line">jobject now = env-&gt;NewObject(clazz_date,mid_date);</span><br><span class="line"></span><br><span class="line">jmethodID jmethodID_getTime = env-&gt;GetMethodID(clazz_date,<span class="string">"getTime"</span>,<span class="string">"()J"</span>);</span><br><span class="line">jlong time = env-&gt;CallLongMethod(now,jmethodID_getTime);</span><br><span class="line"></span><br><span class="line">__android_log_print(ANDROID_LOG_INFO, <span class="string">"JNIMsg"</span>, <span class="string">"\n c-创建Date对象并调用getTime方法: %d"</span>, time);</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="5-2-AllocObject"><a href="#5-2-AllocObject" class="headerlink" title="5.2 AllocObject"></a>5.2 AllocObject</h2><blockquote>
+<p>使用 AllocObject 方式创建对象(创建但未初始化,使用比较少.)<br>使用函数<strong>AllocObject</strong>可以根据传入的jclass创建一个Java对象,但是他的状态是非初始化的,<br>在使用这个对象之前绝对要用 <strong>CallNonvirtualVoidMethod</strong> 来调用该jclass的建构函数.<br>这样可以延迟构造函数的调用.这个部分用的很少.</p>
+</blockquote>
+<pre><code>案例: 
+</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Java</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Port</span> </span>&#123;</span><br><span class="line">	<span class="comment">/** C进行创建并初始化 */</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> String STATIC_STR;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//C</span></span><br><span class="line"><span class="comment">//---&gt; AllocObject 创建延迟初始化的对象</span></span><br><span class="line">jclass clazz_str = env-&gt;FindClass(<span class="string">"java/lang/String"</span>);</span><br><span class="line">jmethodID methodID_str = env-&gt;GetMethodID(clazz_str, <span class="string">"&amp;lt;init&gt;"</span>, <span class="string">"([C)V"</span>);<span class="comment">//通过字符数组构造函数</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//预先创建一个没有初始化的字符串</span></span><br><span class="line">jobject <span class="built_in">string</span> = env-&gt;AllocObject(clazz_str);</span><br><span class="line"></span><br><span class="line"><span class="comment">//创建一个5个元素的字符数组,然后以'c','o','m','t','u'赋值</span></span><br><span class="line">jcharArray arg = env-&gt;NewCharArray(<span class="number">5</span>);</span><br><span class="line">jchar buf[<span class="number">5</span>];</span><br><span class="line">buf[<span class="number">0</span>] = <span class="number">67</span>;</span><br><span class="line">buf[<span class="number">1</span>] = <span class="string">'o'</span>;</span><br><span class="line">buf[<span class="number">2</span>] = <span class="string">'m'</span>;</span><br><span class="line">buf[<span class="number">3</span>] = <span class="string">'t'</span>;</span><br><span class="line">buf[<span class="number">4</span>] = <span class="string">'u'</span>;</span><br><span class="line">env-&gt;SetCharArrayRegion(arg, <span class="number">0</span>, <span class="number">5</span>, buf);</span><br><span class="line"></span><br><span class="line"><span class="comment">//呼叫构建函数</span></span><br><span class="line">env-&gt;CallNonvirtualVoidMethod(<span class="built_in">string</span>, clazz_str, methodID_str, arg);</span><br><span class="line"></span><br><span class="line">jclass clazz_this = env-&gt;GetObjectClass(obj);</span><br><span class="line"></span><br><span class="line">jfieldID fieldID_str = env-&gt;GetStaticFieldID(clazz_this, <span class="string">"STATIC_STR"</span>, <span class="string">"Ljava/lang/String;"</span>);</span><br><span class="line">env-&gt;SetStaticObjectField(clazz_this, fieldID_str, <span class="built_in">string</span>);<span class="comment">//给java静态变量赋值</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h1 id="在C-C-本地代码中访问-创建Java的String字符串对象"><a href="#在C-C-本地代码中访问-创建Java的String字符串对象" class="headerlink" title="在C/C++本地代码中访问/创建Java的String字符串对象"></a>在C/C++本地代码中访问/创建Java的String字符串对象</h1><pre><code>Java字符串&lt;--&gt;C/C++字符串
+
+    在Java中,使用的字符串String对象是Unicode(UTF-16)码, 
+        即每个字符不论是中文英文还是符号,一个字符总是占两个字节.
+
+Java通过JNI接口可以将Java的字符串转换到C/C++中的宽字符串(wchar_t*),
+或者传回一个UTF-8的字符串(char*)到C/C++. 
+返过来,C/C++可以通过一个宽字符串,或者一个UTF-8编码的字符串来创建一个Java端的String对象.
+
+
+获取Java中的String对象有如下几种函数:
+</code></pre><h2 id="GetStringChars-GetStringUTFChars-ReleaseStringChars-ReleaseStringUTFChars"><a href="#GetStringChars-GetStringUTFChars-ReleaseStringChars-ReleaseStringUTFChars" class="headerlink" title="GetStringChars / GetStringUTFChars / ReleaseStringChars / ReleaseStringUTFChars ."></a>GetStringChars / GetStringUTFChars / ReleaseStringChars / ReleaseStringUTFChars .</h2><pre><code>const jchar* GetStringChars (jstring str , jboolean* copied)
+    可以取得UTF-16编码的宽字符串(jchar*)
+    开新内存,然后把Java中的String拷贝到这个内存中,然后返回指向这个内存地址的指针.
+
+const char* GetStringUTFChars (jstring str , jboolean* copied)
+    可以取得UTF-8编码的字符串(char*)
+    直接返回指向Java中String的内存的指针,这个时候
+    千万不要改变这个内存的内容,这将破坏String在Java中始终是常量这个原则.
+
+第二个参数jboolean* copied是用来标示是否对Java的String对象进行拷贝的.
+如果传入的这个jboolean指针不是 NULL ,则他会给该指针所指向的内存传入 JNI_TRUE
+或 JNI_FALSE 指示是否进行拷贝.
+传入 NULL 表示不关心是否拷贝字符串,它就不会被jboolean* 指向的内存赋值
+
+使用了如上这两个函数取得的字串,在不使用的时候,要使用
+ReleaseStringChars / ReleaseStringUTFChars 来释放拷贝的内存,或者释放对Java的String对象的引用.
+
+ReleaseStringChars (jstring jstr, const jchar* str); 
+ReleaseStringUTFChars (jstring jstr, const char* str);
+
+    第一个参数指定一个jstring变量,即要释放的本地字符串的来源.
+    第二个参数就是要释放的本地字符串.
+</code></pre><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">function</span><span class="params">(JNIEnv * env, jobject obj)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//-------- GetStringChars / ReleaseStringChars / NewString -------------</span></span><br><span class="line">		<span class="comment">//获取jmethodID</span></span><br><span class="line">		jfieldID jfie_msg = env-&gt;GetFieldID(env-&gt;GetObjectClass(obj), <span class="string">"message"</span>, <span class="string">"Ljava/lang/String;"</span>);</span><br><span class="line">		<span class="comment">//获取到String属性</span></span><br><span class="line">		jstring j_msg = (jstring) env-&gt;GetObjectField(obj, jfie_msg);</span><br><span class="line">		<span class="comment">//UTF-16编码的宽字符串(jchar*) const jchar* == const wchar_t*</span></span><br><span class="line">		<span class="comment">//	Java-String-&gt;C-jchar*转换</span></span><br><span class="line">		<span class="keyword">const</span> jchar* jstr = env-&gt;GetStringChars(j_msg, NULL);<span class="comment">//j_msg不能为null否则会抛异常</span></span><br><span class="line"></span><br><span class="line">		<span class="comment">//---------拷贝数据start--------------</span></span><br><span class="line"></span><br><span class="line">		jsize size = env-&gt;GetStringLength(j_msg);</span><br><span class="line"></span><br><span class="line">		<span class="comment">//转换成宽字符串</span></span><br><span class="line">		<span class="comment">//	wstring wstr((const wchar_t*) jstr);</span></span><br><span class="line"></span><br><span class="line">		jchar* jstrTemp = (jchar*) jstr;</span><br><span class="line">		<span class="comment">//---------拷贝数据end--------------</span></span><br><span class="line"></span><br><span class="line">		<span class="comment">//回收本地字符串 _释放指针</span></span><br><span class="line">		env-&gt;ReleaseStringChars(j_msg, jstr);</span><br><span class="line"></span><br><span class="line">		<span class="comment">//---------处理数据start--------------</span></span><br><span class="line">		<span class="comment">//倒序函数迭代字符串</span></span><br><span class="line">		<span class="comment">//	std::reverse(wstr.begin(), wstr.end());</span></span><br><span class="line">		<span class="comment">//---------处理数据end--------------</span></span><br><span class="line"></span><br><span class="line">		<span class="comment">//创建String对象并赋予Port的message变量中.</span></span><br><span class="line">		<span class="comment">//	jstring j_new_str = env-&gt;NewString((const jchar*) wstr.c_str(), (jint) wstr.size());</span></span><br><span class="line">		jstring j_new_str = env-&gt;NewString(jstrTemp, size);</span><br><span class="line">		<span class="comment">//赋值给Java的Port的message变量</span></span><br><span class="line">		env-&gt;SetObjectField(obj, jfie_msg, j_new_str);</span><br><span class="line">	&#125;</span><br><span class="line">```	</span><br><span class="line"></span><br><span class="line">```c</span><br><span class="line">	<span class="comment">//拷贝</span></span><br><span class="line">	<span class="function"><span class="keyword">char</span>* <span class="title">cc2c</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span>* str)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">char</span>* strtemp = new <span class="keyword">char</span>[<span class="built_in">strlen</span>(str) + <span class="number">1</span>];</span><br><span class="line">		<span class="built_in">strcpy</span>(strtemp, str);</span><br><span class="line">		return strtemp;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//简单倒序算法</span></span><br><span class="line">	<span class="function"><span class="keyword">char</span>* <span class="title">myReverse</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span>* str)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">char</span>* strtemp = cc2c(str);</span><br><span class="line">		<span class="keyword">int</span> len = <span class="built_in">strlen</span>(strtemp);</span><br><span class="line">		<span class="keyword">char</span> t;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len / <span class="number">2</span>; i++) &#123;</span><br><span class="line">			t = strtemp[i];</span><br><span class="line">			strtemp[i] = strtemp[len - i - <span class="number">1</span>];</span><br><span class="line">			strtemp[len - i - <span class="number">1</span>] = t;</span><br><span class="line">		&#125;</span><br><span class="line">		return strtemp;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">function</span><span class="params">(JNIEnv * env, jobject obj)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//------------------ GetStringUTFChars / ReleaseStringUTFChars / NewStringUTF -------</span></span><br><span class="line">		jfieldID jfie_msg = env-&gt;GetFieldID(env-&gt;GetObjectClass(obj), <span class="string">"message"</span>, <span class="string">"Ljava/lang/String;"</span>);</span><br><span class="line">		jstring j_msg = (jstring) env-&gt;GetObjectField(obj, jfie_msg);</span><br><span class="line">		<span class="comment">//	Java-String-&gt;C-jchar*转换</span></span><br><span class="line">		<span class="keyword">const</span> <span class="keyword">char</span>* str = env-&gt;GetStringUTFChars(j_msg, NULL);</span><br><span class="line">		<span class="keyword">char</span>* strtemp = myReverse(str);</span><br><span class="line">		env-&gt;ReleaseStringUTFChars(j_msg, str);</span><br><span class="line">		jstring j_new_str = env-&gt;NewStringUTF(strtemp);</span><br><span class="line">		<span class="keyword">delete</span>[] strtemp;</span><br><span class="line">		env-&gt;SetObjectField(obj, jfie_msg, j_new_str);</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="GetStringCritical-ReleaseStringCritical"><a href="#GetStringCritical-ReleaseStringCritical" class="headerlink" title="GetStringCritical / ReleaseStringCritical ."></a>GetStringCritical / ReleaseStringCritical .</h2><pre><code>为了增加直接传回指向Java字符串的指针的可能性(而不是拷贝),JDK1.2之后出来新的函数
+
+const jchar* GetStringCritical (jstring str , jboolean* copied)
+void ReleaseStringCritical (jstring jstr,const jchar* str);
+
+注意:
+在 GetStringCritical / ReleaseStringCritical 方法之间是一个关键区.
+在这关键区之中绝对不能呼叫(call)JNI的其它函数,会造成当前线程中断或是会让当前线程
+等待的任何本地代码.否则将造成关键区代码执行期间垃圾回收器停止动作,任何触发垃圾
+回收的线程也会暂停.其它的触发垃圾回收器的线程不能前进,直到当前线程结束而激活垃圾回收器.
+
+在关键区中千万不要出现中断操作,或者在JVM中分配任何新对象.否则会造成JVM死锁
+
+虽说这个函数会增加直接传回指向Java字符串的指针的可能性,不过还是会根据情况传回拷贝过的字符串.
+
+不支持 GetStringUTFCritical ,没有这样一个函数,由于Java字符串用的是UTF16,要转
+成UTF8编码的字符串始终需要进行一次拷贝,所以没有这样的函数.
+</code></pre><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//--------------- GetStringCritical / ReleaseStringCritical ----------</span><br><span class="line">void function(JNIEnv * env, jobject obj) &#123;</span><br><span class="line">	// 基本与 GetStringChars 一样</span><br><span class="line">	jfieldID jfie_msg = env-&gt;GetFieldID(env-&gt;GetObjectClass(obj), "message", "Ljava/lang/String;");</span><br><span class="line">	jstring j_msg = (jstring) env-&gt;GetObjectField(obj, jfie_msg);</span><br><span class="line">	//	Java-String-&gt;C-jchar*转换</span><br><span class="line">	const jchar* jstr = env-&gt;GetStringCritical(j_msg, NULL);//jstr_msg不能为null复杂会抛异常</span><br><span class="line">	wstring wstr((const wchar_t*) jstr);</span><br><span class="line">	env-&gt;ReleaseStringCritical(j_msg, jstr);</span><br><span class="line">	std::reverse(wstr.begin(), wstr.end());</span><br><span class="line">	jstring j_new_str = env-&gt;NewString((const jchar*) wstr.c_str(), (jint) wstr.size());</span><br><span class="line">	env-&gt;SetObjectField(obj, jfie_msg, j_new_str);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="GetStringRegion-GetStringUTFRegion"><a href="#GetStringRegion-GetStringUTFRegion" class="headerlink" title="GetStringRegion / GetStringUTFRegion ."></a>GetStringRegion / GetStringUTFRegion .</h2><pre><code>Java 1.2之后出来的函数,这个函数的动作,是把Java字符串的内容直接拷贝到C/C++
+的字符数组中,在呼叫这个函数之前必须有一个C/C++分配出来的字符串,然后传入到
+这个函数中进行字符串的拷贝.
+
+由于C/C++中分配内存开销相对小,而且Java中的String内容拷贝的开销可以忽略,
+更好的一点是此函数不分配内存,不会抛OutOfMemoryError异常.
+
+//拷贝Java字符串并以UTF-8编码传入bufer
+GetStringUTFRegion(jstring str , jsize start , jsize len , char* buffer);
+
+//拷贝Java字符串并以UTF-16编码传入buffer
+GetStringRegion(jstring str, jsize start , jsize len, jchar* buffer);
+
+Java的String str:
+    A  B  C  D  E  F  G  H  I  J  K  L  M  N
+             ↑― start = 3  ↓  len = 10 ―↑ 
+    env-&gt;GetStringRegion(str,3,10,buffer);//copy至buffer
+</code></pre><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//---------------- GetStringRegion / NewString ----------------</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">function</span><span class="params">(JNIEnv * env, jobject obj)</span> </span>&#123;</span><br><span class="line">	jfieldID jfie_msg = env-&gt;GetFieldID(env-&gt;GetObjectClass(obj), <span class="string">"message"</span>, <span class="string">"Ljava/lang/String;"</span>);</span><br><span class="line">	jstring j_msg = (jstring) env-&gt;GetObjectField(obj, jfie_msg);</span><br><span class="line"></span><br><span class="line">	jsize jm_len = env-&gt;GetStringLength(j_msg);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//创建一个数组长度为message字符串的长度+1(结尾符)</span></span><br><span class="line">	jchar* jstr = new jchar[jm_len + <span class="number">1</span>];</span><br><span class="line">	jstr[jm_len] = L<span class="string">'\0'</span>;<span class="comment">//C++中都会有结尾符,不然会出现乱码.</span></span><br><span class="line">	<span class="comment">//拷贝到字符数组里</span></span><br><span class="line">	env-&gt;GetStringRegion(j_msg, <span class="number">0</span>, jm_len, jstr);</span><br><span class="line">	<span class="comment">//	wstring wstr((const wchar_t*) jstr);</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//std::reverse(wstr.begin(), wstr.end());</span></span><br><span class="line">	jstring j_new_str = env-&gt;NewString((const jchar*) jstr,jm_len);</span><br><span class="line"></span><br><span class="line">	env-&gt;SetObjectField(obj, jfie_msg, j_new_str);</span><br><span class="line">	<span class="comment">//删除不必要的内存</span></span><br><span class="line">	<span class="keyword">delete</span>[] jstr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//---------------- GetStringUTFRegion / NewStringUTF ----------------</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">function</span><span class="params">(JNIEnv * env, jobject obj)</span> </span>&#123;</span><br><span class="line">	jfieldID jfie_msg = env-&gt;GetFieldID(env-&gt;GetObjectClass(obj), <span class="string">"message"</span>, <span class="string">"Ljava/lang/String;"</span>);</span><br><span class="line">	jstring j_msg = (jstring) env-&gt;GetObjectField(obj, jfie_msg);</span><br><span class="line"></span><br><span class="line">	jsize jm_len = env-&gt;GetStringLength(j_msg);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">char</span>* buffer  = new <span class="keyword">char</span>[jm_len + <span class="number">1</span>];</span><br><span class="line">	env-&gt;GetStringUTFRegion(j_msg, <span class="number">0</span>, jm_len, buffer);</span><br><span class="line">	<span class="comment">//	wstring wstr((const wchar_t*) jstr);</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//std::reverse(wstr.begin(), wstr.end());</span></span><br><span class="line">	jstring j_new_str = env-&gt;NewStringUTF((const char*) buffer);</span><br><span class="line"></span><br><span class="line">	env-&gt;SetObjectField(obj, jfie_msg, j_new_str);</span><br><span class="line">	<span class="keyword">delete</span>[] buffer;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="字符串相关函数"><a href="#字符串相关函数" class="headerlink" title="字符串相关函数"></a>字符串相关函数</h2><pre><code>jstring NewString(const jchar* str, jsize len); //创建一个字符串
+jstring NewStringUTF(const char* str); //创建一个UTF8的字符串
+jsize GetStringLength(jstring str);// 字符串的长度
+jsize GetStringUTFLength(jstring str);//UTF会占用多少个字节
+</code></pre><h1 id="7-在C-C-本地代码中操作Java的数组对象"><a href="#7-在C-C-本地代码中操作Java的数组对象" class="headerlink" title="7.在C/C++本地代码中操作Java的数组对象"></a>7.在C/C++本地代码中操作Java的数组对象</h1><pre><code>1.基本类型的数组
+2.对象类型(Objcet[])的数组
+
+一个能通用于两种不同类型数组的函数
+GetArrayLength(jarray aray);//获取数组长度
+</code></pre><h2 id="处理基本类型数组"><a href="#处理基本类型数组" class="headerlink" title="处理基本类型数组"></a>处理基本类型数组</h2><pre><code>Get&lt;TYPE&gt;ArrayElements(&lt;TYPE&gt;Array arr, jboolean* iscopied);
+    这类函数可以把Java基本类型的数组转换到C/C++中的数组,有两种处理方式,
+    1.拷贝一份传回本地代码,
+    2.把指向Java数组的指针直接传回到本地代码.
+    处理完本地代码的数组后,通过 Release&lt;TYPE&gt;ArrayElements来释放数组.
+
+Release&lt;TYPE&gt;ArrayElements(&lt;TYPE&gt;Array arr,&lt;TYPE&gt;* array,jint mode)
+    用这个函数可以选择将如何处理Java跟C++的数组,是提交,撤消,内存释放,还是不释放等.
+    mode可以取下面的值:
+    0          -&gt; 对Java的数组进行更新并释放C/C++的数组.
+    JNI_COMMIT -&gt; 对Java的数组进行更新但不释放C/C++的数组.
+    JNI_ABORT  -&gt; 对Java的数组不进行更新,释放C/C++的数组.
+
+GetPrimitiveArrayCritical(jarray arr , jboolean* isCopied);
+ReleasePrimitiveArrayCritical(jarray arr , void* array,jint mode);
+    也是JDK1.2出来的,为了增加直接传回指向Java数组的指针而加入的函数,同样的,
+    也会有同 GetStringCritical 的死锁的问题.
+
+Get&lt;TYPE&gt;ArrayRegion(&lt;TYPE&gt;Array arr, jsize start , jsize len , &lt;TYPE&gt;* buffere);
+    在C/C++预先开辟一段内存,然后把Java基本类型的数组拷贝到这段内存中.
+    跟 GetStringRegion原理类似
+
+Set&lt;TYPE&gt;ArrayRegion(&lt;TYPE&gt;Array arr , jsize start, jsize len , const &lt;TYPE&gt;* buffer);
+    把Java基本类型的数组中的指定范围的元素用C/C++的数组中的元素来赋值.
+
+&lt;TYPE&gt;Array New&lt;TYPE&gt;Array(jsize sz)
+    指定一个长度然后返回相应Java基本类型的数组.
+</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//java</span></span><br><span class="line"><span class="comment">/** C调用Get/Set成员变量 数组 */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] ints = <span class="keyword">new</span> <span class="keyword">int</span>[] &#123; <span class="number">67</span>, <span class="number">111</span>, <span class="number">109</span>, <span class="number">116</span>, <span class="number">117</span> &#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//c</span></span><br><span class="line"><span class="comment">//---- GetIntArrayElements / ReleaseIntArrayElements / ReleaseIntArrayElements / ReleaseIntArrayElements ----</span></span><br><span class="line"><span class="comment">//基本数据类型数组</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">function</span><span class="params">(JNIEnv * env, jobject obj)</span> </span>&#123;</span><br><span class="line">	<span class="comment">//取得属性Id</span></span><br><span class="line">	jfieldID fieldId = env-&gt;GetFieldID(env-&gt;GetObjectClass(obj), <span class="string">"ints"</span>, <span class="string">"[I"</span>);</span><br><span class="line">	<span class="comment">//通过属性id取得数组变量</span></span><br><span class="line">	jintArray ints = (jintArray) env-&gt;GetObjectField(obj, fieldId);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//转取得本地数组</span></span><br><span class="line">	jint* int_arr = env-&gt;GetIntArrayElements(ints, NULL);</span><br><span class="line">	jsize len = env-&gt;GetArrayLength(ints);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//C基本库 . 对数组进行排序,迭代器需要两个参数,第一个是array首地址,第二个是array尾地址</span></span><br><span class="line">	<span class="built_in">std</span>::sort(int_arr, int_arr + len);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (jsize i = <span class="number">0</span>; i &amp;lt; len; ++i) &#123;</span><br><span class="line">		__android_log_print(ANDROID_LOG_INFO, <span class="string">"JNIMsg"</span>, <span class="string">"\n c-intArray[]: %d"</span>, int_arr[i]);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//对Java的数组进行更新并释放C/C++的数组.</span></span><br><span class="line">	env-&gt;ReleaseIntArrayElements(ints, int_arr, <span class="number">0</span>);</span><br><span class="line">	<span class="comment">//对Java的数组进行更新但不释放C/C++的数组.</span></span><br><span class="line">	<span class="comment">//	env-&gt;ReleaseIntArrayElements(ints, int_arr, JNI_COMMIT);</span></span><br><span class="line">	<span class="comment">//对Java的数组不进行更新,释放C/C++的数组.</span></span><br><span class="line">	<span class="comment">//	env-&gt;ReleaseIntArrayElements(ints, int_arr, JNI_ABORT);</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="处理对象类型数组"><a href="#处理对象类型数组" class="headerlink" title="处理对象类型数组"></a>处理对象类型数组</h2><pre><code>JNI没有提供直接把Java的对象类型数组(Object[])直接传到C++中的jobject[]数组的函数.
+而是直接通过 Get/SetObjectArrayElement 这样的函数来对Java的Object[]数组进行操作.
+
+
+使用上述的函数也不用释放任何资源.
+
+NewObjectArray 可以通过指定长度跟初始值来创建某个类的数组.
+</code></pre><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//c</span></span><br><span class="line"><span class="comment">// ----- GetObjectArrayElement /  NewObjectArray / SetObjectArrayElement ------</span></span><br><span class="line"><span class="comment">//对象数据类型数组</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">function</span><span class="params">(JNIEnv * env, jobject obj)</span> </span>&#123;</span><br><span class="line">	jfieldID fieldStrId = env-&gt;GetFieldID(jclazz, <span class="string">"strs"</span>, <span class="string">"[Ljava/lang/String;"</span>);</span><br><span class="line">	<span class="comment">//获取java的对象数组</span></span><br><span class="line">	jobjectArray str_arr = (jobjectArray) env-&gt;GetObjectField(obj, fieldStrId);</span><br><span class="line">	<span class="keyword">int</span> lenStr = env-&gt;GetArrayLength(str_arr);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"\n c-stringArray :"</span>);</span><br><span class="line">	<span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">	<span class="comment">//读Java的以String数组</span></span><br><span class="line">	<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; lenStr; i++) &#123;</span><br><span class="line">		jobject obj = env-&gt;GetObjectArrayElement(str_arr, i);</span><br><span class="line">		jstring str = (jstring) obj;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">const</span> <span class="keyword">char</span> * szStr = env-&gt;GetStringUTFChars(str, <span class="number">0</span>);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">" %d-%s "</span>, i, szStr);</span><br><span class="line">		__android_log_print(ANDROID_LOG_INFO, <span class="string">"JNIMsg"</span>, <span class="string">"\n c-StringArray[]: %d - %s"</span>, i, szStr);</span><br><span class="line">		<span class="keyword">const</span> jchar * chars = (const jchar *) szStr;</span><br><span class="line">		env-&gt;ReleaseStringChars(str, chars);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//创建一个对象数组 , 为Java对象数组赋值并更新.</span></span><br><span class="line">	jstring str;</span><br><span class="line">	jobjectArray args = <span class="number">0</span>;</span><br><span class="line">	jsize size = <span class="number">7</span>;</span><br><span class="line">	<span class="keyword">char</span>* sa[] = &#123; <span class="string">"Hello,"</span>, <span class="string">"world!"</span>, <span class="string">"c"</span>, <span class="string">"o"</span>, <span class="string">"m"</span>, <span class="string">"t"</span>, <span class="string">"u"</span> &#125;;</span><br><span class="line">	<span class="keyword">int</span> j = <span class="number">0</span>;</span><br><span class="line">	jclass objClass = env-&gt;FindClass(<span class="string">"java/lang/String"</span>);</span><br><span class="line">	args = env-&gt;NewObjectArray(size, objClass, <span class="number">0</span>);</span><br><span class="line">	<span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; size; j++) &#123;</span><br><span class="line">		str = env-&gt;NewStringUTF(sa[j]);</span><br><span class="line">		env-&gt;SetObjectArrayElement(args, j, str);</span><br><span class="line">		<span class="keyword">if</span> (j &lt; lenStr)<span class="comment">//给Java数组赋数组下标越界抛异常 ,</span></span><br><span class="line">			env-&gt;SetObjectArrayElement(str_arr, j, str);<span class="comment">//自动更新Java类中的strs对象数组</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//	不需要释放任何资源.</span></span><br><span class="line">	<span class="comment">//args 新创建的 String 数组.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="8-全局引用-局部引用-弱全局引用"><a href="#8-全局引用-局部引用-弱全局引用" class="headerlink" title="8.全局引用/局部引用/弱全局引用"></a>8.全局引用/局部引用/弱全局引用</h1><pre><code>从Java虚拟机创建的对象传到本地C/C++代码时会产生引用.根据Java的垃圾回收机制,只要有引用
+存在就不会触发该引用指向的Java对象的垃圾回收.
+
+这些引用在JNI中分三种:
+    全局引用(Global Reference)
+    局部引用(Local Reference)
+    弱全局引用(Weak Global Reference ) Since JDK1.2
+</code></pre><h2 id="局部引用"><a href="#局部引用" class="headerlink" title="局部引用"></a>局部引用</h2><pre><code>最常见的引用类型,基本上通过JNI返回来的引用都是局部引用.
+    例如使用NewObject就会返回创建出来的实例的局部引用.局部引用只在该
+    native函数中有效,所有在该函数中产生的局部引用,都会在函数返回的时候
+    自动释放(freed).也可以使用 DeleteLocalRef 函数手动释放该引用.
+
+实际上局部引用存在,就会防止其指向的对象被垃圾回收,尤其是当一个局部引用
+指向一个很庞大的对象,或是在一个循环中生成了局部引用,最好的做法就是在使用完该
+对象后,或在该循环尾部把这个引用释放掉,以确保在垃圾回收器被触发的时候被回收.
+
+在局部引用的有效期中,可以传递到别的本地函数中,要强调的是他的有效期仍然只在
+一次的Java本地函数调用中,所以千万不能用C++全局变量保存他或是把他定义为C++
+静态局部变量.
+
+env-&gt;NewLocalRef(_jobject* localRef);
+env-&gt;DeleteLocalRef(_jobject* localRef);
+</code></pre><h2 id="全局引用"><a href="#全局引用" class="headerlink" title="全局引用"></a>全局引用</h2><pre><code>全局引用可以跨越当前线程,在多个native函数中有效,不过需要编程人员手动
+来释放该引用.全局引用存在期间会防止在Java的垃圾回收的回收.
+
+与局部引用不同,全局引用的创建不是由JNI自动创建的,全局引用是需要
+调用 NewGlobalRef 函数,而释放他需要使用 DeleteGlobalRef 函数.
+
+env-&gt;NewGlobalRef(_jobject* obj);
+env-&gt;DeleteGlobalRef(_jobject * globalRef);
+</code></pre><h2 id="弱全局引用"><a href="#弱全局引用" class="headerlink" title="弱全局引用"></a>弱全局引用</h2><pre><code>Java 1.2后出来的功能,与全局引用相似,创建跟删除都需要由编程人员来进行.
+这种引用与全局引用一样可以在多个本地代码有效,也跨越多线程有效,不一样的是,
+这种引用将不会阻止垃圾回收器回收这个引用所指向的对象.
+
+使用 NewWeakGlobalRef 跟 DeleteWeakGlobalRef 来产生和解除引用.
+
+env-&gt;NewWeakGlobalRef(_jobject * obj);
+env-&gt;DeleteWeakGlobalRef(_jobject* obj);
+</code></pre><h2 id="关于引用的一些函数"><a href="#关于引用的一些函数" class="headerlink" title="关于引用的一些函数"></a>关于引用的一些函数</h2><pre><code>jobject NewLocalRef( jobject obj);
+jobject NewGlobalRef( jobject obj);
+jboject NewWeakGlobalRef( jobject obj);
+void DeleteLocalRef( jobject obj);
+void DeleteGlobalRef( jobject obj);
+void DeleteWeakGlobalRef( jobject obj);
+//比较两个引用是否指向同一个Java对象
+jboolean IsSameObject(jobject obj1,Object obj2);
+这个函数对于弱全局引用还有一个特别的功能.
+把 NULL 传入要比较的对象中,就能判断弱全局引用所指向的Java对象是否被回收.
+</code></pre><h1 id="9-JNI优化"><a href="#9-JNI优化" class="headerlink" title="9.JNI优化"></a>9.JNI优化</h1><pre><code>缓存 jfieldID/jmethodID
+
+    取得 jfieldID跟jmethodID的时候会通过该属性/方法名称加上签名来查询相应的
+    jfieldID/jmethodID.这种查询相对来说开销较大.我们可以将这些FieldID/MethodID
+    缓存起来,这样只需要查询一次,以后就使用缓存起来的FieldID/MethodID了.
+
+    两种缓存的方式:
+        1.在用的时候缓存 (caching at the point of use)
+
+            在Native Code 中使用static局部变量来保存已经查询过的id.这样就不会在每次
+            函数调用时查询,而只要第一次查询成功后就保存起来了.
+
+            不过在这种情况下就不得不考虑多线程同时呼叫此函数时可能会导致同时查询的危机.
+            不过这种情况是无害的,因为查询同一个属性/方法的ID通常返回的是一样的值.
+</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**缓存id*/</span></span><br><span class="line"><span class="keyword">public</span> String cacheJfieldID = <span class="keyword">null</span>;</span><br><span class="line"><span class="keyword">public</span> String cacheJmethodID = <span class="keyword">null</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> jfieldID fieldID_string = <span class="literal">NULL</span>;</span><br><span class="line">jclass clazz = env-&gt;GetObjectClass(obj);</span><br><span class="line"><span class="keyword">if</span> (fieldID_string == <span class="literal">NULL</span>) &#123;</span><br><span class="line">	fieldID_string = env-&gt;GetFieldID(clazz, <span class="string">"cacheJfieldID"</span>, <span class="string">"Ljava/lang/String;"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//other code...</span></span><br></pre></td></tr></table></figure>
+<p>2.在Java类初始化时缓存(caching at the defining Class’s inititalizer)</p>
+<pre><code>更好的一个方式就是在任何native函数调用前把id全部存起来.
+
+我们可以让java在第一次加载这个类的时候,首先调用本地代码初始化所以的
+jfieldID/jmethodID,这样的话就可以省去多次的确定id是否存在的语句,
+当然,这些jfieldID/jmethodID是定义在C/C++的全局.
+
+使用这种方式还有好处,当Java类卸载或是重新加载的时候也会重新呼叫
+该本地代码来重新计算IDs.
+</code></pre><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> Port &#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">int</span> property = <span class="number">55</span>;</span><br><span class="line">	<span class="keyword">public</span> String message = <span class="string">"123456"</span>;</span><br><span class="line">	<span class="comment">/**缓存id*/</span></span><br><span class="line">	<span class="keyword">static</span>&#123;</span><br><span class="line">		initNativeIDs();<span class="comment">//初始化id</span></span><br><span class="line">	&#125;</span><br><span class="line">		</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> native <span class="keyword">void</span> <span class="title">initNativeIDs</span><span class="params">()</span></span>; </span><br><span class="line">	<span class="comment">//other code...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">	<span class="comment">//C</span></span><br><span class="line">	jfieldID g_propInt_id = <span class="number">0</span>;</span><br><span class="line">	jfieldID g_propStr_id = <span class="number">0</span>;</span><br><span class="line">	<span class="comment">/**Java初始化的时候缓存*/</span></span><br><span class="line">	<span class="function">JNIEXPORT <span class="keyword">void</span> JNICALL <span class="title">Java_com_tu_hellojni_jni_Port_initNativeIDs</span><span class="params">(JNIEnv * env, jclass clazz)</span> </span>&#123;</span><br><span class="line">	__android_log_print(ANDROID_LOG_INFO, <span class="string">"JNIMsg"</span>, <span class="string">"\n c-message: %s"</span>, <span class="string">"load.initNativeIDs.."</span>);</span><br><span class="line">	g_propInt_id = env-&gt;GetFieldID(clazz, <span class="string">"property"</span>, <span class="string">"I"</span>);</span><br><span class="line">	g_propStr_id = env-&gt;GetFieldID(clazz, <span class="string">"message"</span>, <span class="string">"Ljava/lang/String;"</span>);</span><br><span class="line">&#125;</span><br><span class="line">	<span class="comment">//other code...</span></span><br></pre></td></tr></table></figure>
+<h1 id="Demo下载"><a href="#Demo下载" class="headerlink" title="Demo下载"></a>Demo下载</h1><p><img src="/res/img/blog/2014/11/01/Java_JNI/demo.gif" alt="Demo"></p>
+<p><a href="/res/file/blog/2014/11/01/Java_JNI/HelloJNI.apk">本文Demo</a><br><a href="/res/file/blog/2014/11/01/Java_JNI/HelloJNI.rar">本文Demo源代码</a></p>
+<blockquote>
+<p>本博文暂时没有: 异常处理; C/C++如何启动JVM; JNI跟多线程;等介绍.有时间再后续…<br>介绍两本书:<br>The Java Native interface Programmer’s Guide and Specification<br>JNI++ User Guider  </p>
+</blockquote>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/AndroidNDK/" rel="tag">#AndroidNDK</a>
+          
+            <a href="/tags/NDK/" rel="tag">#NDK</a>
+          
+            <a href="/tags/JNI/" rel="tag">#JNI</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/10/29/Android_NDK_Hello_World_two.html" rel="next" title="Android 中NDK的使用详解第二篇:Hello World">
+                <i class="fa fa-chevron-left"></i> Android 中NDK的使用详解第二篇:Hello World
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/12/01/Java_security.html" rel="prev" title="Java实现加密算法">
+                Java实现加密算法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="/2014/11/01/Java_JNI.html"
+           data-title="JNI" data-url="http://comtu.github.com/2014/11/01/Java_JNI.html">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/icon.jpg"
+               alt="Comtu" />
+          <p class="site-author-name" itemprop="name">Comtu</p>
+          <p class="site-description motion-element" itemprop="description">The time is passing</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">26</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">91</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JNI简介"><span class="nav-number">1.</span> <span class="nav-text">JNI简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#最简单的Java调用C-C-代码的步骤"><span class="nav-number">2.</span> <span class="nav-text">最简单的Java调用C/C++代码的步骤:</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#在C-C-本地代码中访问Java代码简介"><span class="nav-number">3.</span> <span class="nav-text">在C/C++本地代码中访问Java代码简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#JNIEnv-类型"><span class="nav-number">3.1.</span> <span class="nav-text">JNIEnv 类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jobject"><span class="nav-number">3.2.</span> <span class="nav-text">jobject</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jclass"><span class="nav-number">3.3.</span> <span class="nav-text">jclass</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java的类型在C-C-中的映射关系"><span class="nav-number">3.4.</span> <span class="nav-text">Java的类型在C/C++中的映射关系</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#在C-C-本地代码中访问Java类中的属性与方法"><span class="nav-number">4.</span> <span class="nav-text">在C/C++本地代码中访问Java类中的属性与方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#jfieldID-jmethodID"><span class="nav-number">4.1.</span> <span class="nav-text">jfieldID/jmethodID</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sign签名"><span class="nav-number">4.2.</span> <span class="nav-text">Sign签名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用Javap命令来产生Sign签名"><span class="nav-number">4.3.</span> <span class="nav-text">使用Javap命令来产生Sign签名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java方法的调用"><span class="nav-number">4.4.</span> <span class="nav-text">Java方法的调用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#在C-C-本地代码中创建Java的对象"><span class="nav-number">5.</span> <span class="nav-text">在C/C++本地代码中创建Java的对象</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-NewObject"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 NewObject</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-AllocObject"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 AllocObject</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#在C-C-本地代码中访问-创建Java的String字符串对象"><span class="nav-number">6.</span> <span class="nav-text">在C/C++本地代码中访问/创建Java的String字符串对象</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#GetStringChars-GetStringUTFChars-ReleaseStringChars-ReleaseStringUTFChars"><span class="nav-number">6.1.</span> <span class="nav-text">GetStringChars / GetStringUTFChars / ReleaseStringChars / ReleaseStringUTFChars .</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GetStringCritical-ReleaseStringCritical"><span class="nav-number">6.2.</span> <span class="nav-text">GetStringCritical / ReleaseStringCritical .</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GetStringRegion-GetStringUTFRegion"><span class="nav-number">6.3.</span> <span class="nav-text">GetStringRegion / GetStringUTFRegion .</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符串相关函数"><span class="nav-number">6.4.</span> <span class="nav-text">字符串相关函数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-在C-C-本地代码中操作Java的数组对象"><span class="nav-number">7.</span> <span class="nav-text">7.在C/C++本地代码中操作Java的数组对象</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#处理基本类型数组"><span class="nav-number">7.1.</span> <span class="nav-text">处理基本类型数组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#处理对象类型数组"><span class="nav-number">7.2.</span> <span class="nav-text">处理对象类型数组</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-全局引用-局部引用-弱全局引用"><span class="nav-number">8.</span> <span class="nav-text">8.全局引用/局部引用/弱全局引用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#局部引用"><span class="nav-number">8.1.</span> <span class="nav-text">局部引用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#全局引用"><span class="nav-number">8.2.</span> <span class="nav-text">全局引用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#弱全局引用"><span class="nav-number">8.3.</span> <span class="nav-text">弱全局引用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于引用的一些函数"><span class="nav-number">8.4.</span> <span class="nav-text">关于引用的一些函数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#9-JNI优化"><span class="nav-number">9.</span> <span class="nav-text">9.JNI优化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Demo下载"><span class="nav-number">10.</span> <span class="nav-text">Demo下载</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Comtu</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"comtu"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
