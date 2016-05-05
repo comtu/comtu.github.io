@@ -103,3 +103,15 @@ jiathis: true
 
 #多说热评文章
 #duoshuo_hotartical: true
+
+
+index_generator:
+  per_page: 10
+
+archive_generator:
+  per_page: 30
+  yearly: true
+  monthly: true
+
+tag_generator:
+  per_page: 10

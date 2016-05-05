@@ -100,7 +100,7 @@
     fancybox: true,
     motion: true,
     duoshuo: {
-      userId: 0,
+      userId: 9414502,
       author: '博主'
     }
   };
@@ -237,6 +237,884 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2014/10/27/android_safe_mode_mechanism_three.html" itemprop="url">
+                  Android安全模式机制之三(实际运用)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-10-27T00:00:00+08:00" content="2014-10-27">
+              2014-10-27
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/10/27/android_safe_mode_mechanism_three.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/2014/10/27/android_safe_mode_mechanism_three.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <style>
+h3 {
+    line-height: 1.5;
+    letter-spacing: 2px;
+    margin-top: -10px;
+}
+h6 {
+    line-height: 1.5;
+    letter-spacing: 2px;
+    margin-top: -10px;
+}
+
+</style>
+
+<p>目录:</p>
+<ul>
+<li><p>1.移动平台中的主流签名作用</p>
+<ul>
+<li>1.1自签名的完整性鉴别</li>
+<li>1.2信任模式</li>
+<li>1.3限制安装/运行</li>
+<li>1.4权限的作用</li>
+<li>1.5权限的安全性保护</li>
+<li>1.6Android的签名作用</li>
+<li>1.7Android APK之METAINF</li>
+</ul>
+</li>
+<li><p>2.Android中的权限</p>
+<ul>
+<li>2.1Android的权限作用</li>
+<li>2.2Android的权限类别</li>
+<li>2.3Android的权限定义方式</li>
+<li>2.4Android的运行时权限控制方式</li>
+<li>2.5Android的Permission与UID/GID的mapping</li>
+</ul>
+</li>
+<li><p>3.Android中的组件的安全机制</p>
+<ul>
+<li>3.1组件的权限分配(Demo)<ul>
+<li>3.1.1 Activity</li>
+<li>3.1.2 Service</li>
+<li>3.1.3 ContentProvide</li>
+<li>3.1.4 BroadcastReceiver</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>4.Android应用安装</p>
+<ul>
+<li>4.1应用安装的安全性考虑和调用方式</li>
+<li>4.2应用安装流程之UID/GID的分配</li>
+<li>4.3应用安装流程之工作目录的创建和权限设置</li>
+</ul>
+</li>
+<li><p>5.Android中系统Service的安全</p>
+<ul>
+<li>5.1Binder的安全</li>
+<li>5.2ServiceManager Add Service的安全限制</li>
+<li>5.3Zygote的Process Fork</li>
+<li>5.4Zygote的Socket安全检查    </li>
+</ul>
+</li>
+<li><p>6.Android中的ContentProvider以及基于URI的安全</p>
+<ul>
+<li>6.1ContentProvider的作用</li>
+<li>6.2权限临时继承的需求</li>
+<li>6.3配置ContentProvider允许临时委派权限</li>
+<li>6.4基于URI的权限临时委派</li>
+</ul>
+</li>
+<li><p>7.Android的Policy模式和多设备绑定</p>
+<ul>
+<li>7.1Android的Policy模式</li>
+<li>7.2MR2开始的AppOps(安卓4.3开始)</li>
+<li>7.3AppOps对开发者的影响</li>
+<li>7.4设备绑定</li>
+<li>7.5跨设备使用</li>
+</ul>
+</li>
+<li><p>8.应用内计费和App2SDCard</p>
+<ul>
+<li>8.1应用内计费</li>
+<li>8.2SD卡安装应用的安全策略</li>
+</ul>
+</li>
+<li><p>9.Android中的多用户安全</p>
+<ul>
+<li>9.1需求场景</li>
+<li>9.2UserManagerService</li>
+<li>9.3对开发者的影响</li>
+</ul>
+</li>
+<li><p>10.Android Superuser机制讲解</p>
+<ul>
+<li>10.1ROOT的作用</li>
+<li>10.2ROOT的第一步:寻找漏洞并安装特权文件</li>
+<li>10.3SU的sUID的特性</li>
+<li>10.4SU的核心代码分析</li>
+<li>10.5MR2后的方案:SU Deamon Service</li>
+</ul>
+</li>
+<li><p>11.SEAndroid</p>
+<ul>
+<li>11.1DAC和MAC</li>
+<li>11.2基于Label的MAC</li>
+<li>11.3推荐读物</li>
+</ul>
+</li>
+</ul>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014/10/27/android_safe_mode_mechanism_three.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2014/10/26/android_safe_mode_mechanism_two.html" itemprop="url">
+                  Android安全模式机制之二(操作系统现代安全体系基础概念)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-10-26T00:00:00+08:00" content="2014-10-26">
+              2014-10-26
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/10/26/android_safe_mode_mechanism_two.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/2014/10/26/android_safe_mode_mechanism_two.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <style>
+h3 {
+    line-height: 1.5;
+    letter-spacing: 2px;
+    margin-top: -10px;
+}
+h6 {
+    line-height: 1.5;
+    letter-spacing: 2px;
+    margin-top: -10px;
+}
+
+</style>
+
+<p>目录:</p>
+<ul>
+<li>1.进程和进程边界</li>
+<li>2.多用户和多用户边界</li>
+<li>3.进程和文件的UID/GID (UserID/groupId)<ul>
+<li>3.1文件资源的权限力度:UID/GID</li>
+<li>3.2文件的可操作权限</li>
+<li>3.3进程的标识: PID , UID , GID , GIDs</li>
+<li>3.4Name和ID的映射</li>
+<li>3.5Chmod和chown命令介绍<ul>
+<li>3.5.1Chmod</li>
+<li>3.5.2Chown</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>4.UID/GID的衔接</li>
+<li>5.进程的RealUID和EffectiveUID</li>
+<li>6.文件的setUID标识</li>
+<li>7.Capability<ul>
+<li>7.1进程的Capability</li>
+<li>7.2文件的Capability</li>
+<li>7.3Capability BoundSet</li>
+<li>7.4Spawn进程的Capability</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="进程和进程边界"><a href="#进程和进程边界" class="headerlink" title="进程和进程边界"></a>进程和进程边界</h1><pre><code>进程和线程
+    可执行文件:不活动就是废物
+    进程:可执行文件的活动表现,一次生命的历练
+    线程:CPU(核)的调度单位,并发的执行序列,进程的多管齐下
+    资源和调度.
+
+
+进程边界的安全围栏: 
+    Crash的不可扩延性
+    全局数据和服务的不可访问性
+</code></pre>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014/10/26/android_safe_mode_mechanism_two.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2014/10/25/android_safe_mode_mechanism_one.html" itemprop="url">
+                  Android安全模式机制之一(现代安全体系基础概念)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-10-25T00:00:00+08:00" content="2014-10-25">
+              2014-10-25
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/10/25/android_safe_mode_mechanism_one.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/2014/10/25/android_safe_mode_mechanism_one.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <style>
+h3 {
+    line-height: 1.5;
+    letter-spacing: 2px;
+    margin-top: -10px;
+}
+h6 {
+    line-height: 1.5;
+    letter-spacing: 2px;
+    margin-top: -10px;
+}
+</style>
+
+<p>目录:</p>
+<ul>
+<li>1.典型的加密模型</li>
+<li>2.对称秘钥算法 (加密解密密钥相同)</li>
+<li>3.非对称密钥算法(公钥密码)(加密与解密密钥不同.)</li>
+<li>4.密钥交换</li>
+<li>5.消息摘要</li>
+<li>6.电子签名</li>
+<li>7.证书与PKI</li>
+</ul>
+<hr>
+<h1 id="1-典型的加密模型"><a href="#1-典型的加密模型" class="headerlink" title="1.典型的加密模型"></a>1.典型的加密模型</h1><pre><code>密钥:分为加密密钥和解密密钥
+明文:没有进行加密,能够直接代表原文含义的信息.
+密文:经这加密处理之后,隐藏原温含义的信息
+解密:将密文转换成明文的实施过程.
+
+明文P--&gt;加密方法E --&gt; 密文 --&gt; 解密方法D --&gt; 明文P
+        加密密钥K  密文P=Ek(p)  解密密钥K&apos;
+
+    Dk&apos;(Ek(P))=P    k=k&apos;则为对称加密
+</code></pre>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014/10/25/android_safe_mode_mechanism_one.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2014/10/24/android_automatic_packaging.html" itemprop="url">
+                  Android程序自动化打包
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-10-24T00:00:00+08:00" content="2014-10-24">
+              2014-10-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/10/24/android_automatic_packaging.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/2014/10/24/android_automatic_packaging.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <style>
+h3 {
+    line-height: 1.5;
+    letter-spacing: 2px;
+    margin-top: -10px;
+}
+h6 {
+    line-height: 1.5;
+    letter-spacing: 2px;
+    margin-top: -10px;
+}
+
+</style>
+
+<p>目录:   </p>
+<ul>
+<li>1.概述</li>
+<li>2.准备</li>
+<li>3.开始(如果之前有做过前面的步骤可直达第三步)</li>
+</ul>
+<h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1 概述"></a><strong>1 概述</strong></h2><p>在一般的Android开发中，我们通常使用Eclipse自带的导出工具来进行App的签名和发布，Android自动化打包，就是利用脚本将这样一个手动操作的过程转化为一个命令搞定。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014/10/24/android_automatic_packaging.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2014/10/23/java8_new_feature.html" itemprop="url">
+                  Java8新特性
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-10-23T00:00:00+08:00" content="2014-10-23">
+              2014-10-23
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/10/23/java8_new_feature.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/2014/10/23/java8_new_feature.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <style>
+h3 {
+    line-height: 1.5;
+    letter-spacing: 2px;
+    margin-top: -10px;
+}
+h6 {
+    line-height: 1.5;
+    letter-spacing: 2px;
+    margin-top: -10px;
+}
+</style>
+
+<p>目录:   </p>
+<ul>
+<li>1．简介</li>
+<li>2．Java的新特性<ul>
+<li>2.1 Lambda表达式和函数式接口</li>
+<li>2.2 接口的默认方法和静态方法</li>
+<li>2.3 方法引用</li>
+<li>2.4 重复注释</li>
+<li>2.5 更好的类型推断</li>
+<li>2.6 注解的扩展</li>
+</ul>
+</li>
+<li>3．Java编译器的新特性<ul>
+<li>3.1 参数名字</li>
+</ul>
+</li>
+<li>4．Java 库的新特性<ul>
+<li>4.1 Optional</li>
+<li>4.2 Stream</li>
+<li>4.3日期时间API（JSR310)</li>
+<li>4.4 Nashorn javascript引擎</li>
+<li>4.5 Base64</li>
+<li>4.6 并行数组</li>
+<li>4.7 并发</li>
+</ul>
+</li>
+<li><ol>
+<li>新的工具<ul>
+<li>5.1 Nashorn引擎：jjs</li>
+<li>5.2 类依赖分析工具：jdeps</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><ol>
+<li>JVM的新特性</li>
+</ol>
+</li>
+<li><ol>
+<li>资源</li>
+</ol>
+</li>
+</ul>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014/10/23/java8_new_feature.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
     
       
 
@@ -507,6 +1385,130 @@
             
               
                 
+                <a class="post-title-link" href="/2014/10/21/android_open_project.html" itemprop="url">
+                  Android开源项目分类汇总
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-10-21T00:00:00+08:00" content="2014-10-21">
+              2014-10-21
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/10/21/android_open_project.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/2014/10/21/android_open_project.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="Android开源项目分类汇总"><a href="#Android开源项目分类汇总" class="headerlink" title="Android开源项目分类汇总"></a>Android开源项目分类汇总</h1><h2 id="目前包括："><a href="#目前包括：" class="headerlink" title="目前包括："></a>目前包括：</h2><blockquote>
+<p>[Android开源项目第一篇——个性化控件(View)篇]<br><em>&nbsp;&nbsp;包括[ListView]、[ActionBar]、[Menu]、[ViewPager]、[Gallery]、[GridView]、[ImageView]、[ProgressBar]、[TextView]、[ScrollView]、[TimeView]、[TipView]、[FlipView]、[ColorPickView]、[GraphView]、[UI Style]、[其他]</em><br>[Android开源项目第二篇——工具库篇]<br><em>&nbsp;&nbsp;包括[依赖注入]、[图片缓存]、[网络相关]、[数据库ORM工具包]、[Android公共库]、[高版本向低版本兼容库]、[多媒体]、[事件总线]、[传感器]、[安全]、[插件化]、[文件]、[其他]</em><br>[Android开源项目第三篇——优秀项目篇]<br><em>&nbsp;&nbsp;比较有意思的完整的Android项目</em><br>[Android开源项目第四篇——开发及测试工具篇]<br><em>&nbsp;&nbsp;包括[开发效率工具]、[开发自测相关]、[测试工具]、[开发及编译环境]、[其他]</em><br>[Android开源项目第五篇——优秀个人和团体篇]<br><em>&nbsp;&nbsp;乐于分享并且有一些很不错的开源项目的[个人]和[组织]，包括JakeWharton、Chris Banes、Koushik Dutta等大牛</em>  </p>
+</blockquote>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014/10/21/android_open_project.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2014/10/21/android_excellent_project_library.html" itemprop="url">
                   Android优秀项目篇
                 </a>
@@ -587,130 +1589,6 @@
 <p>项目地址：<a href="https://android.googlesource.com/">https://android.googlesource.com/</a> 或 <a href="https://github.com/android">https://github.com/android</a></p>
           <div class="post-more-link text-center">
             <a class="btn" href="/2014/10/21/android_excellent_project_library.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2014/10/21/android_open_project.html" itemprop="url">
-                  Android开源项目分类汇总
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2014-10-21T00:00:00+08:00" content="2014-10-21">
-              2014-10-21
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2014/10/21/android_open_project.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/2014/10/21/android_open_project.html" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="Android开源项目分类汇总"><a href="#Android开源项目分类汇总" class="headerlink" title="Android开源项目分类汇总"></a>Android开源项目分类汇总</h1><h2 id="目前包括："><a href="#目前包括：" class="headerlink" title="目前包括："></a>目前包括：</h2><blockquote>
-<p>[Android开源项目第一篇——个性化控件(View)篇]<br><em>&nbsp;&nbsp;包括[ListView]、[ActionBar]、[Menu]、[ViewPager]、[Gallery]、[GridView]、[ImageView]、[ProgressBar]、[TextView]、[ScrollView]、[TimeView]、[TipView]、[FlipView]、[ColorPickView]、[GraphView]、[UI Style]、[其他]</em><br>[Android开源项目第二篇——工具库篇]<br><em>&nbsp;&nbsp;包括[依赖注入]、[图片缓存]、[网络相关]、[数据库ORM工具包]、[Android公共库]、[高版本向低版本兼容库]、[多媒体]、[事件总线]、[传感器]、[安全]、[插件化]、[文件]、[其他]</em><br>[Android开源项目第三篇——优秀项目篇]<br><em>&nbsp;&nbsp;比较有意思的完整的Android项目</em><br>[Android开源项目第四篇——开发及测试工具篇]<br><em>&nbsp;&nbsp;包括[开发效率工具]、[开发自测相关]、[测试工具]、[开发及编译环境]、[其他]</em><br>[Android开源项目第五篇——优秀个人和团体篇]<br><em>&nbsp;&nbsp;乐于分享并且有一些很不错的开源项目的[个人]和[组织]，包括JakeWharton、Chris Banes、Koushik Dutta等大牛</em>  </p>
-</blockquote>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014/10/21/android_open_project.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -867,766 +1745,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2014/10/20/Design_pattern_Singleton.html" itemprop="url">
-                  单例设计模式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2014-10-20T00:00:00+08:00" content="2014-10-20">
-              2014-10-20
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/设计模式/" itemprop="url" rel="index">
-                    <span itemprop="name">设计模式</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2014/10/20/Design_pattern_Singleton.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/2014/10/20/Design_pattern_Singleton.html" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="单例设计模式"><a href="#单例设计模式" class="headerlink" title="单例设计模式"></a>单例设计模式</h1><p><strong>意图</strong></p>
-<pre><code>保证一个类仅有一个实例，并提供一个访问它的全局访问点。
-</code></pre><p><strong>适用性</strong></p>
-<pre><code>当类只能有一个实例而且客户可以从一个众所周知的访问点访问它时。
-当这个唯一实例应该是通过子类化可扩展的，并且客户应该无需更改代码就能使用一个扩展的实例时。
-</code></pre>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014/10/20/Design_pattern_Singleton.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2014/10/19/git_common_command.html" itemprop="url">
-                  Git 常用命令整理
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2014-10-19T00:00:00+08:00" content="2014-10-19">
-              2014-10-19
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Git/" itemprop="url" rel="index">
-                    <span itemprop="name">Git</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2014/10/19/git_common_command.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/2014/10/19/git_common_command.html" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="初始化配置"><a href="#初始化配置" class="headerlink" title="初始化配置"></a>初始化配置</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#配置使用git仓库的人员姓名  </span></span><br><span class="line">git config --<span class="keyword">global</span> user.name <span class="string">"Your Name Comes Here"</span>  </span><br><span class="line">  </span><br><span class="line"><span class="comment">#配置使用git仓库的人员email  </span></span><br><span class="line">git config --<span class="keyword">global</span> user.email you@yourdomain.example.com  </span><br><span class="line">  </span><br><span class="line"><span class="comment">#配置到缓存 默认15分钟  </span></span><br><span class="line">git config --<span class="keyword">global</span> credential.helper cache   </span><br><span class="line">  </span><br><span class="line"><span class="comment">#修改缓存时间  </span></span><br><span class="line">git config --<span class="keyword">global</span> credential.helper <span class="string">'cache --timeout=3600'</span>    </span><br><span class="line">  </span><br><span class="line">git config --<span class="keyword">global</span> color.ui true  </span><br><span class="line">git config --<span class="keyword">global</span> alias.co checkout  </span><br><span class="line">git config --<span class="keyword">global</span> alias.ci commit  </span><br><span class="line">git config --<span class="keyword">global</span> alias.st status  </span><br><span class="line">git config --<span class="keyword">global</span> alias.br branch  </span><br><span class="line">git config --<span class="keyword">global</span> core.editor <span class="string">"mate -w"</span>    <span class="comment"># 设置Editor使用textmate  </span></span><br><span class="line">git config <span class="number">-1</span> <span class="comment">#列举所有配置  </span></span><br><span class="line">  </span><br><span class="line"><span class="comment">#用户的git配置文件~/.gitconfig</span></span><br></pre></td></tr></table></figure>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014/10/19/git_common_command.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2014/10/19/Jekyll_Variables.html" itemprop="url">
-                  Jekyll目录结构与变量
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2014-10-19T00:00:00+08:00" content="2014-10-19">
-              2014-10-19
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Jekyll/" itemprop="url" rel="index">
-                    <span itemprop="name">Jekyll</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2014/10/19/Jekyll_Variables.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/2014/10/19/Jekyll_Variables.html" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="Jekyll-目录及一些说明"><a href="#Jekyll-目录及一些说明" class="headerlink" title="Jekyll 目录及一些说明"></a>Jekyll 目录及一些说明</h1><h2 id="Jekyll-标准目录树"><a href="#Jekyll-标准目录树" class="headerlink" title="Jekyll 标准目录树"></a>Jekyll 标准目录树</h2><pre><code>_config.yml   Jekyll的配置文件
-_includes     include 文件所在的文件夹
-_layouts      模版文件夹
-_posts        自己要发布的内容
-_sites        预览时产生的文件都放在该文件夹中
-</code></pre>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014/10/19/Jekyll_Variables.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2014/10/18/support-pygments-in-Jekyll.html" itemprop="url">
-                  Jekyll中的语法高亮:Pygments
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2014-10-18T00:00:00+08:00" content="2014-10-18">
-              2014-10-18
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Jekyll/" itemprop="url" rel="index">
-                    <span itemprop="name">Jekyll</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2014/10/18/support-pygments-in-Jekyll.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/2014/10/18/support-pygments-in-Jekyll.html" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <hr>
-<p>在安装成功Jekyll环境的情况下.</p>
-<h1 id="一-安装Pygments"><a href="#一-安装Pygments" class="headerlink" title="一.安装Pygments"></a>一.安装Pygments</h1><p>Jekyll 里默认的语法高亮插件是 <a href="http://pygments.org/">Pygments</a>。Pygments <a href="http://pygments.org/docs/lexers/">支持多种语言高亮</a>。</p>
-<h2 id="一-1-如果你是linux"><a href="#一-1-如果你是linux" class="headerlink" title="一.1)如果你是linux"></a><strong>一.1)如果你是linux</strong></h2><h3 id="1-安装-pygments"><a href="#1-安装-pygments" class="headerlink" title=" *1.安装 pygments"></a><em> <em>*1.安装 pygments</em></em></h3><p>archlinux:</p>
-<pre><code>$ sudo pacman -S python2-pygments
-</code></pre>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014/10/18/support-pygments-in-Jekyll.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2014/10/18/windows_configuration_Jekyll.html" itemprop="url">
-                  Windows平台配置Jekyll环境并与GitHub连接
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2014-10-18T00:00:00+08:00" content="2014-10-18">
-              2014-10-18
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Jekyll/" itemprop="url" rel="index">
-                    <span itemprop="name">Jekyll</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2014/10/18/windows_configuration_Jekyll.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/2014/10/18/windows_configuration_Jekyll.html" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <hr>
-<h1 id="1-安装所需要的软件"><a href="#1-安装所需要的软件" class="headerlink" title="1.安装所需要的软件"></a>1.安装所需要的软件<br /></h1><ul>
-<li><p><strong>文本编辑器</strong>(不要使用Windows自带的编辑器) </p>
-<p>  使用如:<code>notepad++</code> <a href="http://www.notepad-plus-plus.org/">http://www.notepad-plus-plus.org/</a><br /></p>
-</li>
-<li><strong>Railsinstaller</strong>    <a href="http://railsinstaller.org/en">http://railsinstaller.org/en</a></li>
-<li><p><strong>Python</strong> <a href="https://www.python.org/downloads/">https://www.python.org/downloads/</a></p>
-<p>  安装并为python配置环境变量,由于有部分的组件还会依赖到python，<br>  所以这里建议也安装上python（例如:语法着色器pygments是python组件）</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014/10/18/windows_configuration_Jekyll.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2014/10/18/hello world.html" itemprop="url">
-                  hello world
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2014-10-18T00:00:00+08:00" content="2014-10-18">
-              2014-10-18
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Jekyll/" itemprop="url" rel="index">
-                    <span itemprop="name">Jekyll</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2014/10/18/hello world.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/2014/10/18/hello world.html" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="H1"><a href="#H1" class="headerlink" title="H1"></a>H1</h1><h2 id="H2"><a href="#H2" class="headerlink" title="H2"></a>H2</h2><h3 id="H3"><a href="#H3" class="headerlink" title="H3"></a>H3</h3><h4 id="H4"><a href="#H4" class="headerlink" title="H4"></a>H4</h4><h5 id="H5"><a href="#H5" class="headerlink" title="H5"></a>H5</h5><h6 id="H6"><a href="#H6" class="headerlink" title="H6"></a>H6</h6><p>默认字号字体</p>
-<p><strong>加粗</strong></p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014/10/18/hello world.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1720,7 +1843,7 @@ _sites        预览时产生的文件都放在该文件夹中
       <div class="footer-inner">
         <div class="copyright" >
   
-  &copy; 
+  &copy;  2013 - 
   <span itemprop="copyrightYear">2016</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
@@ -1830,6 +1953,10 @@ _sites        预览时产生的文件都放在该文件夹中
   </script>
 
   
+    
+      
+      <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js"></script>
     
   
 
