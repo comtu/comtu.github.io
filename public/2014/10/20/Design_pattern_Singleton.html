@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next mist use-motion">
+<html class="theme-next pisces use-motion">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -27,7 +27,9 @@
 
 
 
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
 
 
@@ -59,6 +61,8 @@
 
 
 
+
+
 <link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
 
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
@@ -73,7 +77,7 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/icon/1.ico?v=5.0.1" />
+  <link rel="shortcut icon" type="image/x-icon" href="/res/img/favicon.ico?v=5.0.1" />
 
 
 
@@ -94,7 +98,7 @@
 适用性
 当类只能有一个实例而且客户可以从一个众所周知的访问点访问它时。
 当这个唯一实例应该是通过子类化可扩展的，并且客户应该无需更改代码就能使用一个扩展的实例时。">
-<meta property="og:updated_time" content="2016-04-27T08:22:29.655Z">
+<meta property="og:updated_time" content="2016-06-07T14:22:02.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="单例设计模式">
 <meta name="twitter:description" content="单例设计模式意图
@@ -108,16 +112,21 @@
 <script type="text/javascript" id="hexo.configuration">
   var NexT = window.NexT || {};
   var CONFIG = {
-    scheme: 'Mist',
+    scheme: 'Pisces',
     sidebar: {"position":"left","display":"post"},
     fancybox: true,
     motion: true,
     duoshuo: {
       userId: 9414502,
-      author: '博主'
+      author: 'Comtu'
     }
   };
 </script>
+
+
+
+
+  <link rel="canonical" href="http://comtu.github.com/2014/10/20/Design_pattern_Singleton.html"/>
 
   <title> 单例设计模式 | Comtu </title>
 </head>
@@ -185,7 +194,7 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
             首页
           </a>
@@ -195,7 +204,7 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
             
-              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
             归档
           </a>
@@ -205,7 +214,7 @@
         <li class="menu-item menu-item-categories">
           <a href="/categories" rel="section">
             
-              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
             分类
           </a>
@@ -215,7 +224,7 @@
         <li class="menu-item menu-item-tags">
           <a href="/tags" rel="section">
             
-              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
             标签
           </a>
@@ -225,7 +234,7 @@
         <li class="menu-item menu-item-about">
           <a href="/about" rel="section">
             
-              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
             
             关于
           </a>
@@ -233,9 +242,39 @@
       
 
       
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
     </ul>
   
 
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'TKR8CuruzasU22uXsxyW','2.0.0');
+</script>
+
+
+
+    </div>
   
 </nav>
 
@@ -322,6 +361,15 @@
 
           
           
+             <span id="/2014/10/20/Design_pattern_Singleton.html" class="leancloud_visitors" data-flag-title="单例设计模式">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
 
           
         </div>
@@ -360,20 +408,20 @@
 </blockquote>
 <p>例:</p>
 <p><strong>饿汉式</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SingletonHungry</span></span>&#123;	<span class="comment">//饿汉式</span></span><br><span class="line">	<span class="comment">// 1. 提供显示的私有的构造函数</span></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">SingletonHungry</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">	<span class="comment">// 2. 定义一个该类的引用变量并调用构造函数初始化非静态成员属性</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> SingletonHungry instance = <span class="keyword">new</span> SingletonHungry();  <span class="comment">//饿汉式单例</span></span><br><span class="line">	<span class="comment">// 3. 对单例的对象进行封装</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> SingletonHungry <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">	  <span class="keyword">return</span> instance;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 提供服务</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getService</span><span class="params">()</span></span>&#123;</span><br><span class="line">	   System.out.println( <span class="string">"提供服务........"</span> );</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SingletonHungry</span></span>&#123;	<span class="comment">//饿汉式</span></div><div class="line">	<span class="comment">// 1. 提供显示的私有的构造函数</span></div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="title">SingletonHungry</span><span class="params">()</span></span>&#123;&#125;</div><div class="line">	<span class="comment">// 2. 定义一个该类的引用变量并调用构造函数初始化非静态成员属性</span></div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> SingletonHungry instance = <span class="keyword">new</span> SingletonHungry();  <span class="comment">//饿汉式单例</span></div><div class="line">	<span class="comment">// 3. 对单例的对象进行封装</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> SingletonHungry <span class="title">getInstance</span><span class="params">()</span></span>&#123;</div><div class="line">	  <span class="keyword">return</span> instance;</div><div class="line">	&#125;</div><div class="line">	<span class="comment">// 提供服务</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getService</span><span class="params">()</span></span>&#123;</div><div class="line">	   System.out.println( <span class="string">"提供服务........"</span> );</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <hr>
 <p><strong>懒汉式</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SingletonLazy1</span></span>&#123; <span class="comment">//懒汉式 _ 双重检查锁定</span></span><br><span class="line">	<span class="comment">// 1. 提供显示的私有的构造函数</span></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">SingletonLazy1</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">	<span class="comment">// 2. 定义一个该类的引用变量并调用构造函数初始化   非静态成员属性</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> SingletonLazy1 instance = <span class="keyword">null</span>;  <span class="comment">// 懒汉式单例</span></span><br><span class="line">	<span class="comment">// 3. 对单例的对象进行封装</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span>  <span class="keyword">static</span> SingletonLazy1 <span class="title">getInstance</span><span class="params">()</span></span>&#123;	<span class="comment">//需要用到的时候进行调用</span></span><br><span class="line">		<span class="keyword">if</span>(instance == <span class="keyword">null</span> )&#123;<span class="comment">//查看是否有实例,有则直接返回</span></span><br><span class="line">			<span class="keyword">synchronized</span>(SingletonLazy1.class )&#123;<span class="comment">//多线程操作,有可能会出现多个线程同时必发范围_加锁.</span></span><br><span class="line">				<span class="keyword">if</span>(instance == <span class="keyword">null</span> )&#123;</span><br><span class="line">					<span class="keyword">synchronized</span>(SingletonLazy1.class )&#123;	<span class="comment">//线程同步</span></span><br><span class="line">						<span class="keyword">if</span>(instance == <span class="keyword">null</span>)&#123;</span><br><span class="line">							instance = <span class="keyword">new</span> SingletonLazy1 ();</span><br><span class="line">						&#125;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	  <span class="keyword">return</span> instance;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 提供服务</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getService</span><span class="params">()</span></span>&#123;</span><br><span class="line">	   System.out.println( <span class="string">"提供服务........"</span> );</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SingletonLazy1</span></span>&#123; <span class="comment">//懒汉式 _ 双重检查锁定</span></div><div class="line">	<span class="comment">// 1. 提供显示的私有的构造函数</span></div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="title">SingletonLazy1</span><span class="params">()</span></span>&#123;&#125;</div><div class="line">	<span class="comment">// 2. 定义一个该类的引用变量并调用构造函数初始化   非静态成员属性</span></div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> SingletonLazy1 instance = <span class="keyword">null</span>;  <span class="comment">// 懒汉式单例</span></div><div class="line">	<span class="comment">// 3. 对单例的对象进行封装</span></div><div class="line">	<span class="function"><span class="keyword">public</span>  <span class="keyword">static</span> SingletonLazy1 <span class="title">getInstance</span><span class="params">()</span></span>&#123;	<span class="comment">//需要用到的时候进行调用</span></div><div class="line">		<span class="keyword">if</span>(instance == <span class="keyword">null</span> )&#123;<span class="comment">//查看是否有实例,有则直接返回</span></div><div class="line">			<span class="keyword">synchronized</span>(SingletonLazy1.class )&#123;<span class="comment">//多线程操作,有可能会出现多个线程同时必发范围_加锁.</span></div><div class="line">				<span class="keyword">if</span>(instance == <span class="keyword">null</span> )&#123;</div><div class="line">					<span class="keyword">synchronized</span>(SingletonLazy1.class )&#123;	<span class="comment">//线程同步</span></div><div class="line">						<span class="keyword">if</span>(instance == <span class="keyword">null</span>)&#123;</div><div class="line">							instance = <span class="keyword">new</span> SingletonLazy1 ();</div><div class="line">						&#125;</div><div class="line">					&#125;</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	  <span class="keyword">return</span> instance;</div><div class="line">	&#125;</div><div class="line">	<span class="comment">// 提供服务</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getService</span><span class="params">()</span></span>&#123;</div><div class="line">	   System.out.println( <span class="string">"提供服务........"</span> );</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <hr>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SingletonLazy2</span></span>&#123;  <span class="comment">// 双重检查锁定 </span></span><br><span class="line">	<span class="comment">//注意在JDK1.4以及更早版本的Java中许多JVM对于 volatile 关键字的实现会导致双重检查加锁失效,此种方法只能用在JDK5及以后版本</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> SingletonLazy2 UNIQUE_INSTANCE; <span class="comment">//注意 volatile 关键字</span></span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">SingletonLazy2</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> SingletonLazy2 <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(UNIQUE_INSTANCE == <span class="keyword">null</span>)&#123;</span><br><span class="line">			<span class="keyword">synchronized</span>(SingletonLazy2.class)&#123;</span><br><span class="line">				<span class="keyword">if</span>(UNIQUE_INSTANCE == <span class="keyword">null</span>)&#123;</span><br><span class="line">					UNIQUE_INSTANCE = <span class="keyword">new</span> SingletonLazy2();</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> UNIQUE_INSTANCE;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SingletonLazy2</span></span>&#123;  <span class="comment">// 双重检查锁定 </span></div><div class="line">	<span class="comment">//注意在JDK1.4以及更早版本的Java中许多JVM对于 volatile 关键字的实现会导致双重检查加锁失效,此种方法只能用在JDK5及以后版本</span></div><div class="line">	<span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> SingletonLazy2 UNIQUE_INSTANCE; <span class="comment">//注意 volatile 关键字</span></div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="title">SingletonLazy2</span><span class="params">()</span></span>&#123;&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> SingletonLazy2 <span class="title">getInstance</span><span class="params">()</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(UNIQUE_INSTANCE == <span class="keyword">null</span>)&#123;</div><div class="line">			<span class="keyword">synchronized</span>(SingletonLazy2.class)&#123;</div><div class="line">				<span class="keyword">if</span>(UNIQUE_INSTANCE == <span class="keyword">null</span>)&#123;</div><div class="line">					UNIQUE_INSTANCE = <span class="keyword">new</span> SingletonLazy2();</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> UNIQUE_INSTANCE;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <hr>
 <p><strong>内部类</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SingletonInnerClass</span> </span>&#123;  <span class="comment">//内部类</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">SingletonHolder</span> </span>&#123;  </span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> SingletonInnerClass INSTANCE = <span class="keyword">new</span> SingletonInnerClass();  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">SingletonInnerClass</span> <span class="params">()</span></span>&#123;&#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> SingletonInnerClass <span class="title">getInstance</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">	 <span class="keyword">return</span> SingletonHolder.INSTANCE;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SingletonInnerClass</span> </span>&#123;  <span class="comment">//内部类</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">SingletonHolder</span> </span>&#123;  </div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> SingletonInnerClass INSTANCE = <span class="keyword">new</span> SingletonInnerClass();  </div><div class="line">    &#125;  </div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">SingletonInnerClass</span> <span class="params">()</span></span>&#123;&#125;  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> SingletonInnerClass <span class="title">getInstance</span><span class="params">()</span> </span>&#123;  </div><div class="line">	 <span class="keyword">return</span> SingletonHolder.INSTANCE;  </div><div class="line">    &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <hr>
 <p><strong>枚举</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> SingletonEnum &#123;   <span class="comment">//枚举</span></span><br><span class="line">    INSTANCE;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">whateverMethod</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">enum</span> SingletonEnum &#123;   <span class="comment">//枚举</span></div><div class="line">    INSTANCE;  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">whateverMethod</span><span class="params">()</span> </span>&#123;  </div><div class="line">    &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <hr>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123; <span class="comment">//调用测试</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		SingletonLazy2 s1 =  SingletonLazy2.getInstance();</span><br><span class="line">		SingletonLazy2 s2 =  SingletonLazy2.getInstance();</span><br><span class="line">		System.out.println( s1 == s2 );</span><br><span class="line">	</span><br><span class="line">		</span><br><span class="line"></span><br><span class="line">		SingletonEnum.INSTANCE.whateverMethod();<span class="comment">//枚举</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123; <span class="comment">//调用测试</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		SingletonLazy2 s1 =  SingletonLazy2.getInstance();</div><div class="line">		SingletonLazy2 s2 =  SingletonLazy2.getInstance();</div><div class="line">		System.out.println( s1 == s2 );</div><div class="line">	</div><div class="line">		</div><div class="line"></div><div class="line">		SingletonEnum.INSTANCE.whateverMethod();<span class="comment">//枚举</span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p><strong>参考文档链接</strong></p>
 <p><a href="http://www.cs.umd.edu/~pugh/java/memoryModel/DoubleCheckedLocking.html" target="_blank" rel="external">“双重检查锁定”会发生非预期行为声明</a></p>
 <p><a href="http://blog.csdn.net/haoel/article/details/4028232" target="_blank" rel="external">深入浅出单实例Singleton设计模式</a></p>
@@ -382,7 +430,7 @@
 
       
     </div>
-    
+
     <div>
       
         
@@ -392,6 +440,7 @@
     <div>
       
         
+
       
     </div>
 
@@ -420,16 +469,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2014/10/20/Design_pattern_Template.html" rel="next" title="模板设计模式">
-                <i class="fa fa-chevron-left"></i> 模板设计模式
+              <a href="/2014/10/19/git_common_command.html" rel="next" title="Git 常用命令整理">
+                <i class="fa fa-chevron-left"></i> Git 常用命令整理
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2014/10/21/android_excellent_project_library.html" rel="prev" title="Android优秀项目篇">
-                Android优秀项目篇 <i class="fa fa-chevron-right"></i>
+              <a href="/2014/10/20/Design_pattern_Template.html" rel="prev" title="模板设计模式">
+                模板设计模式 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -475,12 +524,15 @@
           </div>
           
 
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
 
           
   <div class="comments" id="comments">
     
       <div class="ds-thread" data-thread-key="/2014/10/20/Design_pattern_Singleton.html"
-           data-title="单例设计模式" data-url="http://comtu.github.com/2014/10/20/Design_pattern_Singleton.html">
+           data-title="单例设计模式" data-url="http://comtu.github.com//2014/10/20/Design_pattern_Singleton.html">
       </div>
     
   </div>
@@ -517,7 +569,7 @@
       <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="/images/icon.jpg"
+               src="/res/img/icon.jpg"
                alt="Comtu" />
           <p class="site-author-name" itemprop="name">Comtu</p>
           <p class="site-description motion-element" itemprop="description">The time is passing</p>
@@ -553,6 +605,26 @@
         
 
         <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/comtu" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/comtu" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
           
         </div>
 
@@ -604,7 +676,7 @@
 <div class="theme-info">
   主题 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Mist
+    NexT.Pisces
   </a>
 </div>
 
@@ -670,6 +742,13 @@
   
   
 
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
   
   <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
@@ -714,11 +793,119 @@
 
 
 
+
   
   
   
 
   
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("feqhc8WOUwoueUx9gkNO8kIq-gzGzoHsz", "3Igep5lfuSGHiGQJB0PFjICO");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
 
   
 

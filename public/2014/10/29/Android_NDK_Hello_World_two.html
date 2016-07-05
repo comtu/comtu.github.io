@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next mist use-motion">
+<html class="theme-next pisces use-motion">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -27,7 +27,9 @@
 
 
 
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
 
 
@@ -59,6 +61,8 @@
 
 
 
+
+
 <link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
 
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
@@ -73,7 +77,7 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/icon/1.ico?v=5.0.1" />
+  <link rel="shortcut icon" type="image/x-icon" href="/res/img/favicon.ico?v=5.0.1" />
 
 
 
@@ -102,7 +106,7 @@ Hello World
 在实战之前首先介绍一下NDK与JNI的关系.
 
 JNI (Java Native Interface)JNI是java语言提供的Java和C/C++相互沟通的机制，Java可以通过JNI调用本地的C/C++代码，本地的C/C++的代码也可">
-<meta property="og:updated_time" content="2016-04-27T03:43:33.257Z">
+<meta property="og:updated_time" content="2016-06-07T14:22:02.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android 中NDK的使用详解第二篇:Hello World">
 <meta name="twitter:description" content="目录:
@@ -120,16 +124,21 @@ JNI (Java Native Interface)JNI是java语言提供的Java和C/C++相互沟通的�
 <script type="text/javascript" id="hexo.configuration">
   var NexT = window.NexT || {};
   var CONFIG = {
-    scheme: 'Mist',
+    scheme: 'Pisces',
     sidebar: {"position":"left","display":"post"},
     fancybox: true,
     motion: true,
     duoshuo: {
       userId: 9414502,
-      author: '博主'
+      author: 'Comtu'
     }
   };
 </script>
+
+
+
+
+  <link rel="canonical" href="http://comtu.github.com/2014/10/29/Android_NDK_Hello_World_two.html"/>
 
   <title> Android 中NDK的使用详解第二篇:Hello World | Comtu </title>
 </head>
@@ -197,7 +206,7 @@ JNI (Java Native Interface)JNI是java语言提供的Java和C/C++相互沟通的�
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
             首页
           </a>
@@ -207,7 +216,7 @@ JNI (Java Native Interface)JNI是java语言提供的Java和C/C++相互沟通的�
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
             
-              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
             归档
           </a>
@@ -217,7 +226,7 @@ JNI (Java Native Interface)JNI是java语言提供的Java和C/C++相互沟通的�
         <li class="menu-item menu-item-categories">
           <a href="/categories" rel="section">
             
-              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
             分类
           </a>
@@ -227,7 +236,7 @@ JNI (Java Native Interface)JNI是java语言提供的Java和C/C++相互沟通的�
         <li class="menu-item menu-item-tags">
           <a href="/tags" rel="section">
             
-              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
             标签
           </a>
@@ -237,7 +246,7 @@ JNI (Java Native Interface)JNI是java语言提供的Java和C/C++相互沟通的�
         <li class="menu-item menu-item-about">
           <a href="/about" rel="section">
             
-              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
             
             关于
           </a>
@@ -245,9 +254,39 @@ JNI (Java Native Interface)JNI是java语言提供的Java和C/C++相互沟通的�
       
 
       
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
     </ul>
   
 
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'TKR8CuruzasU22uXsxyW','2.0.0');
+</script>
+
+
+
+    </div>
   
 </nav>
 
@@ -334,6 +373,15 @@ JNI (Java Native Interface)JNI是java语言提供的Java和C/C++相互沟通的�
 
           
           
+             <span id="/2014/10/29/Android_NDK_Hello_World_two.html" class="leancloud_visitors" data-flag-title="Android 中NDK的使用详解第二篇:Hello World">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
 
           
         </div>
@@ -367,15 +415,15 @@ JNI (Java Native Interface)JNI是java语言提供的Java和C/C++相互沟通的�
 <h2 id="2-创建一个类"><a href="#2-创建一个类" class="headerlink" title="2.创建一个类."></a>2.创建一个类.</h2><blockquote>
 <p>声明一个带有native修饰的方法  </p>
 </blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.tu.test.androidndk.jni;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Port</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">native</span> String <span class="title">sayHello</span><span class="params">(String str)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.tu.test.androidndk.jni;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Port</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">native</span> String <span class="title">sayHello</span><span class="params">(String str)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h2 id="3-使用javah命令生成头文件并拷贝到jni目录-后会被后面的使用Ant批量生成头文件方法代替"><a href="#3-使用javah命令生成头文件并拷贝到jni目录-后会被后面的使用Ant批量生成头文件方法代替" class="headerlink" title="3.使用javah命令生成头文件并拷贝到jni目录(后会被后面的使用Ant批量生成头文件方法代替)"></a>3.使用javah命令生成头文件并拷贝到jni目录(后会被后面的使用Ant批量生成头文件方法代替)</h2><blockquote>
 <p>使用cmd把目录定位到”<code>项目路径/bin/classes/</code>“项目下.</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\comtu&gt;cd E:\ComTu_Design\workspace\AndroidNDK</span><br><span class="line">C:\Users\comtu&gt;e:</span><br><span class="line">E:\ComTu_Design\workspace\AndroidNDK&gt;cd bin</span><br><span class="line">E:\ComTu_Design\workspace\AndroidNDK\bin&gt;cd classes</span><br><span class="line">E:\ComTu_Design\workspace\AndroidNDK\bin\classes&gt;dir</span><br><span class="line"> 驱动器 E 中的卷没有标签。</span><br><span class="line"> 卷的序列号是 EE26-DAFE</span><br><span class="line"> E:\ComTu_Design\workspace\AndroidNDK\bin\classes 的目录</span><br><span class="line">2015-07-14  14:50    &amp;lt;DIR&gt;          .</span><br><span class="line">2015-07-14  14:50    &amp;lt;DIR&gt;          ..</span><br><span class="line">2015-07-14  14:50    &amp;lt;DIR&gt;          android</span><br><span class="line">2015-07-14  14:50    &amp;lt;DIR&gt;          com</span><br><span class="line">               0 个文件              0 字节</span><br><span class="line">               4 个目录 35,301,425,152 可用字节</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">C:\Users\comtu&gt;cd E:\ComTu_Design\workspace\AndroidNDK</div><div class="line">C:\Users\comtu&gt;e:</div><div class="line">E:\ComTu_Design\workspace\AndroidNDK&gt;cd bin</div><div class="line">E:\ComTu_Design\workspace\AndroidNDK\bin&gt;cd classes</div><div class="line">E:\ComTu_Design\workspace\AndroidNDK\bin\classes&gt;dir</div><div class="line"> 驱动器 E 中的卷没有标签。</div><div class="line"> 卷的序列号是 EE26-DAFE</div><div class="line"> E:\ComTu_Design\workspace\AndroidNDK\bin\classes 的目录</div><div class="line">2015-07-14  14:50    &amp;lt;DIR&gt;          .</div><div class="line">2015-07-14  14:50    &amp;lt;DIR&gt;          ..</div><div class="line">2015-07-14  14:50    &amp;lt;DIR&gt;          android</div><div class="line">2015-07-14  14:50    &amp;lt;DIR&gt;          com</div><div class="line">               0 个文件              0 字节</div><div class="line">               4 个目录 35,301,425,152 可用字节</div></pre></td></tr></table></figure>
 <blockquote>
 <p>使用Javah命令生成包含native方法定义的C/C++头文件</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">E:\ComTu_Design\workspace\AndroidNDK\bin\classes&gt;javah -jni com.tu.test.androidndk.jni.Port</span><br><span class="line">E:\ComTu_Design\workspace\AndroidNDK\bin\classes&gt;dir</span><br><span class="line"> 驱动器 E 中的卷没有标签。</span><br><span class="line"> 卷的序列号是 EE26-DAFE</span><br><span class="line"></span><br><span class="line"> E:\ComTu_Design\workspace\AndroidNDK\bin\classes 的目录</span><br><span class="line"></span><br><span class="line">2015-07-14  16:15    &amp;lt;DIR&gt;          .</span><br><span class="line">2015-07-14  16:15    &amp;lt;DIR&gt;          ..</span><br><span class="line">2015-07-14  16:08    &amp;lt;DIR&gt;          android</span><br><span class="line">2015-07-14  16:08    &amp;lt;DIR&gt;          com</span><br><span class="line">2015-07-14  16:15             1,213 com_tu_test_androidndk_jni_Port.h</span><br><span class="line">               1 个文件          1,213 字节</span><br><span class="line">               4 个目录 35,301,281,792 可用字节</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">E:\ComTu_Design\workspace\AndroidNDK\bin\classes&gt;javah -jni com.tu.test.androidndk.jni.Port</div><div class="line">E:\ComTu_Design\workspace\AndroidNDK\bin\classes&gt;dir</div><div class="line"> 驱动器 E 中的卷没有标签。</div><div class="line"> 卷的序列号是 EE26-DAFE</div><div class="line"></div><div class="line"> E:\ComTu_Design\workspace\AndroidNDK\bin\classes 的目录</div><div class="line"></div><div class="line">2015-07-14  16:15    &amp;lt;DIR&gt;          .</div><div class="line">2015-07-14  16:15    &amp;lt;DIR&gt;          ..</div><div class="line">2015-07-14  16:08    &amp;lt;DIR&gt;          android</div><div class="line">2015-07-14  16:08    &amp;lt;DIR&gt;          com</div><div class="line">2015-07-14  16:15             1,213 com_tu_test_androidndk_jni_Port.h</div><div class="line">               1 个文件          1,213 字节</div><div class="line">               4 个目录 35,301,281,792 可用字节</div></pre></td></tr></table></figure>
 <blockquote>
 <p>输入完后控制台不会有打印信息,只会在E:\ComTu_Design\workspace\AndroidNDK\bin\classes&gt;目<br>录下会生成一个文件名为<strong>com_tu_test_androidndk_jni_Port.h</strong>的头文件</p>
 <p>拷贝头文件   </p>
@@ -389,15 +437,15 @@ JNI (Java Native Interface)JNI是java语言提供的Java和C/C++相互沟通的�
 </code></pre><h2 id="4-编写代码实现"><a href="#4-编写代码实现" class="headerlink" title="4. 编写代码实现"></a>4. 编写代码实现</h2><blockquote>
 <p>打开com_tu_test_androidndk_jni_Port.h文件</p>
 </blockquote>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">JNIEXPORT jstring JNICALL <span class="title">Java_com_tu_androidndk_jni_Port_sayHello</span></span><br><span class="line">  <span class="params">(JNIEnv *, jclass, jstring)</span></span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function">JNIEXPORT jstring JNICALL <span class="title">Java_com_tu_androidndk_jni_Port_sayHello</span></span></div><div class="line">  <span class="params">(JNIEnv *, jclass, jstring)</span>;</div></pre></td></tr></table></figure>
 <blockquote>
 <p>把生成的方法拷贝到AndroidNDK.app里面.并实现方法体.</p>
 </blockquote>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> &amp;lt;jni.h&gt;</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> &amp;lt;stdio.h&gt;</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="string">"com_tu_androidndk_jni_Port.h"</span>//引入头文件</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> &amp;lt;android/log.h&gt;</span></span><br><span class="line"><span class="comment">//Logcat打印日志 Android.mk 文件必须配置: LOCAL_LDLIBS += -L$(SYSROOT)/usr/lib -llog</span></span><br><span class="line"></span><br><span class="line"><span class="function">JNIEXPORT jstring JNICALL <span class="title">Java_com_tu_androidndk_jni_Port_sayHello</span><span class="params">(</span><br><span class="line">		JNIEnv *env, jclass clazz, jstring s)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">char</span> * st = (char *) env-&gt;GetStringUTFChars(s, <span class="number">0</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"\n c-string:  %s"</span>, st);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//在Logcat中打印日志,在个参数,日志类型,过滤标签Tag,输入的文本内容Text</span></span><br><span class="line">	__android_log_print(ANDROID_LOG_INFO, <span class="string">"JNIMsg"</span>, <span class="string">"\n c-string: %s"</span>,st);</span><br><span class="line"></span><br><span class="line">	jstring rtn = env-&gt;NewStringUTF(<span class="string">"hello Comtu!"</span>);</span><br><span class="line">	return rtn;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> &amp;lt;jni.h&gt;</span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> &amp;lt;stdio.h&gt;</span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"com_tu_androidndk_jni_Port.h"</span><span class="comment">//引入头文件</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> &amp;lt;android/log.h&gt;</span></div><div class="line"><span class="comment">//Logcat打印日志 Android.mk 文件必须配置: LOCAL_LDLIBS += -L$(SYSROOT)/usr/lib -llog</span></div><div class="line"></div><div class="line"><span class="function">JNIEXPORT jstring JNICALL <span class="title">Java_com_tu_androidndk_jni_Port_sayHello</span><span class="params">(</span></span></div><div class="line">		JNIEnv *env, jclass clazz, jstring s) &#123;</div><div class="line"></div><div class="line">	<span class="keyword">char</span> * st = (<span class="keyword">char</span> *) env-&gt;GetStringUTFChars(s, <span class="number">0</span>);</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"\n c-string:  %s"</span>, st);</div><div class="line"></div><div class="line">	<span class="comment">//在Logcat中打印日志,在个参数,日志类型,过滤标签Tag,输入的文本内容Text</span></div><div class="line">	<span class="number">__</span>android_log_print(ANDROID_LOG_INFO, <span class="string">"JNIMsg"</span>, <span class="string">"\n c-string: %s"</span>,st);</div><div class="line"></div><div class="line">	jstring rtn = env-&gt;NewStringUTF(<span class="string">"hello Comtu!"</span>);</div><div class="line">	<span class="keyword">return</span> rtn;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <blockquote>
 <p>在java里并编写静态代码块加载lib</p>
 </blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.tu.androidndkhelloworld;</span><br><span class="line"><span class="keyword">import</span> android.app.Activity;</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.widget.TextView;</span><br><span class="line"><span class="keyword">import</span> com.tu.androidndkhelloworld.jni.Port;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line">	<span class="keyword">static</span> &#123;</span><br><span class="line">		System.loadLibrary(<span class="string">"AndroidNDK"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">		setContentView(R.layout.activity_main);</span><br><span class="line">		<span class="comment">//调用C程序实现的sayHello方法</span></span><br><span class="line">		((TextView)findViewById(R.id.text)).setText(Port.sayHello(<span class="string">"Hi"</span>));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.tu.androidndkhelloworld;</div><div class="line"><span class="keyword">import</span> android.app.Activity;</div><div class="line"><span class="keyword">import</span> android.os.Bundle;</div><div class="line"><span class="keyword">import</span> android.widget.TextView;</div><div class="line"><span class="keyword">import</span> com.tu.androidndkhelloworld.jni.Port;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</div><div class="line">	<span class="keyword">static</span> &#123;</div><div class="line">		System.loadLibrary(<span class="string">"AndroidNDK"</span>);</div><div class="line">	&#125;</div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">		<span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">		setContentView(R.layout.activity_main);</div><div class="line">		<span class="comment">//调用C程序实现的sayHello方法</span></div><div class="line">		((TextView)findViewById(R.id.text)).setText(Port.sayHello(<span class="string">"Hi"</span>));</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <blockquote>
 <p>运行程序(注意以上操作只适合于ARM架构的CPU)</p>
 </blockquote>
@@ -412,17 +460,17 @@ JNI (Java Native Interface)JNI是java语言提供的Java和C/C++相互沟通的�
     |-com_tu_test_androidndk_jni_Port.h
     |-Hello.cpp
     |-Hello.h
-</code></pre><h2 id="2-编写新创建的Hello-h文件"><a href="#2-编写新创建的Hello-h文件" class="headerlink" title="2.编写新创建的Hello.h文件"></a>2.编写新创建的Hello.h文件</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> HELLO_H_</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> HELLO_H_</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> Hello &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	Hello();</span><br><span class="line">	<span class="function"><span class="keyword">char</span> * <span class="title">getWords</span><span class="params">()</span></span>;<span class="comment">//&amp;lt;----编写一个方法</span></span><br><span class="line">	<span class="keyword">virtual</span> ~Hello();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">/* HELLO_H_ */</span></span></span><br></pre></td></tr></table></figure>
-<h2 id="3-实现Hello-cpp代码"><a href="#3-实现Hello-cpp代码" class="headerlink" title="3.实现Hello.cpp代码"></a>3.实现Hello.cpp代码</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="string">"Hello.h"</span></span></span><br><span class="line"></span><br><span class="line">Hello::Hello() &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span> * Hello::getWords()&#123;<span class="comment">//&amp;lt;----编写一个方法用于与java交互</span></span><br><span class="line">	return <span class="string">"Hello NDK"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Hello::~Hello() &#123;&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><h2 id="2-编写新创建的Hello-h文件"><a href="#2-编写新创建的Hello-h文件" class="headerlink" title="2.编写新创建的Hello.h文件"></a>2.编写新创建的Hello.h文件</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> HELLO_H_</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> HELLO_H_</span></div><div class="line"></div><div class="line"><span class="keyword">class</span> Hello &#123;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">	Hello();</div><div class="line">	<span class="function"><span class="keyword">char</span> * <span class="title">getWords</span><span class="params">()</span></span>;<span class="comment">//&amp;lt;----编写一个方法</span></div><div class="line">	<span class="keyword">virtual</span> ~Hello();</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">/* HELLO_H_ */</span></span></div></pre></td></tr></table></figure>
+<h2 id="3-实现Hello-cpp代码"><a href="#3-实现Hello-cpp代码" class="headerlink" title="3.实现Hello.cpp代码"></a>3.实现Hello.cpp代码</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"Hello.h"</span></span></div><div class="line"></div><div class="line">Hello::Hello() &#123;&#125;</div><div class="line"></div><div class="line"><span class="keyword">char</span> * Hello::getWords()&#123;<span class="comment">//&amp;lt;----编写一个方法用于与java交互</span></div><div class="line">	<span class="keyword">return</span> <span class="string">"Hello NDK"</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line">Hello::~Hello() &#123;&#125;</div></pre></td></tr></table></figure>
 <h2 id="4-编写Android-mk文件-让Hello可进行编译"><a href="#4-编写Android-mk文件-让Hello可进行编译" class="headerlink" title="4.编写Android.mk文件,让Hello可进行编译"></a>4.编写Android.mk文件,让Hello可进行编译</h2><blockquote>
 <p>LOCAL_LDLIBS += -L$(SYSROOT)/usr/lib -llog 要打印log需要增加</p>
 </blockquote>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">LOCAL_PATH := $(call my-dir)</span><br><span class="line"></span><br><span class="line">include $(CLEAR_VARS)</span><br><span class="line"></span><br><span class="line">LOCAL_LDLIBS += -L$(SYSROOT)/usr/lib -llog</span><br><span class="line"></span><br><span class="line">LOCAL_MODULE    := AndroidNDK</span><br><span class="line">LOCAL_SRC_FILES := AndroidNDK.cpp Hello.cpp</span><br><span class="line"></span><br><span class="line">include $(BUILD_SHARED_LIBRARY)</span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">LOCAL_PATH := $(call my-dir)</div><div class="line"></div><div class="line">include $(CLEAR_VARS)</div><div class="line"></div><div class="line">LOCAL_LDLIBS += -L$(SYSROOT)/usr/lib -llog</div><div class="line"></div><div class="line">LOCAL_MODULE    := AndroidNDK</div><div class="line">LOCAL_SRC_FILES := AndroidNDK.cpp Hello.cpp</div><div class="line"></div><div class="line">include $(BUILD_SHARED_LIBRARY)</div></pre></td></tr></table></figure>
 <blockquote>
 <p>如果增加很多个.cpp文件使用空格分开,为了方便观看也可使用\符号进行分行显示</p>
 </blockquote>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">LOCAL_SRC_FILES := AndroidNDK.cpp \</span><br><span class="line">Hello.cpp</span><br></pre></td></tr></table></figure>
-<h2 id="5-编写TwoPort类增加如下代码作为测试"><a href="#5-编写TwoPort类增加如下代码作为测试" class="headerlink" title="5.编写TwoPort类增加如下代码作为测试"></a>5.编写TwoPort类增加如下代码作为测试</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.tu.androidndkhelloworld.jni;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TwoPort</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">native</span> String <span class="title">getWords</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">LOCAL_SRC_FILES := AndroidNDK.cpp \</div><div class="line">Hello.cpp</div></pre></td></tr></table></figure>
+<h2 id="5-编写TwoPort类增加如下代码作为测试"><a href="#5-编写TwoPort类增加如下代码作为测试" class="headerlink" title="5.编写TwoPort类增加如下代码作为测试"></a>5.编写TwoPort类增加如下代码作为测试</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.tu.androidndkhelloworld.jni;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TwoPort</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">native</span> String <span class="title">getWords</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <blockquote>
 <p>继续使用javah命令或者使用批量生头文件(见下文)的方式.生成头文件到jni目录.</p>
 </blockquote>
@@ -437,7 +485,7 @@ JNI (Java Native Interface)JNI是java语言提供的Java和C/C++相互沟通的�
 </code></pre><blockquote>
 <p>AndroidNDK.cpp实现代码</p>
 </blockquote>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> &amp;lt;jni.h&gt;</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> &amp;lt;stdio.h&gt;</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="string">"com_tu_test_androidndk_jni_Port.h"</span>//引入头文件</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="string">"com_tu_test_androidndk_jni_TwoPort.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> &amp;lt;android/log.h&gt;</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> &amp;lt;Hello.h&gt;</span></span><br><span class="line"><span class="comment">//Logcat打印日志 Android.mk 文件必须配置: LOCAL_LDLIBS += -L$(SYSROOT)/usr/lib -llog</span></span><br><span class="line"></span><br><span class="line"><span class="function">JNIEXPORT jstring JNICALL <span class="title">Java_com_tu_androidndk_jni_Port_sayHello</span><span class="params">(</span><br><span class="line">		JNIEnv *env, jclass clazz, jstring s)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">char</span> * st = (char *) env-&gt;GetStringUTFChars(s, <span class="number">0</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"\n c-string:  %s"</span>, st);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//在Logcat中打印日志,在个参数,日志类型,过滤标签Tag,输入的文本内容Text</span></span><br><span class="line">	__android_log_print(ANDROID_LOG_INFO, <span class="string">"JNIMsg"</span>, <span class="string">"\n c-string: %s"</span>, st);</span><br><span class="line"></span><br><span class="line">	jstring rtn = env-&gt;NewStringUTF(<span class="string">"hello Comtu!"</span>);</span><br><span class="line">	return rtn;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">JNIEXPORT jstring JNICALL <span class="title">Java_com_tu_androidndk_jni_TwoPort_getWords</span><span class="params">(</span><br><span class="line">		JNIEnv *env, jclass clazz)</span> </span>&#123;</span><br><span class="line">	Hello h;</span><br><span class="line">	return env-&gt;NewStringUTF((const char *) h.getWords());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> &amp;lt;jni.h&gt;</span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> &amp;lt;stdio.h&gt;</span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"com_tu_test_androidndk_jni_Port.h"</span><span class="comment">//引入头文件</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"com_tu_test_androidndk_jni_TwoPort.h"</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> &amp;lt;android/log.h&gt;</span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> &amp;lt;Hello.h&gt;</span></div><div class="line"><span class="comment">//Logcat打印日志 Android.mk 文件必须配置: LOCAL_LDLIBS += -L$(SYSROOT)/usr/lib -llog</span></div><div class="line"></div><div class="line"><span class="function">JNIEXPORT jstring JNICALL <span class="title">Java_com_tu_androidndk_jni_Port_sayHello</span><span class="params">(</span></span></div><div class="line">		JNIEnv *env, jclass clazz, jstring s) &#123;</div><div class="line"></div><div class="line">	<span class="keyword">char</span> * st = (<span class="keyword">char</span> *) env-&gt;GetStringUTFChars(s, <span class="number">0</span>);</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"\n c-string:  %s"</span>, st);</div><div class="line"></div><div class="line">	<span class="comment">//在Logcat中打印日志,在个参数,日志类型,过滤标签Tag,输入的文本内容Text</span></div><div class="line">	<span class="number">__</span>android_log_print(ANDROID_LOG_INFO, <span class="string">"JNIMsg"</span>, <span class="string">"\n c-string: %s"</span>, st);</div><div class="line"></div><div class="line">	jstring rtn = env-&gt;NewStringUTF(<span class="string">"hello Comtu!"</span>);</div><div class="line">	<span class="keyword">return</span> rtn;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function">JNIEXPORT jstring JNICALL <span class="title">Java_com_tu_androidndk_jni_TwoPort_getWords</span><span class="params">(</span></span></div><div class="line">		JNIEnv *env, jclass clazz) &#123;</div><div class="line">	Hello h;</div><div class="line">	<span class="keyword">return</span> env-&gt;NewStringUTF((<span class="keyword">const</span> <span class="keyword">char</span> *) h.getWords());</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h2 id="6-运行"><a href="#6-运行" class="headerlink" title="6.运行"></a>6.运行</h2><pre><code>String words = TwoPort.getWords();//调用 
 </code></pre><hr>
 <h1 id="支持多CPU架构"><a href="#支持多CPU架构" class="headerlink" title="支持多CPU架构"></a>支持多CPU架构</h1><p><strong>方法</strong>:</p>
@@ -449,7 +497,7 @@ JNI (Java Native Interface)JNI是java语言提供的Java和C/C++相互沟通的�
 或者ES文件管理器,进入到文件顶级根目录下/proc文件夹/cpuinfo文件可查看手机属于什么CPU架构
 
 或者使用cmd查看CPU是属于那个架构可使用命令:
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\comtu&gt;adb shell</span><br><span class="line">shell@android:/ $ cat /proc/cpuinfo</span><br><span class="line">cat /proc/cpuinfo</span><br><span class="line">Processor       : ARMv7 Processor rev 1 (v7l)</span><br><span class="line">processor       : 0</span><br><span class="line">BogoMIPS        : 668.86</span><br><span class="line"></span><br><span class="line">processor       : 1</span><br><span class="line">BogoMIPS        : 668.86</span><br><span class="line"></span><br><span class="line">Features        : swp half thumb fastmult vfp edsp thumbee neon vfpv3 tls vfpv4</span><br><span class="line">CPU implementer : 0x41</span><br><span class="line">CPU architecture: 7</span><br><span class="line">CPU variant     : 0x0</span><br><span class="line">CPU part        : 0xc05</span><br><span class="line">CPU revision    : 1</span><br><span class="line"></span><br><span class="line">Hardware        : MSM8x25 C8833D BOARD</span><br><span class="line">Revision        : 0000</span><br><span class="line">Serial          : 0000000000000000</span><br><span class="line">shell@android:/ $</span><br></pre></td></tr></table></figure>
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">C:\Users\comtu&gt;adb shell</div><div class="line">shell@android:/ $ cat /proc/cpuinfo</div><div class="line">cat /proc/cpuinfo</div><div class="line">Processor       : ARMv7 Processor rev 1 (v7l)</div><div class="line">processor       : 0</div><div class="line">BogoMIPS        : 668.86</div><div class="line"></div><div class="line">processor       : 1</div><div class="line">BogoMIPS        : 668.86</div><div class="line"></div><div class="line">Features        : swp half thumb fastmult vfp edsp thumbee neon vfpv3 tls vfpv4</div><div class="line">CPU implementer : 0x41</div><div class="line">CPU architecture: 7</div><div class="line">CPU variant     : 0x0</div><div class="line">CPU part        : 0xc05</div><div class="line">CPU revision    : 1</div><div class="line"></div><div class="line">Hardware        : MSM8x25 C8833D BOARD</div><div class="line">Revision        : 0000</div><div class="line">Serial          : 0000000000000000</div><div class="line">shell@android:/ $</div></pre></td></tr></table></figure>
 <hr>
 <h1 id="使用Ant批量生成头文件"><a href="#使用Ant批量生成头文件" class="headerlink" title="使用Ant批量生成头文件"></a>使用Ant批量生成头文件</h1><p>使用Ant工具自动生成头文件.    (方便快捷,代替上面的步骤3)</p>
 <blockquote>
@@ -458,7 +506,7 @@ JNI (Java Native Interface)JNI是java语言提供的Java和C/C++相互沟通的�
 <h2 id="1-创建Ant文件"><a href="#1-创建Ant文件" class="headerlink" title="1.创建Ant文件"></a>1.创建Ant文件</h2><blockquote>
 <p>在项目工程里创建一个new–&gt;File新创建一个文件名:build_headers.xml的文件<br>选择文件–&gt;右击–&gt;open with-&gt;other-&gt;<strong>ant editor</strong>的方式打开.<br>打开文件后使用<strong>alt+/</strong>快捷键会自动生成模板.  </p>
 </blockquote>
-<h2 id="2-编写模板"><a href="#2-编写模板" class="headerlink" title="2.编写模板"></a>2.编写模板</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&amp;lt;project name="AndroidNDK" default="BuildAllHeaders"&gt;</span><br><span class="line">&amp;lt;description&gt;description&amp;lt;/description&gt;</span><br><span class="line">&amp;lt;!--呼叫目标--&gt;</span><br><span class="line">&amp;lt;target name="BuildAllHeaders"&gt;</span><br><span class="line">	&amp;lt;antcall target="BuildPortHeader" /&gt;</span><br><span class="line">	&amp;lt;antcall target="BuildTwoPortHeader" /&gt;</span><br><span class="line">&amp;lt;/target&gt;</span><br><span class="line">&amp;lt;!--目标_使用javah命令 destdir生成文件的目的路径,classpath类Class文件路径 , class类名--&gt;</span><br><span class="line">&amp;lt;target name="BuildPortHeader"&gt;</span><br><span class="line">	&amp;lt;javah destdir="./jni" classpath="./bin/classes" class="com.tu.test.androidndk.jni.Port"/&gt;</span><br><span class="line">&amp;lt;/target&gt;</span><br><span class="line">&amp;lt;target name="BuildTwoPortHeader"&gt;</span><br><span class="line">	&amp;lt;javah destdir="./jni" classpath="./bin/classes" class="com.tu.test.androidndk.jni.TwoPort"/&gt;</span><br><span class="line">&amp;lt;/target&gt;</span><br><span class="line">&amp;lt;/project&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="2-编写模板"><a href="#2-编写模板" class="headerlink" title="2.编写模板"></a>2.编写模板</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">&amp;lt;project name="AndroidNDK" default="BuildAllHeaders"&gt;</div><div class="line">&amp;lt;description&gt;description&amp;lt;/description&gt;</div><div class="line">&amp;lt;!--呼叫目标--&gt;</div><div class="line">&amp;lt;target name="BuildAllHeaders"&gt;</div><div class="line">	&amp;lt;antcall target="BuildPortHeader" /&gt;</div><div class="line">	&amp;lt;antcall target="BuildTwoPortHeader" /&gt;</div><div class="line">&amp;lt;/target&gt;</div><div class="line">&amp;lt;!--目标_使用javah命令 destdir生成文件的目的路径,classpath类Class文件路径 , class类名--&gt;</div><div class="line">&amp;lt;target name="BuildPortHeader"&gt;</div><div class="line">	&amp;lt;javah destdir="./jni" classpath="./bin/classes" class="com.tu.test.androidndk.jni.Port"/&gt;</div><div class="line">&amp;lt;/target&gt;</div><div class="line">&amp;lt;target name="BuildTwoPortHeader"&gt;</div><div class="line">	&amp;lt;javah destdir="./jni" classpath="./bin/classes" class="com.tu.test.androidndk.jni.TwoPort"/&gt;</div><div class="line">&amp;lt;/target&gt;</div><div class="line">&amp;lt;/project&gt;</div></pre></td></tr></table></figure>
 <h2 id="3-运行Ant自动编译"><a href="#3-运行Ant自动编译" class="headerlink" title="3.运行Ant自动编译"></a>3.运行Ant自动编译</h2><blockquote>
 <p>选择build_headers.xml右击–&gt; run as –&gt;Ant build<br>或者:<br>打开Ant窗口(Wnidow–&gt;Show View–&gt;Ant)–&gt;Add Buildfiles–&gt;选择项目–&gt;Ant窗口里会多出一个AndroidNDK项双击即可.   </p>
 </blockquote>
@@ -470,7 +518,7 @@ JNI (Java Native Interface)JNI是java语言提供的Java和C/C++相互沟通的�
 
       
     </div>
-    
+
     <div>
       
         
@@ -480,6 +528,7 @@ JNI (Java Native Interface)JNI是java语言提供的Java和C/C++相互沟通的�
     <div>
       
         
+
       
     </div>
 
@@ -555,12 +604,15 @@ JNI (Java Native Interface)JNI是java语言提供的Java和C/C++相互沟通的�
           </div>
           
 
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
 
           
   <div class="comments" id="comments">
     
       <div class="ds-thread" data-thread-key="/2014/10/29/Android_NDK_Hello_World_two.html"
-           data-title="Android 中NDK的使用详解第二篇:Hello World" data-url="http://comtu.github.com/2014/10/29/Android_NDK_Hello_World_two.html">
+           data-title="Android 中NDK的使用详解第二篇:Hello World" data-url="http://comtu.github.com//2014/10/29/Android_NDK_Hello_World_two.html">
       </div>
     
   </div>
@@ -597,7 +649,7 @@ JNI (Java Native Interface)JNI是java语言提供的Java和C/C++相互沟通的�
       <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="/images/icon.jpg"
+               src="/res/img/icon.jpg"
                alt="Comtu" />
           <p class="site-author-name" itemprop="name">Comtu</p>
           <p class="site-description motion-element" itemprop="description">The time is passing</p>
@@ -633,6 +685,26 @@ JNI (Java Native Interface)JNI是java语言提供的Java和C/C++相互沟通的�
         
 
         <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/comtu" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/comtu" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
           
         </div>
 
@@ -684,7 +756,7 @@ JNI (Java Native Interface)JNI是java语言提供的Java和C/C++相互沟通的�
 <div class="theme-info">
   主题 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Mist
+    NexT.Pisces
   </a>
 </div>
 
@@ -750,6 +822,13 @@ JNI (Java Native Interface)JNI是java语言提供的Java和C/C++相互沟通的�
   
   
 
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
   
   <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
@@ -794,11 +873,119 @@ JNI (Java Native Interface)JNI是java语言提供的Java和C/C++相互沟通的�
 
 
 
+
   
   
   
 
   
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("feqhc8WOUwoueUx9gkNO8kIq-gzGzoHsz", "3Igep5lfuSGHiGQJB0PFjICO");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
 
   
 

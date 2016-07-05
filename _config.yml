@@ -63,7 +63,7 @@ pagination_dir: page
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
 #启用主题
-theme: hexo-theme-next #yilia #concise #landscape <-----------------------
+theme: next #yilia #concise #landscape <-----------------------
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
@@ -79,14 +79,14 @@ description: The time is passing
 author: Comtu
 
 #设置 头像
-avatar: /images/icon.jpg
+avatar: /res/img/icon.jpg
 
 #多说
 duoshuo_shortname: comtu
 
 duoshuo_info:
   ua_enable: true
-  admin_enable: false
+  admin_enable: true
   user_id: comtu
 
 #百度统计
@@ -115,3 +115,7 @@ archive_generator:
 
 tag_generator:
   per_page: 10
+
+
+#站点建立时间
+since: 2013

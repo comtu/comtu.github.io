@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next mist use-motion">
+<html class="theme-next pisces use-motion">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -27,7 +27,9 @@
 
 
 
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
 
 
@@ -59,6 +61,8 @@
 
 
 
+
+
 <link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
 
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
@@ -73,7 +77,7 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/icon/1.ico?v=5.0.1" />
+  <link rel="shortcut icon" type="image/x-icon" href="/res/img/favicon.ico?v=5.0.1" />
 
 
 
@@ -94,7 +98,7 @@
 这些符号带有许多语义信息，很容易被反编译成 Java 源代码。为了防止这种现象，我们可以使用 Java 混淆器对 Java 字节码进行混淆。
 
 混淆就是对发布出去的程序进">
-<meta property="og:updated_time" content="2016-05-06T09:59:44.310Z">
+<meta property="og:updated_time" content="2016-06-07T14:22:02.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android混淆">
 <meta name="twitter:description" content="什么是代码混淆Java 是一种跨平台的、解释型语言，Java 源代码编译成中间”字节码”存储于 class 文件中。
@@ -108,16 +112,21 @@
 <script type="text/javascript" id="hexo.configuration">
   var NexT = window.NexT || {};
   var CONFIG = {
-    scheme: 'Mist',
+    scheme: 'Pisces',
     sidebar: {"position":"left","display":"post"},
     fancybox: true,
     motion: true,
     duoshuo: {
       userId: 9414502,
-      author: '博主'
+      author: 'Comtu'
     }
   };
 </script>
+
+
+
+
+  <link rel="canonical" href="http://comtu.github.com/2015/11/01/android_proguard.html"/>
 
   <title> Android混淆 | Comtu </title>
 </head>
@@ -185,7 +194,7 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
             首页
           </a>
@@ -195,7 +204,7 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
             
-              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
             归档
           </a>
@@ -205,7 +214,7 @@
         <li class="menu-item menu-item-categories">
           <a href="/categories" rel="section">
             
-              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
             分类
           </a>
@@ -215,7 +224,7 @@
         <li class="menu-item menu-item-tags">
           <a href="/tags" rel="section">
             
-              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
             标签
           </a>
@@ -225,7 +234,7 @@
         <li class="menu-item menu-item-about">
           <a href="/about" rel="section">
             
-              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
             
             关于
           </a>
@@ -233,9 +242,39 @@
       
 
       
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
     </ul>
   
 
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'TKR8CuruzasU22uXsxyW','2.0.0');
+</script>
+
+
+
+    </div>
   
 </nav>
 
@@ -321,6 +360,15 @@
           
 
           
+          
+             <span id="/2015/11/01/android_proguard.html" class="leancloud_visitors" data-flag-title="Android混淆">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
           
 
           
@@ -512,9 +560,9 @@ ProGuard 是 Android 代码混淆工具，对于程序员保护自己的劳动�
 </code></pre><h2 id="堆栈信息如何获取"><a href="#堆栈信息如何获取" class="headerlink" title="堆栈信息如何获取"></a>堆栈信息如何获取</h2><pre><code>方法一：最简单的方法直接copy logcat中的堆栈信息保存为txt
 
 方法二：是在 Application 中添加一个异常监听：
-</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Thread.setDefaultUncaughtExceptionHandler(CrashHandler.create(<span class="keyword">this</span>));</span><br></pre></td></tr></table></figure>
+</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Thread.setDefaultUncaughtExceptionHandler(CrashHandler.create(<span class="keyword">this</span>));</div></pre></td></tr></table></figure>
 <pre><code>再在 CrashHandler 中将堆栈信息保存为文本文件：
-</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">LogUtils.e(<span class="keyword">this</span>, <span class="string">"崩溃toString: "</span> + ex.toString());</span><br><span class="line">StringWriter stringWriter = <span class="keyword">new</span> StringWriter();</span><br><span class="line">PrintWriter printWriter = <span class="keyword">new</span> PrintWriter(stringWriter);</span><br><span class="line">printWriter.print(TimeUtils.getCurrentTime());</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">	dumpPhoneInfo(printWriter);</span><br><span class="line">&#125; <span class="keyword">catch</span> (NameNotFoundException e) &#123;</span><br><span class="line">	e.printStackTrace();</span><br><span class="line">&#125;</span><br><span class="line">ex.printStackTrace(printWriter);</span><br><span class="line">FileUtils.savaData(<span class="string">"error.txt"</span>, stringWriter.getBuffer().toString());</span><br><span class="line">printWriter.println();</span><br><span class="line">printWriter.close();</span><br><span class="line">ex.printStackTrace();<span class="comment">// 也别忘了同时打印日志信息</span></span><br></pre></td></tr></table></figure>
+</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">LogUtils.e(<span class="keyword">this</span>, <span class="string">"崩溃toString: "</span> + ex.toString());</div><div class="line">StringWriter stringWriter = <span class="keyword">new</span> StringWriter();</div><div class="line">PrintWriter printWriter = <span class="keyword">new</span> PrintWriter(stringWriter);</div><div class="line">printWriter.print(TimeUtils.getCurrentTime());</div><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">	dumpPhoneInfo(printWriter);</div><div class="line">&#125; <span class="keyword">catch</span> (NameNotFoundException e) &#123;</div><div class="line">	e.printStackTrace();</div><div class="line">&#125;</div><div class="line">ex.printStackTrace(printWriter);</div><div class="line">FileUtils.savaData(<span class="string">"error.txt"</span>, stringWriter.getBuffer().toString());</div><div class="line">printWriter.println();</div><div class="line">printWriter.close();</div><div class="line">ex.printStackTrace();<span class="comment">// 也别忘了同时打印日志信息</span></div></pre></td></tr></table></figure>
 <pre><code>这样我们就能够获取到堆栈信息，并保存到了本地。
 接下来就调用查看的指令.
 </code></pre><h2 id="查看"><a href="#查看" class="headerlink" title="查看"></a>查看</h2><pre><code>当混淆后的代码输出一个堆栈信息时，方法名是不可识别的，这使得调试变得很困难，甚至是不可能的。
@@ -547,7 +595,7 @@ retrace.bat脚本（Window）或 retrace.sh 脚本（Linux，Mac OS X）可以�
 </code></pre>
       
     </div>
-    
+
     <div>
       
         
@@ -557,6 +605,7 @@ retrace.bat脚本（Window）或 retrace.sh 脚本（Linux，Mac OS X）可以�
     <div>
       
         
+
       
     </div>
 
@@ -626,12 +675,15 @@ retrace.bat脚本（Window）或 retrace.sh 脚本（Linux，Mac OS X）可以�
           </div>
           
 
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
 
           
   <div class="comments" id="comments">
     
       <div class="ds-thread" data-thread-key="/2015/11/01/android_proguard.html"
-           data-title="Android混淆" data-url="http://comtu.github.com/2015/11/01/android_proguard.html">
+           data-title="Android混淆" data-url="http://comtu.github.com//2015/11/01/android_proguard.html">
       </div>
     
   </div>
@@ -668,7 +720,7 @@ retrace.bat脚本（Window）或 retrace.sh 脚本（Linux，Mac OS X）可以�
       <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="/images/icon.jpg"
+               src="/res/img/icon.jpg"
                alt="Comtu" />
           <p class="site-author-name" itemprop="name">Comtu</p>
           <p class="site-description motion-element" itemprop="description">The time is passing</p>
@@ -704,6 +756,26 @@ retrace.bat脚本（Window）或 retrace.sh 脚本（Linux，Mac OS X）可以�
         
 
         <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/comtu" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/comtu" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
           
         </div>
 
@@ -755,7 +827,7 @@ retrace.bat脚本（Window）或 retrace.sh 脚本（Linux，Mac OS X）可以�
 <div class="theme-info">
   主题 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Mist
+    NexT.Pisces
   </a>
 </div>
 
@@ -821,6 +893,13 @@ retrace.bat脚本（Window）或 retrace.sh 脚本（Linux，Mac OS X）可以�
   
   
 
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
   
   <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
@@ -865,11 +944,119 @@ retrace.bat脚本（Window）或 retrace.sh 脚本（Linux，Mac OS X）可以�
 
 
 
+
   
   
   
 
   
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("feqhc8WOUwoueUx9gkNO8kIq-gzGzoHsz", "3Igep5lfuSGHiGQJB0PFjICO");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
 
   
 

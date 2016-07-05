@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next mist use-motion">
+<html class="theme-next pisces use-motion">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -27,7 +27,9 @@
 
 
 
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
 
 
@@ -59,6 +61,8 @@
 
 
 
+
+
 <link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
 
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
@@ -73,7 +77,7 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/icon/1.ico?v=5.0.1" />
+  <link rel="shortcut icon" type="image/x-icon" href="/res/img/favicon.ico?v=5.0.1" />
 
 
 
@@ -94,7 +98,7 @@
 3. 可变部分抽取的函数定义为抽象函数，类定义为抽象类
 4. 创建实现类继承并实现父类的未实现的函数
 5. 为了避免子类重写父类的模版代码，需要将模版代码修饰为final">
-<meta property="og:updated_time" content="2016-04-27T08:21:51.767Z">
+<meta property="og:updated_time" content="2016-06-07T14:22:02.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="模板设计模式">
 <meta name="twitter:description" content="模板设计模式模版模式设计步骤1. 写出解决某一类问题的固有的模版代码
@@ -108,16 +112,21 @@
 <script type="text/javascript" id="hexo.configuration">
   var NexT = window.NexT || {};
   var CONFIG = {
-    scheme: 'Mist',
+    scheme: 'Pisces',
     sidebar: {"position":"left","display":"post"},
     fancybox: true,
     motion: true,
     duoshuo: {
       userId: 9414502,
-      author: '博主'
+      author: 'Comtu'
     }
   };
 </script>
+
+
+
+
+  <link rel="canonical" href="http://comtu.github.com/2014/10/20/Design_pattern_Template.html"/>
 
   <title> 模板设计模式 | Comtu </title>
 </head>
@@ -185,7 +194,7 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
             首页
           </a>
@@ -195,7 +204,7 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
             
-              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
             归档
           </a>
@@ -205,7 +214,7 @@
         <li class="menu-item menu-item-categories">
           <a href="/categories" rel="section">
             
-              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
             分类
           </a>
@@ -215,7 +224,7 @@
         <li class="menu-item menu-item-tags">
           <a href="/tags" rel="section">
             
-              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
             标签
           </a>
@@ -225,7 +234,7 @@
         <li class="menu-item menu-item-about">
           <a href="/about" rel="section">
             
-              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
             
             关于
           </a>
@@ -233,9 +242,39 @@
       
 
       
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
     </ul>
   
 
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'TKR8CuruzasU22uXsxyW','2.0.0');
+</script>
+
+
+
+    </div>
   
 </nav>
 
@@ -322,6 +361,15 @@
 
           
           
+             <span id="/2014/10/20/Design_pattern_Template.html" class="leancloud_visitors" data-flag-title="模板设计模式">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
 
           
         </div>
@@ -341,20 +389,20 @@
 4. 创建实现类继承并实现父类的未实现的函数
 5. 为了避免子类重写父类的模版代码，需要将模版代码修饰为final
 </code></pre><a id="more"></a>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">RunCode</span> //3.有抽象方法<span class="title">code</span>()所以必须定义为抽象类</span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="comment">// 1.计算一段代码的运行时间</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">getRuntime</span><span class="params">()</span></span>&#123;	<span class="comment">//5.方法为最终代码final修饰</span></span><br><span class="line">	    <span class="comment">// 获取运行前系统的当前时间  毫秒  一秒 = 1000毫秒</span></span><br><span class="line">	<span class="keyword">long</span> start = System.currentTimeMillis(); </span><br><span class="line">		<span class="comment">// 测试代码</span></span><br><span class="line">		code();		<span class="comment">//2.调用需要测试运行时间的方法,</span></span><br><span class="line">		<span class="comment">// 运行结束后获取系统的当前时间</span></span><br><span class="line">	<span class="keyword">long</span> end = System.currentTimeMillis(); </span><br><span class="line">		<span class="comment">//结束时间减开始时间等于运行用时</span></span><br><span class="line">	   System.out.println(<span class="string">"运行时间： "</span> + ( end - start ) );</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">code</span><span class="params">()</span></span>;<span class="comment">//3.不知这方法如何实现,定义成抽象</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyRunCode</span> <span class="keyword">extends</span> <span class="title">RunCode</span>	//4.实现类 继承抽象类</span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">code</span><span class="params">()</span></span>&#123;			<span class="comment">//4.实现抽象方法</span></span><br><span class="line">		 <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>;i&lt;<span class="number">100</span> ;i++ )</span><br><span class="line">		 &#123;</span><br><span class="line">			 System.out.println(<span class="string">"目前打印的是第"</span>+i+<span class="string">"次"</span>);</span><br><span class="line">		 &#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>		//演示类 </span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span><br><span class="line">	</span>&#123;</span><br><span class="line">		<span class="keyword">new</span> MyRunCode().getRuntime();		<span class="comment">//调用</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">RunCode</span> //3.有抽象方法<span class="title">code</span>()所以必须定义为抽象类</span></div><div class="line">&#123;</div><div class="line">	<span class="comment">// 1.计算一段代码的运行时间</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">getRuntime</span><span class="params">()</span></span>&#123;	<span class="comment">//5.方法为最终代码final修饰</span></div><div class="line">	    <span class="comment">// 获取运行前系统的当前时间  毫秒  一秒 = 1000毫秒</span></div><div class="line">	<span class="keyword">long</span> start = System.currentTimeMillis(); </div><div class="line">		<span class="comment">// 测试代码</span></div><div class="line">		code();		<span class="comment">//2.调用需要测试运行时间的方法,</span></div><div class="line">		<span class="comment">// 运行结束后获取系统的当前时间</span></div><div class="line">	<span class="keyword">long</span> end = System.currentTimeMillis(); </div><div class="line">		<span class="comment">//结束时间减开始时间等于运行用时</span></div><div class="line">	   System.out.println(<span class="string">"运行时间： "</span> + ( end - start ) );</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">code</span><span class="params">()</span></span>;<span class="comment">//3.不知这方法如何实现,定义成抽象</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyRunCode</span> <span class="keyword">extends</span> <span class="title">RunCode</span>	//4.实现类 继承抽象类</span></div><div class="line">&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">code</span><span class="params">()</span></span>&#123;			<span class="comment">//4.实现抽象方法</span></div><div class="line">		 <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>;i&lt;<span class="number">100</span> ;i++ )</div><div class="line">		 &#123;</div><div class="line">			 System.out.println(<span class="string">"目前打印的是第"</span>+i+<span class="string">"次"</span>);</div><div class="line">		 &#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>		//演示类 </span></div><div class="line">&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span></div><div class="line">	&#123;</div><div class="line">		<span class="keyword">new</span> MyRunCode().getRuntime();		<span class="comment">//调用</span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <hr>
 <h2 id="模板设计模式方式二-接口版"><a href="#模板设计模式方式二-接口版" class="headerlink" title="模板设计模式方式二: 接口版"></a>模板设计模式方式二: 接口版</h2><p>接口版比较适合在同一个类中出现重复代码时 将重复代码封装成一个函数.定义接口,与接口实现类进行实现</p>
 <p>案例:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.tu.test;</span><br><span class="line"><span class="keyword">import</span> org.junit.Test;</span><br><span class="line"><span class="comment">/***</span><br><span class="line"> * 模板设计模式基于接口版</span><br><span class="line"> * <span class="doctag">@author</span> ComTu</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Template_Inter</span> </span>&#123;</span><br><span class="line">	<span class="comment">//接口</span></span><br><span class="line">	<span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">RunCode_inter</span></span>&#123;  <span class="comment">//1.编写接口</span></span><br><span class="line">		<span class="function"><span class="keyword">void</span> <span class="title">code</span><span class="params">()</span></span>;  <span class="comment">//2.编写抽象方法 (接口中方法默认是abstract)</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//模板块  //3.编写一个模板代码方法需要带接口类型的参数.</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">RunCode</span><span class="params">(RunCode_inter runcode)</span></span>&#123;</span><br><span class="line">		<span class="comment">//运行时的毫秒数</span></span><br><span class="line">		<span class="keyword">long</span> start = System.currentTimeMillis();</span><br><span class="line">		runcode.code();  <span class="comment">//4.调用接口的code方法 </span></span><br><span class="line">		<span class="comment">//结束运行的毫秒数</span></span><br><span class="line">		<span class="keyword">long</span> end = System.currentTimeMillis();</span><br><span class="line">		System.out.println(<span class="string">"运行时间: "</span>+(end-start));</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//测试函数</span></span><br><span class="line">	<span class="meta">@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">startFor</span><span class="params">()</span></span>&#123; </span><br><span class="line">		RunCode(<span class="keyword">new</span> RunCode_inter()&#123; <span class="comment">//5.模板块 ( 创建接口实现类 )</span></span><br><span class="line">			<span class="meta">@Override</span></span><br><span class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">code</span><span class="params">()</span> </span>&#123; <span class="comment">//6.需要在模板中执行的代码</span></span><br><span class="line"></span><br><span class="line">				<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10000</span>; i++) &#123;</span><br><span class="line">					System.out.println(<span class="string">"i : "</span>+i);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.tu.test;</div><div class="line"><span class="keyword">import</span> org.junit.Test;</div><div class="line"><span class="comment">/***</span></div><div class="line"> * 模板设计模式基于接口版</div><div class="line"> * <span class="doctag">@author</span> ComTu</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Template_Inter</span> </span>&#123;</div><div class="line">	<span class="comment">//接口</span></div><div class="line">	<span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">RunCode_inter</span></span>&#123;  <span class="comment">//1.编写接口</span></div><div class="line">		<span class="function"><span class="keyword">void</span> <span class="title">code</span><span class="params">()</span></span>;  <span class="comment">//2.编写抽象方法 (接口中方法默认是abstract)</span></div><div class="line">	&#125;</div><div class="line">	<span class="comment">//模板块  //3.编写一个模板代码方法需要带接口类型的参数.</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">RunCode</span><span class="params">(RunCode_inter runcode)</span></span>&#123;</div><div class="line">		<span class="comment">//运行时的毫秒数</span></div><div class="line">		<span class="keyword">long</span> start = System.currentTimeMillis();</div><div class="line">		runcode.code();  <span class="comment">//4.调用接口的code方法 </span></div><div class="line">		<span class="comment">//结束运行的毫秒数</span></div><div class="line">		<span class="keyword">long</span> end = System.currentTimeMillis();</div><div class="line">		System.out.println(<span class="string">"运行时间: "</span>+(end-start));</div><div class="line">	&#125;</div><div class="line">	<span class="comment">//测试函数</span></div><div class="line">	<span class="meta">@Test</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">startFor</span><span class="params">()</span></span>&#123; </div><div class="line">		RunCode(<span class="keyword">new</span> RunCode_inter()&#123; <span class="comment">//5.模板块 ( 创建接口实现类 )</span></div><div class="line">			<span class="meta">@Override</span></div><div class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">code</span><span class="params">()</span> </span>&#123; <span class="comment">//6.需要在模板中执行的代码</span></div><div class="line"></div><div class="line">				<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10000</span>; i++) &#123;</div><div class="line">					System.out.println(<span class="string">"i : "</span>+i);</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>如果非要在其它类中进行调用的话可以使用如下方法:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.tu.test;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//导入  类名.接口名  类似与java.util.Map.Entry  Map接口.Entry接口</span></span><br><span class="line">		<span class="keyword">new</span> Template_Inter().RunCode(<span class="keyword">new</span> com.tu.test.Template_Inter.RunCode_inter()&#123; <span class="comment">//5.模板块 (创建接口实现类)</span></span><br><span class="line">			<span class="meta">@Override</span></span><br><span class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">code</span><span class="params">()</span> </span>&#123;<span class="comment">//6.模板中执行的代码.</span></span><br><span class="line">				System.out.println(<span class="string">"运行的代码..."</span>);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.tu.test;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">//导入  类名.接口名  类似与java.util.Map.Entry  Map接口.Entry接口</span></div><div class="line">		<span class="keyword">new</span> Template_Inter().RunCode(<span class="keyword">new</span> com.tu.test.Template_Inter.RunCode_inter()&#123; <span class="comment">//5.模板块 (创建接口实现类)</span></div><div class="line">			<span class="meta">@Override</span></div><div class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">code</span><span class="params">()</span> </span>&#123;<span class="comment">//6.模板中执行的代码.</span></div><div class="line">				System.out.println(<span class="string">"运行的代码..."</span>);</div><div class="line">			&#125;</div><div class="line">		&#125;);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <hr>
 
       
     </div>
-    
+
     <div>
       
         
@@ -364,6 +412,7 @@
     <div>
       
         
+
       
     </div>
 
@@ -386,16 +435,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2014/10/19/git_common_command.html" rel="next" title="Git 常用命令整理">
-                <i class="fa fa-chevron-left"></i> Git 常用命令整理
+              <a href="/2014/10/20/Design_pattern_Singleton.html" rel="next" title="单例设计模式">
+                <i class="fa fa-chevron-left"></i> 单例设计模式
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2014/10/20/Design_pattern_Singleton.html" rel="prev" title="单例设计模式">
-                单例设计模式 <i class="fa fa-chevron-right"></i>
+              <a href="/2014/10/21/android_Interactive-animation.html" rel="prev" title="Android上开源的酷炫的交互动画和视觉效果">
+                Android上开源的酷炫的交互动画和视觉效果 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -441,12 +490,15 @@
           </div>
           
 
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
 
           
   <div class="comments" id="comments">
     
       <div class="ds-thread" data-thread-key="/2014/10/20/Design_pattern_Template.html"
-           data-title="模板设计模式" data-url="http://comtu.github.com/2014/10/20/Design_pattern_Template.html">
+           data-title="模板设计模式" data-url="http://comtu.github.com//2014/10/20/Design_pattern_Template.html">
       </div>
     
   </div>
@@ -483,7 +535,7 @@
       <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="/images/icon.jpg"
+               src="/res/img/icon.jpg"
                alt="Comtu" />
           <p class="site-author-name" itemprop="name">Comtu</p>
           <p class="site-description motion-element" itemprop="description">The time is passing</p>
@@ -519,6 +571,26 @@
         
 
         <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/comtu" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/comtu" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
           
         </div>
 
@@ -570,7 +642,7 @@
 <div class="theme-info">
   主题 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Mist
+    NexT.Pisces
   </a>
 </div>
 
@@ -636,6 +708,13 @@
   
   
 
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
   
   <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
@@ -680,11 +759,119 @@
 
 
 
+
   
   
   
 
   
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("feqhc8WOUwoueUx9gkNO8kIq-gzGzoHsz", "3Igep5lfuSGHiGQJB0PFjICO");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
 
   
 
