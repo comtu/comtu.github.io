@@ -376,6 +376,169 @@ fork给自己 → clone到本地 → coding → push回自己 → github上提�
 ---
 
 
+
+
+# 使用中遇到的问题
+
+## Git – fatal: Unable to create 'XXX/.git/index.lock’: File exists.的解决办法
+
+- 1 若在window下远程打开操作窗口（不是console），进入.git目录删除index.lock文件，删除后再commit会自动再次生成index.lock。无法提交。   
+- 2 使用putty console下操作，进入.git目录执行 rm -f index.lock 删除index.lock 虽然能删除，但是也是每次都会再生成。无法提交 
+- 3 在.git同级目录，执行rm -f .git/index.lock（或者rm -f git/index.lock） 删除后可提交。成功！ 
+
+
+---
+
+
+
+##  Git 删除远程仓库文件或文件夹
+	
+
+使用 git rm 命令即可，有两种选择.
+
+- 一种是 git rm --cached "文件路径"，不删除物理文件，仅将该文件从缓存中删除；
+- 一种是 git rm --f "文件路径"，不仅将该文件从缓存中删除，还会将物理文件删除（不会回收到垃圾桶）
+
+假如你有文件不小心commit到了服务器那么你想要删除它,可以使用:
+
+```python
+#删除目录
+# 说明 -r 递归删除  -n只是查看会被删除的列表不会真实操作  
+git rm -r -n --cached *node_modules/\* #删除远程仓库node_modules目录下的所有文件
+git rm -r --cached *node_modules/\*    # 说明 最终执行命令
+
+#删除文件
+git rm --cached "路径+文件名"   
+
+
+#接下来
+git commit -m "delete file"  
+#最后
+git push
+```
+
+若用`git status`命令查看，则node_modules/目录下文件出现在结果列表里， 我们不希望这个目录下的文件出现，则在项目根目录下，和.git 同级目录下，新建一个.gitignore文件，
+
+把.gitignore提交到远程服务器。 则node_modules目录就不会被提交了。
+
+
+---
+
+
+## Git 忽略一些文件不加入版本控制
+
+在git中如果想忽略掉某个文件，不让这个文件提交到版本库中，可以使用修改 .gitignore 文件的方法。这个文件每一行保存了一个匹配的规则例如：
+
+```python
+# 此为注释 – 将被 Git 忽略
+*.a       # 忽略所有 .a 结尾的文件
+!lib.a    # 但 lib.a 除外
+/TODO     # 仅仅忽略项目根目录下的 TODO 文件，不包括 subdir/TODO
+build/    # 忽略 build/ 目录下的所有文件
+doc/*.txt # 会忽略 doc/notes.txt 但不包括 doc/server/arch.txt
+```
+
+另外 git 提供了一个全局的 .gitignore，你可以在你的用户目录下创建 ~/.gitignoreglobal 文件，   
+以同样的规则来划定哪些文件是不需要版本控制的。   
+需要执行
+
+	git config --global core.excludesfile ~/.gitignoreglobal
+	
+来使得它生效。
+
+其他的一些过滤条件   
+
+```python
+？：代表任意的一个字符
+*：代表任意数目的字符
+{!ab}：必须不是此类型
+{ab,bb,cx}：代表ab,bb,cx中任一类型即可
+[abc]：代表a,b,c中任一字符即可
+[ ^abc]：代表必须不是a,b,c中任一字符
+```
+
+由于git不会加入空目录，所以下面做法会导致tmp目录不会存在 
+
+	tmp/*             //忽略tmp文件夹所有文件   
+
+改下方法，在tmp下也加一个.gitignore,内容为   
+```python
+ *
+ !.gitignore
+```
+
+还有一种情况，就是已经commit了，再加入gitignore是无效的，所以需要删除下缓存   
+```python
+  git rm -r --cached ignore_file
+```
+
+
+注意： .gitignore只能忽略那些原来没有被track的文件，如果某些文件已经被纳入了版本管理中，则修改.gitignore是无效的。   
+    正确的做法是在每个clone下来的仓库中手动设置不要检查特定文件的更改情况。   
+
+```python
+    git update-index --assume-unchanged PATH    在PATH处输入要忽略的文件。
+```
+
+另外 git 还提供了另一种 exclude 的方式来做同样的事情，不同的是 .gitignore 这个文件本身会提交到版本库中去。   
+用来保存的是公共的需要排除的文件。而 .git/info/exclude 这里设置的则是你自己本地需要排除的文件。    
+他不会影响到其他人。也不会提交到版本库中去。  
+
+.gitignore 还有个有意思的小功能， 一个空的 .gitignore 文件 可以当作是一个 placeholder 。    
+当你需要为项目创建一个空的 log 目录时， 这就变的很有用。 你可以创建一个 log 目录 在里面放置一个空的 .gitignore 文件。   
+这样当你 clone 这个 repo 的时候 git 会自动的创建好一个空的 log 目录了。
+
+
+---
+
+## IDEA中分支切换error: The following untracked working tree files would be overwritten by checkout
+
+
+在IDEA中进行分支切换时，出现如此错误，导致无法正常切换：   
+ 
+	error: The following untracked working tree files would be overwritten by checkout
+
+通过错误提示可知，是由于一些untracked working tree files引起的问题。    
+所以只要解决了这些untracked的文件就能解决这个问题。
+
+解决方式：
+git进入本地版本仓库目录下，直接执行`git clean -d -fx`即可。    
+可能很多人都不明白-d，-fx到底是啥意思，其实`git clean -d -fx`表示：删除一些没有 git add 的文件；   
+
+```python
+    git clean 参数 
+    -n 显示将要删除的文件和目录；
+    -x -----删除忽略文件已经对git来说不识别的文件
+    -d -----删除未被添加到git的路径中的文件
+    -f -----强制运行
+    git clean -n
+    git clean -df
+    git clean -f
+```
+
+---
+
+## git clone 时显示Filename too long的解决办法
+
+在git bash中，运行下列命令： 
+
+	git config --global core.longpaths true
+
+就可以解决该问题。
+
+--global是该参数的使用范围，如果只想对本版本库设置该参数，只要在上述命令中去掉--global即可。
+
+
+## 切换警告 warning: LF will be replaced by CRLF in 
+
+windows中的换行符为 CRLF， 而在linux下的换行符为LF，所以在执行add . 时出现提示，解决办法：
+
+	$ git config --global core.autocrlf false  //禁用自动转换  
+
+
+
+---
+
 Git版本控制大全: 
 
 [http://git-scm.com/book/zh/v1](http://git-scm.com/book/zh/v1)
