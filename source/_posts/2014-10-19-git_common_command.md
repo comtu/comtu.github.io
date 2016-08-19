@@ -323,109 +323,39 @@ git branch --set-upstream master origin/master
 git branch --set-upstream develop origin/develop  
 ```
 
-
 ---
+# Git查看并修改name和email
 
-# Github协同流程：
-
-fork给自己 → clone到本地 → coding → push回自己 → github上提出Pull Request即可
-之后，本地添加fork源为远端源 → 工作前先pull下fork源保持代码较新 → coding → ...
-
-
----
-
-# GitHub更新fork的版本实践:  
-
-前提   
-你已经在github上fork了别人的分支，并且弄好了跟github的ssh连接。(如果没有ssh连接可使用HTTP,操作的时候会多一个输入用户名密码操作)    
-相关配置详情参考：https://help.github.com    
-
-详细操作:   
-
-1.检出自己在github上fork别人的分支   
-
-	git clone git@github.com:comtu/android-training-course-in-chinese.git   
-
-2.然后增加远程分支（也就是你fork那个人的分支）名为atcic（这个名字任意）到你本地。   
-
-	git remote add atcic git@github.com:kesenhoo/android-training-course-in-chinese.git   
-
-如果你运行命令：git remote -v你会发现多出来了一个Bob的远程分支。如下：  
-
-	atcic   git@github.com:kesenhoo/android-training-course-in-chinese.git (fetch)  
-	atcic   git@github.com:kesenhoo/android-training-course-in-chinese.git (push)  
-	origin  git@github.com:comtu/android-training-course-in-chinese.git (fetch)  
-	origin  git@github.com:comtu/android-training-course-in-chinese.git (push)  
-
-3.然后，把对方的代码拉到你本地。  
-
-	git fetch atcic   
-
-4.最后，合并对方的代码。    
-
-	git merge atcic/master     
-
-5.最最后，把最新的代码推送到你的github上。  
-
-	git push origin master   
-
-
-这样就完成了自己的代码更新。   
-
-
----
-
-
-
-
-# 使用中遇到的问题
-
-## Git – fatal: Unable to create 'XXX/.git/index.lock’: File exists.的解决办法
-
-- 1 若在window下远程打开操作窗口（不是console），进入.git目录删除index.lock文件，删除后再commit会自动再次生成index.lock。无法提交。   
-- 2 使用putty console下操作，进入.git目录执行 rm -f index.lock 删除index.lock 虽然能删除，但是也是每次都会再生成。无法提交 
-- 3 在.git同级目录，执行rm -f .git/index.lock（或者rm -f git/index.lock） 删除后可提交。成功！ 
-
-
----
-
-
-
-##  Git 删除远程仓库文件或文件夹
-	
-
-使用 git rm 命令即可，有两种选择.
-
-- 一种是 git rm --cached "文件路径"，不删除物理文件，仅将该文件从缓存中删除；
-- 一种是 git rm --f "文件路径"，不仅将该文件从缓存中删除，还会将物理文件删除（不会回收到垃圾桶）
-
-假如你有文件不小心commit到了服务器那么你想要删除它,可以使用:
+显示name的方法：
 
 ```python
-#删除目录
-# 说明 -r 递归删除  -n只是查看会被删除的列表不会真实操作  
-git rm -r -n --cached *node_modules/\* #删除远程仓库node_modules目录下的所有文件
-git rm -r --cached *node_modules/\*    # 说明 最终执行命令
-
-#删除文件
-git rm --cached "路径+文件名"   
-
-
-#接下来
-git commit -m "delete file"  
-#最后
-git push
+git config user.name   #查看配置中name的值
+git config --list  #查看配置列表
 ```
 
-若用`git status`命令查看，则node_modules/目录下文件出现在结果列表里， 我们不希望这个目录下的文件出现，则在项目根目录下，和.git 同级目录下，新建一个.gitignore文件，
+或者查看~/.gitconfig文件。
 
-把.gitignore提交到远程服务器。 则node_modules目录就不会被提交了。
+改名字：
+```python
+git config --global user.name "comtu"   #修改全局名称,提交版本库中显示的名称
+# 或者
+vi ~/.gitconfig    #通过vim编辑器打开.gitconfig查看,但有些时候会出现中文乱码.
+
+
+git config user.name "comtu"   #修改当前仓库的下的配置。
+
+git config user.email "comtu@vip.qq.com"     #修改当前仓库邮箱配置。
+
+```
+或者直接修改当前仓库的.git/config文件。
+
 
 
 ---
 
 
-## Git 忽略一些文件不加入版本控制
+
+# Git 忽略一些文件不加入版本控制
 
 在git中如果想忽略掉某个文件，不让这个文件提交到版本库中，可以使用修改 .gitignore 文件的方法。这个文件每一行保存了一个匹配的规则例如：
 
@@ -488,6 +418,103 @@ doc/*.txt # 会忽略 doc/notes.txt 但不包括 doc/server/arch.txt
 当你需要为项目创建一个空的 log 目录时， 这就变的很有用。 你可以创建一个 log 目录 在里面放置一个空的 .gitignore 文件。   
 这样当你 clone 这个 repo 的时候 git 会自动的创建好一个空的 log 目录了。
 
+
+---
+
+# Github协同流程
+
+fork给自己 → clone到本地 → coding → push回自己 → github上提出Pull Request即可
+之后，本地添加fork源为远端源 → 工作前先pull下fork源保持代码较新 → coding → ...
+
+
+---
+
+# GitHub更新fork的版本实践
+
+前提   
+你已经在github上fork了别人的分支，并且弄好了跟github的ssh连接。(如果没有ssh连接可使用HTTP,操作的时候会多一个输入用户名密码操作)    
+相关配置详情参考：https://help.github.com    
+
+详细操作:   
+
+1.检出自己在github上fork别人的分支   
+
+	git clone git@github.com:comtu/android-training-course-in-chinese.git   
+
+2.然后增加远程分支（也就是你fork那个人的分支）名为atcic（这个名字任意）到你本地。   
+
+	git remote add atcic git@github.com:kesenhoo/android-training-course-in-chinese.git   
+
+如果你运行命令：git remote -v你会发现多出来了一个Bob的远程分支。如下：  
+
+	atcic   git@github.com:kesenhoo/android-training-course-in-chinese.git (fetch)  
+	atcic   git@github.com:kesenhoo/android-training-course-in-chinese.git (push)  
+	origin  git@github.com:comtu/android-training-course-in-chinese.git (fetch)  
+	origin  git@github.com:comtu/android-training-course-in-chinese.git (push)  
+
+3.然后，把对方的代码拉到你本地。  
+
+	git fetch atcic   
+
+4.最后，合并对方的代码。    
+
+	git merge atcic/master     
+
+5.最最后，把最新的代码推送到你的github上。  
+
+	git push origin master   
+
+
+这样就完成了自己的代码更新。   
+
+---
+
+
+# 使用中遇到的问题
+
+## Git – fatal: Unable to create 'XXX/.git/index.lock’: File exists.的解决办法
+
+- 1 若在window下远程打开操作窗口（不是console），进入.git目录删除index.lock文件，删除后再commit会自动再次生成index.lock。无法提交。   
+- 2 使用putty console下操作，进入.git目录执行 rm -f index.lock 删除index.lock 虽然能删除，但是也是每次都会再生成。无法提交 
+- 3 在.git同级目录，执行rm -f .git/index.lock（或者rm -f git/index.lock） 删除后可提交。成功！ 
+
+
+---
+
+
+
+##  Git 删除远程仓库文件或文件夹
+	
+
+使用 git rm 命令即可，有两种选择.
+
+- 一种是 git rm --cached "文件路径"，不删除物理文件，仅将该文件从缓存中删除；
+- 一种是 git rm --f "文件路径"，不仅将该文件从缓存中删除，还会将物理文件删除（不会回收到垃圾桶）
+
+假如你有文件不小心commit到了服务器那么你想要删除它,可以使用:
+
+```python
+#删除目录
+# 说明 -r 递归删除  -n只是查看会被删除的列表不会真实操作  
+git rm -r -n --cached *node_modules/\* #删除远程仓库node_modules目录下的所有文件
+git rm -r --cached *node_modules/\*    # 说明 最终执行命令
+
+#删除文件
+git rm --cached "路径+文件名"   
+
+
+#接下来
+git commit -m "delete file"  
+#最后
+git push
+```
+
+若用`git status`命令查看，则node_modules/目录下文件出现在结果列表里， 我们不希望这个目录下的文件出现，则在项目根目录下，和.git 同级目录下，新建一个.gitignore文件，
+
+把.gitignore提交到远程服务器。 则node_modules目录就不会被提交了。
+
+
+---
 
 ---
 

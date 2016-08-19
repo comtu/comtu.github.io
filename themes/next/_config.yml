@@ -241,7 +241,7 @@ swiftype_key: TKR8CuruzasU22uXsxyW
 #baidu_analytics:
 
 # Duoshuo ShortName
-#duoshuo_shortname:
+duoshuo_shortname: comtu
 
 # Disqus
 #disqus_shortname:
@@ -274,6 +274,7 @@ swiftype_key: TKR8CuruzasU22uXsxyW
 # Make duoshuo show UA
 # user_id must NOT be null when admin_enable is true!
 # you can visit http://dev.duoshuo.com get duoshuo user id.
+# 多说信息
 duoshuo_info:
   ua_enable: true
   admin_enable: true
