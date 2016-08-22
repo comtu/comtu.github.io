@@ -119,3 +119,7 @@ tag_generator:
 
 #站点建立时间
 since: 2013
+
+# 自动生成sitemap 百度收录
+sitemap:
+path: sitemap.xml
