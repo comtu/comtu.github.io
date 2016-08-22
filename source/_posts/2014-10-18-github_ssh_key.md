@@ -1,10 +1,10 @@
 ---
 layout : post
 title : "Github配置SSH key"
-category : GitHub
+category : Github
 duoshuo: true
 date : 2014-10-18
-tags : [GitHub]
+tags : [Github]
 ---
 
 # Github配置SSH key
