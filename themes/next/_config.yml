@@ -235,7 +235,7 @@ mathjax:
 
 
 # Swiftype Search API Key 站内搜索
-swiftype_key: TKR8CuruzasU22uXsxyW
+# swiftype_key: TKR8CuruzasU22uXsxyW #Swiftype 已经不提供免费的了，基础版最低 $299/mo
 
 # Baidu Analytics ID
 #baidu_analytics:

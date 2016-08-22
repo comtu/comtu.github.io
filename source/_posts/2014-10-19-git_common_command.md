@@ -470,6 +470,57 @@ fork给自己 → clone到本地 → coding → push回自己 → github上提�
 ---
 
 
+# 技巧一 提交防止织毛衣,有序地合并和提交.
+
+1. 可以在一条分支上一起开发，你有变更的时候，在提交前，使用
+`git stash` 这样将本地的修改全部缓存在一个堆栈中了
+
+1. 把别人的修改同步过来 `git pull --rebase`
+
+1. 将自己的变更恢复到最新的节点上 `git stash pop`
+
+1. `git commit`提交，这样就会让一个分支的版本按顺序继续发展，而不是像织毛衣一样
+
+
+# 技巧二 在分支上协同合作开发.不织毛衣.
+
+git支持很多种工作流程，我们采用的一般是这样，远程创建一个主分支，本地每人创建功能分支，日常工作流程如下：
+
+1. 去自己的工作分支
+`$ git checkout work`
+
+1. 工作
+`....`
+
+1. 提交工作分支的修改
+`$ git commit -a`
+
+1. 回到主分支
+`$ git checkout master`
+
+1. 获取远程最新的修改，此时不会产生冲突
+`$ git pull`
+
+1. 回到工作分支
+`$ git checkout work`
+
+1. 用rebase合并主干的修改，如果有冲突在此时解决
+`$ git rebase master`
+
+1. 回到主分支
+`$ git checkout master`
+
+1. 合并工作分支的修改，此时不会产生冲突。
+`$ git merge work`
+
+1. 提交到远程主干
+`$ git push`
+
+这样做的好处是，远程主干上的历史永远是线性的。  
+每个人在本地分支解决冲突，不会在主干上产生冲突。也就不会出现织毛衣了.
+
+---
+
 # 使用中遇到的问题
 
 ## Git – fatal: Unable to create 'XXX/.git/index.lock’: File exists.的解决办法
