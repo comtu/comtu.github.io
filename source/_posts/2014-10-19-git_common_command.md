@@ -28,7 +28,8 @@ git config --global alias.ci commit
 git config --global alias.st status  
 git config --global alias.br branch  
 git config --global core.editor "mate -w"    # 设置Editor使用textmate  
-git config -1 #列举所有配置  
+git config core.ignorecase false             #设置大小写敏感
+git config -1                                #列举所有配置  
   
 #用户的git配置文件~/.gitconfig  
 ```
