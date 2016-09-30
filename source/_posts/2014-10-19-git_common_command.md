@@ -115,6 +115,9 @@ git remote add origin git@xbc.me:wordpress.git
   
 #查看远程仓库  
 git remote -v  
+
+#克隆远程指定分支
+git clone -b <分支名> <仓库地址>
 ```
 
 
@@ -430,6 +433,15 @@ fork给自己 → clone到本地 → coding → push回自己 → github上提�
 
 ---
 
+# Git放弃本地更改恢复到资源库版本
+
+使用git版本控制工具在本地clone一份代码后，如果发现修改错误想恢复到资源库版本，下面两行可以轻松加愉快的搞定：
+
+	git clean -xdf
+	git checkout -f
+
+---
+
 # GitHub更新fork的版本实践
 
 前提   
@@ -565,7 +577,6 @@ git支持很多种工作流程，我们采用的一般是这样，远程创建�
 
 
 ---
-
 
 
 ##  Git 删除远程仓库文件或文件夹
