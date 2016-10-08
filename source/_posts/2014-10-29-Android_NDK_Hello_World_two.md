@@ -75,10 +75,10 @@ public class Port {
 	 驱动器 E 中的卷没有标签。
 	 卷的序列号是 EE26-DAFE
 	 E:\ComTu_Design\workspace\AndroidNDK\bin\classes 的目录
-	2015-07-14  14:50    &lt;DIR>          .
-	2015-07-14  14:50    &lt;DIR>          ..
-	2015-07-14  14:50    &lt;DIR>          android
-	2015-07-14  14:50    &lt;DIR>          com
+	2015-07-14  14:50    <DIR>          .
+	2015-07-14  14:50    <DIR>          ..
+	2015-07-14  14:50    <DIR>          android
+	2015-07-14  14:50    <DIR>          com
 	               0 个文件              0 字节
 	               4 个目录 35,301,425,152 可用字节
 ```
@@ -93,10 +93,10 @@ public class Port {
 	
 	 E:\ComTu_Design\workspace\AndroidNDK\bin\classes 的目录
 	
-	2015-07-14  16:15    &lt;DIR>          .
-	2015-07-14  16:15    &lt;DIR>          ..
-	2015-07-14  16:08    &lt;DIR>          android
-	2015-07-14  16:08    &lt;DIR>          com
+	2015-07-14  16:15    <DIR>          .
+	2015-07-14  16:15    <DIR>          ..
+	2015-07-14  16:08    <DIR>          android
+	2015-07-14  16:08    <DIR>          com
 	2015-07-14  16:15             1,213 com_tu_test_androidndk_jni_Port.h
 	               1 个文件          1,213 字节
 	               4 个目录 35,301,281,792 可用字节
@@ -127,10 +127,10 @@ JNIEXPORT jstring JNICALL Java_com_tu_androidndk_jni_Port_sayHello
 > 把生成的方法拷贝到AndroidNDK.app里面.并实现方法体.
 
 ```c
-#include &lt;jni.h>
-#include &lt;stdio.h>
+#include <jni.h>
+#include <stdio.h>
 #include "com_tu_androidndk_jni_Port.h"//引入头文件
-#include &lt;android/log.h>
+#include <android/log.h>
 //Logcat打印日志 Android.mk 文件必须配置: LOCAL_LDLIBS += -L$(SYSROOT)/usr/lib -llog
 
 JNIEXPORT jstring JNICALL Java_com_tu_androidndk_jni_Port_sayHello(
@@ -201,7 +201,7 @@ JNIEXPORT jstring JNICALL Java_com_tu_androidndk_jni_Port_sayHello(
 	class Hello {
 	public:
 		Hello();
-		char * getWords();//&lt;----编写一个方法
+		char * getWords();//<----编写一个方法
 		virtual ~Hello();
 	};
 	
@@ -215,7 +215,7 @@ JNIEXPORT jstring JNICALL Java_com_tu_androidndk_jni_Port_sayHello(
 	
 	Hello::Hello() {}
 	
-	char * Hello::getWords(){//&lt;----编写一个方法用于与java交互
+	char * Hello::getWords(){//<----编写一个方法用于与java交互
 		return "Hello NDK";
 	}
 	
@@ -269,12 +269,12 @@ JNIEXPORT jstring JNICALL Java_com_tu_androidndk_jni_Port_sayHello(
 > AndroidNDK.cpp实现代码
 
 ```c
-	#include &lt;jni.h>
-	#include &lt;stdio.h>
+	#include <jni.h>
+	#include <stdio.h>
 	#include "com_tu_test_androidndk_jni_Port.h"//引入头文件
 	#include "com_tu_test_androidndk_jni_TwoPort.h"
-	#include &lt;android/log.h>
-	#include &lt;Hello.h>
+	#include <android/log.h>
+	#include <Hello.h>
 	//Logcat打印日志 Android.mk 文件必须配置: LOCAL_LDLIBS += -L$(SYSROOT)/usr/lib -llog
 
 	JNIEXPORT jstring JNICALL Java_com_tu_androidndk_jni_Port_sayHello(
@@ -362,21 +362,21 @@ JNIEXPORT jstring JNICALL Java_com_tu_androidndk_jni_Port_sayHello(
 ## 2.编写模板
 
 ```xml
-	&lt;project name="AndroidNDK" default="BuildAllHeaders">
-	&lt;description>description&lt;/description>
-	&lt;!--呼叫目标-->
-	&lt;target name="BuildAllHeaders">
-		&lt;antcall target="BuildPortHeader" />
-		&lt;antcall target="BuildTwoPortHeader" />
-	&lt;/target>
-	&lt;!--目标_使用javah命令 destdir生成文件的目的路径,classpath类Class文件路径 , class类名-->
-	&lt;target name="BuildPortHeader">
-		&lt;javah destdir="./jni" classpath="./bin/classes" class="com.tu.test.androidndk.jni.Port"/>
-	&lt;/target>
-	&lt;target name="BuildTwoPortHeader">
-		&lt;javah destdir="./jni" classpath="./bin/classes" class="com.tu.test.androidndk.jni.TwoPort"/>
-	&lt;/target>
-	&lt;/project>
+	<project name="AndroidNDK" default="BuildAllHeaders">
+	<description>description</description>
+	<!--呼叫目标-->
+	<target name="BuildAllHeaders">
+		<antcall target="BuildPortHeader" />
+		<antcall target="BuildTwoPortHeader" />
+	</target>
+	<!--目标_使用javah命令 destdir生成文件的目的路径,classpath类Class文件路径 , class类名-->
+	<target name="BuildPortHeader">
+		<javah destdir="./jni" classpath="./bin/classes" class="com.tu.test.androidndk.jni.Port"/>
+	</target>
+	<target name="BuildTwoPortHeader">
+		<javah destdir="./jni" classpath="./bin/classes" class="com.tu.test.androidndk.jni.TwoPort"/>
+	</target>
+	</project>
 ```
 
 ## 3.运行Ant自动编译

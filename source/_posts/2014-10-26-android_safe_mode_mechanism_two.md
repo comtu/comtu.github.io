@@ -176,9 +176,9 @@ h6 {
 	#ifndef _ANDROID_FILESYSTEM_CONFIG_H_
 	#define _ANDROID_FILESYSTEM_CONFIG_H_
 
-	#include &lt;string.h>
-	#include &lt;sys/stat.h>
-	#include &lt;sys/types.h>
+	#include <string.h>
+	#include <sys/stat.h>
+	#include <sys/types.h>
 
 	/* This is the master Users and Groups config for the platform.
 	#  DO NOT EVER RENUMBER.
@@ -395,7 +395,7 @@ h6 {
 	    for(; pc->prefix; pc++){
 		int len = strlen(pc->prefix);
 		if (dir) {
-		    if(plen &lt; len) continue;
+		    if(plen < len) continue;
 		    if(!strncmp(pc->prefix, path, len)) break;
 		    continue;
 		}
@@ -411,7 +411,7 @@ h6 {
 	    *mode = (*mode & (~07777)) | pc->mode;
 	    
 	#if 0
-	    fprintf(stderr,"&lt; '%s' '%s' %d %d %o >\n", 
+	    fprintf(stderr,"< '%s' '%s' %d %d %o >\n", 
 		    path, pc->prefix ? pc->prefix : "", *uid, *gid, *mode);
 	#endif
 	}
