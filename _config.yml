@@ -82,12 +82,12 @@ author: Comtu
 avatar: /res/img/icon.jpg
 
 #多说
-duoshuo_shortname: comtu
+#duoshuo_shortname: comtu
 
-duoshuo_info:
-  ua_enable: true
-  admin_enable: true
-  user_id: comtu
+#duoshuo_info:
+#  ua_enable: true
+#  admin_enable: true
+#  user_id: comtu
 
 #百度统计
 baidu_analytics: e0d9a75a7e53b54cd1e6649facd5906e
