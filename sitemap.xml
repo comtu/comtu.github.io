@@ -23,7 +23,7 @@
   </url>
   
   <url>
-    <loc>http://comtu.github.com/2014/11/01/Java_JNI.html</loc>
+    <loc>http://comtu.github.com/2014/10/19/git_common_command.html</loc>
     
     <lastmod>2017-09-24T06:10:42.000Z</lastmod>
     
@@ -37,7 +37,7 @@
   </url>
   
   <url>
-    <loc>http://comtu.github.com/2014/10/19/git_common_command.html</loc>
+    <loc>http://comtu.github.com/2014/11/01/Java_JNI.html</loc>
     
     <lastmod>2017-09-24T06:10:42.000Z</lastmod>
     
@@ -51,20 +51,6 @@
   </url>
   
   <url>
-    <loc>http://comtu.github.com/2014/12/01/Java_security.html</loc>
-    
-    <lastmod>2016-08-21T13:26:47.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://comtu.github.com/res/game/plane/plane.html</loc>
-    
-    <lastmod>2016-08-21T13:26:47.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://comtu.github.com/tags/index.html</loc>
     
     <lastmod>2016-08-21T13:26:47.000Z</lastmod>
@@ -72,7 +58,56 @@
   </url>
   
   <url>
+    <loc>http://comtu.github.com/2015/11/01/android_proguard.html</loc>
+    
+    <lastmod>2016-08-21T13:26:47.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://comtu.github.com/2015/09/10/PHP_codeigniter.html</loc>
+    
+    <lastmod>2016-08-21T13:26:47.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://comtu.github.com/2015/01/01/Java_Android_Studio_IDE.html</loc>
+    
+    <lastmod>2016-08-21T13:26:47.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://comtu.github.com/2014/12/16/Java_Throad_Pool.html</loc>
+    
+    <lastmod>2016-08-21T13:26:47.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://comtu.github.com/2014/12/15/Java_Throad_Visibility.html</loc>
+    
+    <lastmod>2016-08-21T13:26:47.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://comtu.github.com/2014/12/14/Java_Thread.html</loc>
+    
+    <lastmod>2016-08-21T13:26:47.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://comtu.github.com/categories/index.html</loc>
+    
+    <lastmod>2016-08-21T13:26:47.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://comtu.github.com/2014/12/01/Java_security.html</loc>
     
     <lastmod>2016-08-21T13:26:47.000Z</lastmod>
     
@@ -93,77 +128,14 @@
   </url>
   
   <url>
-    <loc>http://comtu.github.com/2015/01/01/Java_Android_Studio_IDE.html</loc>
+    <loc>http://comtu.github.com/res/game/plane/plane.html</loc>
     
     <lastmod>2016-08-21T13:26:47.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://comtu.github.com/2015/09/10/PHP_codeigniter.html</loc>
-    
-    <lastmod>2016-08-21T13:26:47.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://comtu.github.com/2015/11/01/android_proguard.html</loc>
-    
-    <lastmod>2016-08-21T13:26:47.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://comtu.github.com/2014/12/16/Java_Throad_Pool.html</loc>
-    
-    <lastmod>2016-08-21T13:26:47.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://comtu.github.com/2014/12/14/Java_Thread.html</loc>
-    
-    <lastmod>2016-08-21T13:26:47.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://comtu.github.com/2014/12/15/Java_Throad_Visibility.html</loc>
-    
-    <lastmod>2016-08-21T13:26:47.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://comtu.github.com/2014/10/23/java8_new_feature.html</loc>
-    
-    <lastmod>2016-08-21T13:26:46.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://comtu.github.com/2014/10/18/support-pygments-in-Jekyll.html</loc>
-    
-    <lastmod>2016-08-21T13:26:46.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://comtu.github.com/2014/10/21/android_Interactive-animation.html</loc>
-    
-    <lastmod>2016-08-21T13:26:46.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://comtu.github.com/2014/10/18/hello%20world.html</loc>
-    
-    <lastmod>2016-08-21T13:26:46.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://comtu.github.com/2014/10/19/Jekyll_Variables.html</loc>
+    <loc>http://comtu.github.com/2014/10/20/Design_pattern_Template.html</loc>
     
     <lastmod>2016-08-21T13:26:46.000Z</lastmod>
     
@@ -177,13 +149,6 @@
   </url>
   
   <url>
-    <loc>http://comtu.github.com/2014/10/20/Design_pattern_Singleton.html</loc>
-    
-    <lastmod>2016-08-21T13:26:46.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://comtu.github.com/2014/10/25/android_safe_mode_mechanism_one.html</loc>
     
     <lastmod>2016-08-21T13:26:46.000Z</lastmod>
@@ -191,28 +156,7 @@
   </url>
   
   <url>
-    <loc>http://comtu.github.com/2014/10/27/android_safe_mode_mechanism_three.html</loc>
-    
-    <lastmod>2016-08-21T13:26:46.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://comtu.github.com/2014/10/18/windows_configuration_Jekyll.html</loc>
-    
-    <lastmod>2016-08-21T13:26:46.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://comtu.github.com/2014/10/21/android_open_project.html</loc>
-    
-    <lastmod>2016-08-21T13:26:46.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://comtu.github.com/404.html</loc>
+    <loc>http://comtu.github.com/2014/10/23/java8_new_feature.html</loc>
     
     <lastmod>2016-08-21T13:26:46.000Z</lastmod>
     
@@ -240,7 +184,63 @@
   </url>
   
   <url>
-    <loc>http://comtu.github.com/2014/10/20/Design_pattern_Template.html</loc>
+    <loc>http://comtu.github.com/2014/10/21/android_Interactive-animation.html</loc>
+    
+    <lastmod>2016-08-21T13:26:46.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://comtu.github.com/2014/10/27/android_safe_mode_mechanism_three.html</loc>
+    
+    <lastmod>2016-08-21T13:26:46.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://comtu.github.com/2014/10/20/Design_pattern_Singleton.html</loc>
+    
+    <lastmod>2016-08-21T13:26:46.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://comtu.github.com/2014/10/21/android_open_project.html</loc>
+    
+    <lastmod>2016-08-21T13:26:46.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://comtu.github.com/404.html</loc>
+    
+    <lastmod>2016-08-21T13:26:46.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://comtu.github.com/2014/10/19/Jekyll_Variables.html</loc>
+    
+    <lastmod>2016-08-21T13:26:46.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://comtu.github.com/2014/10/18/windows_configuration_Jekyll.html</loc>
+    
+    <lastmod>2016-08-21T13:26:46.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://comtu.github.com/2014/10/18/support-pygments-in-Jekyll.html</loc>
+    
+    <lastmod>2016-08-21T13:26:46.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://comtu.github.com/2014/10/18/hello%20world.html</loc>
     
     <lastmod>2016-08-21T13:26:46.000Z</lastmod>
     
