@@ -1,0 +1,1612 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android安全模式机制,进程和进程边界,多用户和多用户边界,进程和文件的UID/GID,Chmod和chown命令介绍,linux,UID/GID的衔接,进程的RealUID和EffectiveUID,setUID,Capability," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/res/img/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="h3 {     line-height: 1.5;     letter-spacing: 2px;     margin-top: -10px; } h6 {     line-height: 1.5;     letter-spacing: 2px;     margin-top: -10px; }    目录:  1.进程和进程边界 2.多用户和多用户边界 3.进程和文件的UID/GID">
+<meta name="keywords" content="Android安全模式机制,进程和进程边界,多用户和多用户边界,进程和文件的UID&#x2F;GID,Chmod和chown命令介绍,linux,UID&#x2F;GID的衔接,进程的RealUID和EffectiveUID,setUID,Capability">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android安全模式机制之二(操作系统现代安全体系基础概念)">
+<meta property="og:url" content="http://comtu.github.com/2014/10/26/android_safe_mode_mechanism_two.html">
+<meta property="og:site_name" content="Comtu">
+<meta property="og:description" content="h3 {     line-height: 1.5;     letter-spacing: 2px;     margin-top: -10px; } h6 {     line-height: 1.5;     letter-spacing: 2px;     margin-top: -10px; }    目录:  1.进程和进程边界 2.多用户和多用户边界 3.进程和文件的UID/GID">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-09-24T06:10:42.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android安全模式机制之二(操作系统现代安全体系基础概念)">
+<meta name="twitter:description" content="h3 {     line-height: 1.5;     letter-spacing: 2px;     margin-top: -10px; } h6 {     line-height: 1.5;     letter-spacing: 2px;     margin-top: -10px; }    目录:  1.进程和进程边界 2.多用户和多用户边界 3.进程和文件的UID/GID">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://comtu.github.com/2014/10/26/android_safe_mode_mechanism_two.html"/>
+
+
+
+
+
+  <title>Android安全模式机制之二(操作系统现代安全体系基础概念) | Comtu</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?e0d9a75a7e53b54cd1e6649facd5906e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Comtu</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://comtu.github.com/2014/10/26/android_safe_mode_mechanism_two.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Comtu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/res/img/icon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Comtu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android安全模式机制之二(操作系统现代安全体系基础概念)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-10-26T00:00:00+08:00">
+                2014-10-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2014/10/26/android_safe_mode_mechanism_two.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="/2014/10/26/android_safe_mode_mechanism_two.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2014/10/26/android_safe_mode_mechanism_two.html" class="leancloud_visitors" data-flag-title="Android安全模式机制之二(操作系统现代安全体系基础概念)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  4,212字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  21分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <style>
+h3 {
+    line-height: 1.5;
+    letter-spacing: 2px;
+    margin-top: -10px;
+}
+h6 {
+    line-height: 1.5;
+    letter-spacing: 2px;
+    margin-top: -10px;
+}
+
+</style>
+
+<p>目录:</p>
+<ul>
+<li>1.进程和进程边界</li>
+<li>2.多用户和多用户边界</li>
+<li>3.进程和文件的UID/GID (UserID/groupId)<ul>
+<li>3.1文件资源的权限力度:UID/GID</li>
+<li>3.2文件的可操作权限</li>
+<li>3.3进程的标识: PID , UID , GID , GIDs</li>
+<li>3.4Name和ID的映射</li>
+<li>3.5Chmod和chown命令介绍<ul>
+<li>3.5.1Chmod</li>
+<li>3.5.2Chown</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>4.UID/GID的衔接</li>
+<li>5.进程的RealUID和EffectiveUID</li>
+<li>6.文件的setUID标识</li>
+<li>7.Capability<ul>
+<li>7.1进程的Capability</li>
+<li>7.2文件的Capability</li>
+<li>7.3Capability BoundSet</li>
+<li>7.4Spawn进程的Capability</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="进程和进程边界"><a href="#进程和进程边界" class="headerlink" title="进程和进程边界"></a>进程和进程边界</h1><pre><code>进程和线程
+    可执行文件:不活动就是废物
+    进程:可执行文件的活动表现,一次生命的历练
+    线程:CPU(核)的调度单位,并发的执行序列,进程的多管齐下
+    资源和调度.
+
+
+进程边界的安全围栏: 
+    Crash的不可扩延性
+    全局数据和服务的不可访问性
+</code></pre><a id="more"></a>
+<h1 id="多用户和多用户边界"><a href="#多用户和多用户边界" class="headerlink" title="多用户和多用户边界"></a>多用户和多用户边界</h1><pre><code>需求背景:
+    资源缺乏
+    中央统一管理
+
+多用户的边界:
+    独立的工作目录
+    可操作/访问的资源
+        资源分类
+        权限管理
+    可执行的操作
+        操作分类
+        权限管理
+
+多用户特性标识(linux): UID 和GID
+    Name只是供看的
+    Identifier才是系统层面的标识
+    用户的行为是一系列进程的行为
+    特性标识其实是进程的UID/GID
+</code></pre><h1 id="进程和文件的UID-GID-UserID-groupId"><a href="#进程和文件的UID-GID-UserID-groupId" class="headerlink" title="进程和文件的UID/GID (UserID/groupId)"></a>进程和文件的UID/GID (UserID/groupId)</h1><h2 id="文件资源的权限力度-UID-GID"><a href="#文件资源的权限力度-UID-GID" class="headerlink" title="文件资源的权限力度:UID/GID"></a>文件资源的权限力度:UID/GID</h2><pre><code>1.文件是一类资源
+2.在Linux中,甚至一切皆是文件,Socket,Driver
+3.文件资源对不同Target(用户)的不同操作权限的需求应运而生
+4.某些场景下,允许多个不同的Target/用户(而不是一个)具有一致的操作权限,怎么办? 
+    Id===&gt; Gid===&gt; 多个用户可以属于一个GID,一个用户可以属于多个GIDs
+5.所以文件权限的管理力度区分3类群体:属于特定UID的用户,属于特定GID的用户(们),其他用户
+6.一个上帝用户存在:ROOT, 其UID = 0 , 上帝用户永远满足属于任何UID
+</code></pre><h2 id="文件的可操作权限"><a href="#文件的可操作权限" class="headerlink" title="文件的可操作权限"></a>文件的可操作权限</h2><pre><code>1.文件/文件夹的可读 r
+2.文件/文件夹的可写 w
+3.文件/文件夹的可执行 x
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">$ ls -l</div><div class="line">total 20</div><div class="line"> 权限列表        UID       GID</div><div class="line">-rw-r--r--    1 comtu    Administ      879 Feb 25 17:39 404.html</div><div class="line">-rw-r--r--    1 comtu    Administ     2800 Feb 25 17:39 README.md</div><div class="line">-rw-r--r--    1 comtu    Administ     2909 Feb 25 17:39 Rakefile.rb</div><div class="line">-rw-r--r--    1 comtu    Administ     1609 Feb 25 17:39 _config.yml</div><div class="line">drwxr-xr-x    4 comtu    Administ        0 Feb 25 17:39 _data</div><div class="line">drwxr-xr-x    7 comtu    Administ     4096 Feb 25 17:39 _includes</div><div class="line">drwxr-xr-x    5 comtu    Administ        0 Feb 25 17:39 _layouts</div><div class="line">drwxr-xr-x    3 comtu    Administ        0 Feb 25 17:39 _plugins</div><div class="line">drwxr-xr-x   18 comtu    Administ     8192 Jul  1 17:36 _posts</div><div class="line">drwxr-xr-x   13 comtu    Administ     4096 Jul  1 13:30 _site</div><div class="line">-rw-r--r--    1 comtu    Administ       10 Feb 25 17:39 baidu_verify_</div><div class="line">html</div><div class="line">-rw-r--r--    1 comtu    Administ     1672 Feb 25 17:39 index.html</div><div class="line">drwxr-xr-x    1 comtu    Administ     4096 Feb 25 17:39 page</div><div class="line">drwxr-xr-x    1 comtu    Administ     4096 Jun 25 16:18 res</div><div class="line">-rw-r--r--    1 comtu    Administ       59 Jun 25 17:45 robots.txt</div><div class="line">-rw-r--r--    1 comtu    Administ      350 Apr 13 17:53 search.xml</div><div class="line">-rw-r--r--    1 comtu    Administ      209 Feb 25 17:39 sitemap.txt</div></pre></td></tr></table></figure>
+<pre><code>drwxr-xr-x
+d|rwx|r-x|r-x
+0|123|456|789
+
+文件夹与文件标识
+    0 : d文件夹    -文件
+UID用户
+    1 : 可读
+    2 : 可写
+    3 : 可执行
+GID用户
+    4 : 可读
+    5 : 不可写
+    6 : 可执行
+其他用户
+    7 : 可读
+    8 : 不可写
+    9 : 可执行
+</code></pre><h2 id="进程的标识-PID-UID-GID-GIDs"><a href="#进程的标识-PID-UID-GID-GIDs" class="headerlink" title="进程的标识: PID , UID , GID , GIDs"></a>进程的标识: PID , UID , GID , GIDs</h2><pre><code>PID : 进程的Unique Identifier(唯一标识) . 每次Running的PID可能相同,或者不同,由系统分配
+UID : 进程的身份标识.每次运行,即便重启后默认都相同
+GID : 进程的(组)身份标识.每次运行,即便重启后默认都相同.不同进程允许有相同的GID(组用户身份标识).
+    同一进程允许属于多个GID.
+GIDs: 进程所属的全部GID
+</code></pre><h2 id="Name和ID的映射"><a href="#Name和ID的映射" class="headerlink" title="Name和ID的映射"></a>Name和ID的映射</h2><pre><code>Android原代码之Name和ID映射表
+/system/core/include/private/android_filesystem_config.h
+</code></pre><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div><div class="line">258</div><div class="line">259</div><div class="line">260</div><div class="line">261</div><div class="line">262</div><div class="line">263</div><div class="line">264</div><div class="line">265</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line"> * Copyright (C) 2007 The Android Open Source Project</div><div class="line"> *</div><div class="line"> * Licensed under the Apache License, Version 2.0 (the "License");</div><div class="line"> * you may not use this file except in compliance with the License.</div><div class="line"> * You may obtain a copy of the License at</div><div class="line"> *</div><div class="line"> *      http://www.apache.org/licenses/LICENSE-2.0</div><div class="line"> *</div><div class="line"> * Unless required by applicable law or agreed to in writing, software</div><div class="line"> * distributed under the License is distributed on an "AS IS" BASIS,</div><div class="line"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</div><div class="line"> * See the License for the specific language governing permissions and</div><div class="line"> * limitations under the License.</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="comment">/* This file is used to define the properties of the filesystem</span></div><div class="line">#  images generated by build tools (mkbootfs and mkyaffs2image) and</div><div class="line">#  by the device side of adb.</div><div class="line">*/</div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> _ANDROID_FILESYSTEM_CONFIG_H_</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> _ANDROID_FILESYSTEM_CONFIG_H_</span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/stat.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="comment">/* This is the master Users and Groups config for the platform.</span></div><div class="line">#  DO NOT EVER RENUMBER.</div><div class="line">*/</div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_ROOT             0  <span class="comment">/* traditional unix root user */</span></span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_SYSTEM        1000  <span class="comment">/* system server */</span></span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_RADIO         1001  <span class="comment">/* telephony subsystem, RIL */</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_BLUETOOTH     1002  <span class="comment">/* bluetooth subsystem */</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_GRAPHICS      1003  <span class="comment">/* graphics devices */</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_INPUT         1004  <span class="comment">/* input devices */</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_AUDIO         1005  <span class="comment">/* audio devices */</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_CAMERA        1006  <span class="comment">/* camera devices */</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_LOG           1007  <span class="comment">/* log devices */</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_COMPASS       1008  <span class="comment">/* compass device */</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_MOUNT         1009  <span class="comment">/* mountd socket */</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_WIFI          1010  <span class="comment">/* wifi subsystem */</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_ADB           1011  <span class="comment">/* android debug bridge (adbd) */</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_INSTALL       1012  <span class="comment">/* group for installing packages */</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_MEDIA         1013  <span class="comment">/* mediaserver process */</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_DHCP          1014  <span class="comment">/* dhcp client */</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_SDCARD_RW     1015  <span class="comment">/* external storage write access */</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_VPN           1016  <span class="comment">/* vpn system */</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_KEYSTORE      1017  <span class="comment">/* keystore subsystem */</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_USB           1018  <span class="comment">/* USB devices */</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_GPS           1021  <span class="comment">/* GPS daemon */</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_UNUSED1       1022  <span class="comment">/* deprecated, DO NOT USE */</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_RFU1          1023  <span class="comment">/* RFU */</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_RFU2          1024  <span class="comment">/* RFU */</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_NFC           1025  <span class="comment">/* nfc subsystem */</span></span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_SHELL         2000  <span class="comment">/* adb and debug shell user */</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_CACHE         2001  <span class="comment">/* cache access */</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_DIAG          2002  <span class="comment">/* access to diagnostic resources */</span></span></div><div class="line"></div><div class="line"><span class="comment">/* The 3000 series are intended for use as supplemental group id's only.</span></div><div class="line"> * They indicate special Android capabilities that the kernel is aware of. */</div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_NET_BT_ADMIN  3001  <span class="comment">/* bluetooth: create any socket */</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_NET_BT        3002  <span class="comment">/* bluetooth: create sco, rfcomm or l2cap sockets */</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_INET          3003  <span class="comment">/* can create AF_INET and AF_INET6 sockets */</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_NET_RAW       3004  <span class="comment">/* can create raw INET sockets */</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_NET_ADMIN     3005  <span class="comment">/* can configure interfaces and routing tables. */</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_QCOM_ONCRPC   3006  <span class="comment">/* can read/write /dev/oncrpc files */</span></span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">if</span> defined(MOTOROLA_UIDS)</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_MOT_ACCY      9000  <span class="comment">/* access to accessory */</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_MOT_PWRIC     9001  <span class="comment">/* power IC */</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_MOT_USB       9002  <span class="comment">/* mot usb */</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_MOT_DRM       9003  <span class="comment">/* can access DRM resource. */</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_MOT_TCMD      9004  <span class="comment">/* mot_tcmd */</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_MOT_SEC_RTC   9005  <span class="comment">/* mot cpcap rtc */</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_MOT_TOMBSTONE 9006</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_MOT_TPAPI     9007  <span class="comment">/* mot_tpapi */</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_MOT_SECCLKD   9008  <span class="comment">/* mot_secclkd */</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// MOTOROLA_UIDS</span></span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_MISC          9998  <span class="comment">/* access to misc storage */</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_NOBODY        9999</span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> AID_APP          10000 <span class="comment">/* first app user */</span></span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">if</span> !defined(EXCLUDE_FS_CONFIG_STRUCTURES)</span></div><div class="line"><span class="keyword">struct</span> android_id_info &#123;</div><div class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *name;</div><div class="line">    <span class="keyword">unsigned</span> aid;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">struct</span> android_id_info android_ids[] = &#123;</div><div class="line">    &#123; <span class="string">"root"</span>,      AID_ROOT, &#125;,</div><div class="line">    &#123; <span class="string">"system"</span>,    AID_SYSTEM, &#125;,</div><div class="line">    &#123; <span class="string">"radio"</span>,     AID_RADIO, &#125;,</div><div class="line">    &#123; <span class="string">"bluetooth"</span>, AID_BLUETOOTH, &#125;,</div><div class="line">    &#123; <span class="string">"graphics"</span>,  AID_GRAPHICS, &#125;,</div><div class="line">    &#123; <span class="string">"input"</span>,     AID_INPUT, &#125;,</div><div class="line">    &#123; <span class="string">"audio"</span>,     AID_AUDIO, &#125;,</div><div class="line">    &#123; <span class="string">"camera"</span>,    AID_CAMERA, &#125;,</div><div class="line">    &#123; <span class="string">"log"</span>,       AID_LOG, &#125;,</div><div class="line">    &#123; <span class="string">"compass"</span>,   AID_COMPASS, &#125;,</div><div class="line">    &#123; <span class="string">"mount"</span>,     AID_MOUNT, &#125;,</div><div class="line">    &#123; <span class="string">"wifi"</span>,      AID_WIFI, &#125;,</div><div class="line">    &#123; <span class="string">"dhcp"</span>,      AID_DHCP, &#125;,</div><div class="line">    &#123; <span class="string">"adb"</span>,       AID_ADB, &#125;,</div><div class="line">    &#123; <span class="string">"install"</span>,   AID_INSTALL, &#125;,</div><div class="line">    &#123; <span class="string">"media"</span>,     AID_MEDIA, &#125;,</div><div class="line">    &#123; <span class="string">"nfc"</span>,       AID_NFC, &#125;,</div><div class="line">    &#123; <span class="string">"shell"</span>,     AID_SHELL, &#125;,</div><div class="line">    &#123; <span class="string">"cache"</span>,     AID_CACHE, &#125;,</div><div class="line">    &#123; <span class="string">"diag"</span>,      AID_DIAG, &#125;,</div><div class="line">    &#123; <span class="string">"net_bt_admin"</span>, AID_NET_BT_ADMIN, &#125;,</div><div class="line">    &#123; <span class="string">"net_bt"</span>,    AID_NET_BT, &#125;,</div><div class="line">    &#123; <span class="string">"qcom_oncrpc"</span>, AID_QCOM_ONCRPC, &#125;,</div><div class="line">    &#123; <span class="string">"sdcard_rw"</span>, AID_SDCARD_RW, &#125;,</div><div class="line">    &#123; <span class="string">"vpn"</span>,       AID_VPN, &#125;,</div><div class="line">    &#123; <span class="string">"keystore"</span>,  AID_KEYSTORE, &#125;,</div><div class="line">    &#123; <span class="string">"usb"</span>,       AID_USB, &#125;,</div><div class="line">    &#123; <span class="string">"gps"</span>,       AID_GPS, &#125;,</div><div class="line">    &#123; <span class="string">"inet"</span>,      AID_INET, &#125;,</div><div class="line">    &#123; <span class="string">"net_raw"</span>,   AID_NET_RAW, &#125;,</div><div class="line">    &#123; <span class="string">"net_admin"</span>, AID_NET_ADMIN, &#125;,</div><div class="line">#<span class="keyword">if</span> defined(MOTOROLA_UIDS)</div><div class="line">    &#123; <span class="string">"mot_accy"</span>,  AID_MOT_ACCY, &#125;,</div><div class="line">    &#123; <span class="string">"mot_pwric"</span>, AID_MOT_PWRIC, &#125;,</div><div class="line">    &#123; <span class="string">"mot_usb"</span>,   AID_MOT_USB, &#125;,</div><div class="line">    &#123; <span class="string">"mot_drm"</span>,   AID_MOT_DRM, &#125;,</div><div class="line">    &#123; <span class="string">"mot_tcmd"</span>,  AID_MOT_TCMD, &#125;,</div><div class="line">    &#123; <span class="string">"mot_sec_rtc"</span>,  AID_MOT_SEC_RTC, &#125;,</div><div class="line">    &#123; <span class="string">"mot_tombstone"</span>, AID_MOT_TOMBSTONE, &#125;,</div><div class="line">    &#123; <span class="string">"mot_tpapi"</span>,  AID_MOT_TPAPI, &#125;,</div><div class="line">    &#123; <span class="string">"mot_secclkd"</span>,  AID_MOT_SECCLKD, &#125;,</div><div class="line">#endif</div><div class="line">    &#123; <span class="string">"misc"</span>,      AID_MISC, &#125;,</div><div class="line">    &#123; <span class="string">"nobody"</span>,    AID_NOBODY, &#125;,</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> android_id_count \</span></div><div class="line">    (sizeof(android_ids) / sizeof(android_ids[0]))</div><div class="line">    </div><div class="line"><span class="keyword">struct</span> fs_path_config &#123;</div><div class="line">    <span class="keyword">unsigned</span> mode;</div><div class="line">    <span class="keyword">unsigned</span> uid;</div><div class="line">    <span class="keyword">unsigned</span> gid;</div><div class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *prefix;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">/* Rules for directories.</span></div><div class="line">#  These rules are applied based on "first match", so they</div><div class="line">#  should start with the most specific path and work their</div><div class="line">#  way up to the root.</div><div class="line">*/</div><div class="line"></div><div class="line"><span class="keyword">static</span> <span class="keyword">struct</span> fs_path_config android_dirs[] = &#123;</div><div class="line">    &#123; <span class="number">00770</span>, AID_SYSTEM, AID_CACHE,  <span class="string">"cache"</span> &#125;,</div><div class="line">    &#123; <span class="number">00771</span>, AID_SYSTEM, AID_SYSTEM, <span class="string">"data/app"</span> &#125;,</div><div class="line">    &#123; <span class="number">00771</span>, AID_SYSTEM, AID_SYSTEM, <span class="string">"data/app-private"</span> &#125;,</div><div class="line">    &#123; <span class="number">00771</span>, AID_SYSTEM, AID_SYSTEM, <span class="string">"data/dalvik-cache"</span> &#125;,</div><div class="line">    &#123; <span class="number">00771</span>, AID_SYSTEM, AID_SYSTEM, <span class="string">"data/data"</span> &#125;,</div><div class="line">    &#123; <span class="number">00771</span>, AID_SHELL,  AID_SHELL,  <span class="string">"data/local/tmp"</span> &#125;,</div><div class="line">    &#123; <span class="number">00771</span>, AID_SHELL,  AID_SHELL,  <span class="string">"data/local"</span> &#125;,</div><div class="line">    &#123; <span class="number">01771</span>, AID_SYSTEM, AID_MISC,   <span class="string">"data/misc"</span> &#125;,</div><div class="line">    &#123; <span class="number">00770</span>, AID_DHCP,   AID_DHCP,   <span class="string">"data/misc/dhcp"</span> &#125;,</div><div class="line">    &#123; <span class="number">00771</span>, AID_SYSTEM, AID_SYSTEM, <span class="string">"data"</span> &#125;,</div><div class="line">    &#123; <span class="number">00750</span>, AID_ROOT,   AID_SHELL,  <span class="string">"sbin"</span> &#125;,</div><div class="line">    &#123; <span class="number">00755</span>, AID_ROOT,   AID_SHELL,  <span class="string">"system/bin"</span> &#125;,</div><div class="line">    &#123; <span class="number">00755</span>, AID_ROOT,   AID_SHELL,  <span class="string">"system/vendor"</span> &#125;,</div><div class="line">    &#123; <span class="number">00755</span>, AID_ROOT,   AID_SHELL,  <span class="string">"system/xbin"</span> &#125;,</div><div class="line">    &#123; <span class="number">00755</span>, AID_ROOT,   AID_ROOT,   <span class="string">"system/etc/ppp"</span> &#125;,</div><div class="line">    &#123; <span class="number">00777</span>, AID_ROOT,   AID_ROOT,   <span class="string">"sdcard"</span> &#125;,</div><div class="line">    &#123; <span class="number">00771</span>, AID_SYSTEM, AID_SYSTEM, <span class="string">"sd-ext"</span> &#125;,</div><div class="line">    &#123; <span class="number">00755</span>, AID_ROOT,   AID_ROOT,   <span class="number">0</span> &#125;,</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">/* Rules for files.</span></div><div class="line">#  These rules are applied based on "first match", so they</div><div class="line">#  should start with the most specific path and work their</div><div class="line">#  way up to the root. Prefixes ending in * denotes wildcard</div><div class="line">#  and will allow partial matches.</div><div class="line">*/</div><div class="line"><span class="keyword">static</span> <span class="keyword">struct</span> fs_path_config android_files[] = &#123;</div><div class="line">    &#123; <span class="number">00440</span>, AID_ROOT,      AID_SHELL,     <span class="string">"system/etc/init.goldfish.rc"</span> &#125;,</div><div class="line">    &#123; <span class="number">00550</span>, AID_ROOT,      AID_SHELL,     <span class="string">"system/etc/init.goldfish.sh"</span> &#125;,</div><div class="line">    &#123; <span class="number">00440</span>, AID_ROOT,      AID_SHELL,     <span class="string">"system/etc/init.trout.rc"</span> &#125;,</div><div class="line">    &#123; <span class="number">00550</span>, AID_ROOT,      AID_SHELL,     <span class="string">"system/etc/init.ril"</span> &#125;,</div><div class="line">    &#123; <span class="number">00550</span>, AID_ROOT,      AID_SHELL,     <span class="string">"system/etc/init.testmenu"</span> &#125;,</div><div class="line">    &#123; <span class="number">00550</span>, AID_DHCP,      AID_SHELL,     <span class="string">"system/etc/dhcpcd/dhcpcd-run-hooks"</span> &#125;,</div><div class="line">    &#123; <span class="number">00440</span>, AID_BLUETOOTH, AID_BLUETOOTH, <span class="string">"system/etc/dbus.conf"</span> &#125;,</div><div class="line">    &#123; <span class="number">00440</span>, AID_BLUETOOTH, AID_BLUETOOTH, <span class="string">"system/etc/bluetooth/main.conf"</span> &#125;,</div><div class="line">    &#123; <span class="number">00440</span>, AID_BLUETOOTH, AID_BLUETOOTH, <span class="string">"system/etc/bluetooth/input.conf"</span> &#125;,</div><div class="line">    &#123; <span class="number">00440</span>, AID_BLUETOOTH, AID_BLUETOOTH, <span class="string">"system/etc/bluetooth/audio.conf"</span> &#125;,</div><div class="line">    &#123; <span class="number">00444</span>, AID_NET_BT,    AID_NET_BT,    <span class="string">"system/etc/bluetooth/blacklist.conf"</span> &#125;,</div><div class="line">    &#123; <span class="number">00640</span>, AID_SYSTEM,    AID_SYSTEM,    <span class="string">"system/etc/bluetooth/auto_pairing.conf"</span> &#125;,</div><div class="line">    &#123; <span class="number">00444</span>, AID_RADIO,     AID_AUDIO,     <span class="string">"system/etc/AudioPara4.csv"</span> &#125;,</div><div class="line">    &#123; <span class="number">00555</span>, AID_ROOT,      AID_ROOT,      <span class="string">"system/etc/ppp/*"</span> &#125;,</div><div class="line">    &#123; <span class="number">00555</span>, AID_ROOT,      AID_ROOT,      <span class="string">"system/etc/rc.*"</span> &#125;,</div><div class="line">    &#123; <span class="number">00644</span>, AID_SYSTEM,    AID_SYSTEM,    <span class="string">"data/app/*"</span> &#125;,</div><div class="line">    &#123; <span class="number">00644</span>, AID_SYSTEM,    AID_SYSTEM,    <span class="string">"data/app-private/*"</span> &#125;,</div><div class="line">    &#123; <span class="number">00644</span>, AID_APP,       AID_APP,       <span class="string">"data/data/*"</span> &#125;,</div><div class="line">	<span class="comment">/* the following three files are INTENTIONALLY set-gid and not set-uid.</span></div><div class="line">	 * Do not change. */</div><div class="line">    &#123; <span class="number">02755</span>, AID_ROOT,      AID_NET_RAW,   <span class="string">"system/bin/ping"</span> &#125;,</div><div class="line">    &#123; <span class="number">02750</span>, AID_ROOT,      AID_INET,      <span class="string">"system/bin/netcfg"</span> &#125;,</div><div class="line">    &#123; <span class="number">02755</span>, AID_SYSTEM,    AID_GRAPHICS,  <span class="string">"system/bin/screenshot"</span> &#125;,</div><div class="line">	<span class="comment">/* the following five files are INTENTIONALLY set-uid, but they</span></div><div class="line">	 * are NOT included on user builds. */</div><div class="line">    &#123; <span class="number">06755</span>, AID_ROOT,      AID_ROOT,      <span class="string">"system/xbin/su"</span> &#125;,</div><div class="line">    &#123; <span class="number">06755</span>, AID_ROOT,      AID_ROOT,      <span class="string">"system/xbin/librank"</span> &#125;,</div><div class="line">    &#123; <span class="number">06755</span>, AID_ROOT,      AID_ROOT,      <span class="string">"system/xbin/procrank"</span> &#125;,</div><div class="line">    &#123; <span class="number">06755</span>, AID_ROOT,      AID_ROOT,      <span class="string">"system/xbin/procmem"</span> &#125;,</div><div class="line">    &#123; <span class="number">06755</span>, AID_ROOT,      AID_ROOT,      <span class="string">"system/xbin/tcpdump"</span> &#125;,</div><div class="line">    &#123; <span class="number">04770</span>, AID_ROOT,      AID_RADIO,     <span class="string">"system/bin/pppd-ril"</span> &#125;,</div><div class="line">		<span class="comment">/* the following file is INTENTIONALLY set-uid, and IS included</span></div><div class="line">		 * in user builds. */</div><div class="line">    &#123; <span class="number">06750</span>, AID_ROOT,      AID_SHELL,     <span class="string">"system/bin/run-as"</span> &#125;,</div><div class="line">    &#123; <span class="number">06755</span>, AID_ROOT,      AID_ROOT,      <span class="string">"system/xbin/hcitool"</span> &#125;,</div><div class="line">    &#123; <span class="number">00755</span>, AID_ROOT,      AID_SHELL,     <span class="string">"system/bin/*"</span> &#125;,</div><div class="line">    &#123; <span class="number">00755</span>, AID_ROOT,      AID_SHELL,     <span class="string">"system/xbin/*"</span> &#125;,</div><div class="line">    &#123; <span class="number">00755</span>, AID_ROOT,      AID_SHELL,     <span class="string">"system/vendor/bin/*"</span> &#125;,</div><div class="line">    &#123; <span class="number">00750</span>, AID_ROOT,      AID_SHELL,     <span class="string">"sbin/*"</span> &#125;,</div><div class="line">    &#123; <span class="number">00755</span>, AID_ROOT,      AID_ROOT,      <span class="string">"bin/*"</span> &#125;,</div><div class="line">    &#123; <span class="number">00750</span>, AID_ROOT,      AID_SHELL,     <span class="string">"init*"</span> &#125;,</div><div class="line">    &#123; <span class="number">00750</span>, AID_ROOT,      AID_SHELL,     <span class="string">"system/etc/init.d/*"</span> &#125;,</div><div class="line">    &#123; <span class="number">00644</span>, AID_ROOT,      AID_ROOT,       <span class="number">0</span> &#125;,</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">fs_config</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *path, <span class="keyword">int</span> dir,</span></span></div><div class="line">			     <span class="keyword">unsigned</span> *uid, <span class="keyword">unsigned</span> *gid, <span class="keyword">unsigned</span> *mode)</div><div class="line">&#123;</div><div class="line">    <span class="keyword">struct</span> fs_path_config *pc;</div><div class="line">    <span class="keyword">int</span> plen;</div><div class="line">    </div><div class="line">    pc = dir ? android_dirs : android_files;</div><div class="line">    plen = <span class="built_in">strlen</span>(path);</div><div class="line">    <span class="keyword">for</span>(; pc-&gt;prefix; pc++)&#123;</div><div class="line">	<span class="keyword">int</span> len = <span class="built_in">strlen</span>(pc-&gt;prefix);</div><div class="line">	<span class="keyword">if</span> (dir) &#123;</div><div class="line">	    <span class="keyword">if</span>(plen &lt; len) <span class="keyword">continue</span>;</div><div class="line">	    <span class="keyword">if</span>(!<span class="built_in">strncmp</span>(pc-&gt;prefix, path, len)) <span class="keyword">break</span>;</div><div class="line">	    <span class="keyword">continue</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="comment">/* If name ends in * then allow partial matches. */</span></div><div class="line">	<span class="keyword">if</span> (pc-&gt;prefix[len <span class="number">-1</span>] == <span class="string">'*'</span>) &#123;</div><div class="line">	    <span class="keyword">if</span>(!<span class="built_in">strncmp</span>(pc-&gt;prefix, path, len - <span class="number">1</span>)) <span class="keyword">break</span>;</div><div class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> (plen == len)&#123;</div><div class="line">	    <span class="keyword">if</span>(!<span class="built_in">strncmp</span>(pc-&gt;prefix, path, len)) <span class="keyword">break</span>;</div><div class="line">	&#125;</div><div class="line">    &#125;</div><div class="line">    *uid = pc-&gt;uid;</div><div class="line">    *gid = pc-&gt;gid;</div><div class="line">    *mode = (*mode &amp; (~<span class="number">07777</span>)) | pc-&gt;mode;</div><div class="line">    </div><div class="line"><span class="meta">#<span class="meta-keyword">if</span> 0</span></div><div class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>,<span class="string">"&lt; '%s' '%s' %d %d %o &gt;\n"</span>, </div><div class="line">	    path, pc-&gt;prefix ? pc-&gt;prefix : <span class="string">""</span>, *uid, *gid, *mode);</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line">&#125;</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div></pre></td></tr></table></figure>
+<pre><code>Android提供了dumpsys工具来dump出所有的服务信息，通过以下命令可以查看系统注册的所有服务：adb shell dumpsys  
+dumpsys 用来给出手机中所有应用程序的信息，并且也会给出现在手机的状态。
+因为内容太多把dumpsys的内容存储到C盘文件中方便查看.如下
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">C:\Users\comtu&gt;adb shell</div><div class="line">shell@android:/ $ su</div><div class="line">shell@android:/ # cd data</div><div class="line">shell@android:/data # mkdir test</div><div class="line">shell@android:/data # cd test</div><div class="line">shell@android:/data/test # dumpsys &gt; dumpsys.txt</div><div class="line">shell@android:/data/test # ls -l</div><div class="line">ls -l</div><div class="line">-rw-rw-rw- root     root      1706976 2015-07-03 08:57 dumpsys.txt</div><div class="line">shell@android:/data/test # exit</div><div class="line">exit</div><div class="line">shell@android:/ $ exit</div><div class="line">exit</div><div class="line">C:\Users\comtu&gt;adb pull /data/test/dumpsys.txt c:/</div><div class="line">5649 KB/s (1706976 bytes in 0.295s)</div></pre></td></tr></table></figure>
+<pre><code>其中dumpsys.txt文件一段关于QQ配置的片段可查找到如下内容:
+        userId=10081 gids=[3003, 1028, 1015] &lt;---gids可在android_filesystem_config.h查找到对应的映射关系
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div></pre></td><td class="code"><pre><div class="line">Package [com.tencent.mobileqq] (426f1258):</div><div class="line">  userId=10081 gids=[3003, 1028, 1015]</div><div class="line">  pkg=Package&#123;42b7e890 com.tencent.mobileqq&#125;</div><div class="line">  codePath=/data/app/partner-QQ.apk</div><div class="line">  resourcePath=/data/app/partner-QQ.apk</div><div class="line">  nativeLibraryPath=/data/app-lib/partner-QQ</div><div class="line">  versionCode=122 targetSdk=7</div><div class="line">  versionName=4.7.0</div><div class="line">  applicationInfo=ApplicationInfo&#123;42b136f8 com.tencent.mobileqq&#125;</div><div class="line">  flags=[ HAS_CODE ALLOW_CLEAR_USER_DATA ALLOW_BACKUP ]</div><div class="line">  dataDir=/data/data/com.tencent.mobileqq</div><div class="line">  supportsScreens=[small, medium, large, resizeable, anyDensity]</div><div class="line">  usesOptionalLibraries:</div><div class="line">    com.google.android.media.effects</div><div class="line">    com.motorola.hardware.frontcamera</div><div class="line">  timeStamp=2015-05-05 17:36:43</div><div class="line">  firstInstallTime=2015-05-05 17:36:43</div><div class="line">  lastUpdateTime=2015-05-05 17:36:43</div><div class="line">  signatures=PackageSignatures&#123;426f1320 [426f1ed0]&#125;</div><div class="line">  permissionsFixed=true haveGids=true installStatus=1</div><div class="line">  pkgFlags=[ HAS_CODE ALLOW_CLEAR_USER_DATA ALLOW_BACKUP ]</div><div class="line">  User 0:  installed=true blocked=false stopped=true notLaunched=false enabled=0</div><div class="line">  grantedPermissions:</div><div class="line">    android.permission.READ_EXTERNAL_STORAGE</div><div class="line">    android.permission.CHANGE_WIFI_MULTICAST_STATE</div><div class="line">    com.tencent.photos.permission.DATA</div><div class="line">    android.permission.GET_TASKS</div><div class="line">    android.permission.WRITE_EXTERNAL_STORAGE</div><div class="line">    android.permission.WRITE_CALL_LOG</div><div class="line">    com.tencent.msg.permission.pushnotify</div><div class="line">    android.permission.ACCESS_WIFI_STATE</div><div class="line">    android.permission.ACCESS_COARSE_LOCATION</div><div class="line">    android.permission.READ_CONTACTS</div><div class="line">    android.permission.CALL_PHONE</div><div class="line">    android.permission.WRITE_CONTACTS</div><div class="line">    com.tencent.permission.VIRUS_SCAN</div><div class="line">    android.permission.READ_PHONE_STATE</div><div class="line">    android.permission.READ_CALENDAR</div><div class="line">    android.permission.READ_SMS</div><div class="line">    android.permission.CAMERA</div><div class="line">    android.permission.ACCESS_FINE_LOCATION</div><div class="line">    android.permission.BROADCAST_STICKY</div><div class="line">    android.permission.PERSISTENT_ACTIVITY</div><div class="line">    android.permission.FLASHLIGHT</div><div class="line">    android.permission.RECORD_AUDIO</div><div class="line">    android.permission.WAKE_LOCK</div><div class="line">    android.permission.ACCESS_NETWORK_STATE</div><div class="line">    com.tencent.msf.permission.ACCOUNT_NOTICE</div><div class="line">    com.android.launcher.permission.INSTALL_SHORTCUT</div><div class="line">    com.tencent.msf.permission.account.sync</div><div class="line">    android.permission.SEND_SMS</div><div class="line">    com.android.launcher.permission.UNINSTALL_SHORTCUT</div><div class="line">    android.permission.KILL_BACKGROUND_PROCESSES</div><div class="line">    android.permission.MODIFY_AUDIO_SETTINGS</div><div class="line">    android.permission.DISABLE_KEYGUARD</div><div class="line">    android.permission.WRITE_CALENDAR</div><div class="line">    com.qq.qcloud.permission.ACCESS_ALBUM_BACKUP_LIST</div><div class="line">    android.permission.SYSTEM_ALERT_WINDOW</div><div class="line">    android.permission.WRITE_SETTINGS</div><div class="line">    android.permission.INTERNET</div><div class="line">    android.permission.CHANGE_WIFI_STATE</div><div class="line">    android.permission.VIBRATE</div><div class="line">    android.permission.READ_CALL_LOG</div><div class="line">    com.android.launcher.permission.READ_SETTINGS</div><div class="line">    android.permission.CHANGE_NETWORK_STATE</div></pre></td></tr></table></figure>
+<h2 id="Chmod和chown命令介绍"><a href="#Chmod和chown命令介绍" class="headerlink" title="Chmod和chown命令介绍"></a>Chmod和chown命令介绍</h2><h3 id="Chmod"><a href="#Chmod" class="headerlink" title="Chmod"></a>Chmod</h3><pre><code>1.文件R/W/X的系统内部采用3Bit表示,R为最高位比特,置位为0x04,
+    W为中间比特,置位为0x02,X为最低比特,置位为0x01
+
+    4(读R) , 2(写W) , 1(执行X)
+    7=4+2+1 所有权限
+    6=4+2   读写
+    5=4+1   读执行
+    4       读
+    3=3+1   写执行
+    2
+    1
+    664表示给予UID,GID读写权限,给予其它只读权限
+
+2.Shell中表示时,置位使用相应R/W/X表示,未置位使用-
+3.操作文件面向群体的操作权限时,使用Chmod,可以直接使用数字,
+    也可使用助记符( a:all , u:owner user , g:group , +:add one premission , -:remove one permission)
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">-rw-rw-r-- system   system         12 2015-07-02 18:02 test.txt</div><div class="line">shell@android:/data/test # chmod 777 test.txt</div><div class="line">chmod 777 test.txt</div><div class="line">shell@android:/data/test # ls -l</div><div class="line">ls -l</div><div class="line">-rwxrwxrwx system   system         12 2015-07-02 18:02 test.txt</div><div class="line">shell@android:/data/test #</div><div class="line">shell@android:/data/test # chmod 664 test.txt</div><div class="line">chmod 664 test.txt</div><div class="line">shell@android:/data/test # ls -l</div><div class="line">ls -l</div><div class="line">-rw-rw-r-- system   system         12 2015-07-02 18:02 test.txt</div><div class="line">shell@android:/data/test #</div></pre></td></tr></table></figure>
+<h3 id="Chown"><a href="#Chown" class="headerlink" title="Chown"></a>Chown</h3><pre><code>通过chown改变文件的拥有者和群组。在更改文件的所有者UID或所属群组GID时，可以使用用户名称和用户识别码设置。
+    Shell命令中通常采用Name方式修改,而不是ID方式.普通用户不能将自己的文件改变成其他的拥有者。其操作权限一般为管理员。
+一般格式: chown newUID:newGID FileName
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">shell@android:/data # mkdir test</div><div class="line">mkdir test</div><div class="line">shell@android:/data # cd test</div><div class="line">cd test</div><div class="line">shell@android:/data/test # echo &quot;hello world&quot; &gt; test.txt</div><div class="line">echo &quot;hello world&quot; &gt; test.txt</div><div class="line">shell@android:/data/test # ls</div><div class="line">ls</div><div class="line">test.txt</div><div class="line">shell@android:/data/test # ls -l</div><div class="line">ls -l</div><div class="line">-rw-rw-rw- root     root           12 2015-07-02 18:02 test.txt</div><div class="line">shell@android:/data/test # chown system:system test.txt</div><div class="line">chown system:system test.txt</div><div class="line">shell@android:/data/test # ls -l</div><div class="line">ls -l</div><div class="line">-rw-rw-rw- system   system         12 2015-07-02 18:02 test.txt</div><div class="line">shell@android:/data/test #</div></pre></td></tr></table></figure>
+<h1 id="UID-GID的衔接"><a href="#UID-GID的衔接" class="headerlink" title="UID/GID的衔接"></a>UID/GID的衔接</h1><pre><code>1.Linux一切皆是文件
+2.文件基于UID/GID来划分它的面向群体,对它的面向群体定义不同的操作权限
+3.用户的行为映射为进程的运行
+4.进程的运行使用进程的UID/GID来标识自己的身份
+5.进程的UID/GID&lt;=====&gt;文件的UID/GID 完美衔接~~
+6.进程的UID/GID除了被授予可操作文件的范畴外,非文件范畴的需要进行权限控制的操作
+    (如重启系统等特权操作)继续通过进程的UID/GID身份来进行控制和授权.
+7.比如,对于Reboot这个API,其入口处可以check calling的Process的UID,如果不是Root,则Reject
+</code></pre><h1 id="进程的RealUID和EffectiveUID"><a href="#进程的RealUID和EffectiveUID" class="headerlink" title="进程的RealUID和EffectiveUID"></a>进程的RealUID和EffectiveUID</h1><pre><code>linux下real uid被用于描述用户是谁，文件的拥有者，effective uid指程序执行时的用户组别，
+用于判断程序是否有权去进行一些操作（例如读写文件），因此real uid是针对用户和文件(拥有者)而言，
+而effective是针对运行的程序而言。一般来讲一个用户执行一个程序，
+程序的effective uid会被设置为用户的real uid，这个effective uid与该程序的real uid(文件所有者)无关，只与执行者有关。
+
+Real UID 是身份的标识 , 但没有&quot;实权&quot;
+
+Effective UID 是权利的标识 
+    文件,资源以及特权API操作时对进程是否有权限的识别的UID,即是指Effectivie UID
+
+身份与权利的关系
+    一般情况下,身份和权利是一至的,即Real UID = Effective UID.
+    所以,默认ps cmd输出的UID指的是Effective UID , 而没有输出Real UID
+
+Root用户的特权
+    ROOT可以调用SetXUID对自己的身份进行升降.
+
+UID的世袭
+    子进程的Real UID = Effective UID = 父进程的Real UID (子嗣不能继承其特权Effective UID而仅能继承其Real UID)
+</code></pre><h1 id="文件的setUID标识"><a href="#文件的setUID标识" class="headerlink" title="文件的setUID标识"></a>文件的setUID标识</h1><pre><code>setUID可以让普通用户暂时获得文件权限的读写.
+
+和基本的RWX设置类似,有助记符和直接数字设置.直接数字设置时,采用4位数字,第一位标志setUID
+如下:
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">shell@android:/data/test $ ls -l</div><div class="line">ls -l</div><div class="line">-rw-rw-rw- shell    shell           7 2015-07-03 09:22 comtu.txt</div><div class="line">-rw-rw-rw- root     root      1706976 2015-07-03 08:57 dumpsys.txt</div><div class="line">-rw-rw-r-- system   system         12 2015-07-02 18:02 test.txt</div><div class="line">shell@android:/data/test $ chmod 4775 comtu.txt</div><div class="line">chmod 4775 comtu.txt</div><div class="line">shell@android:/data/test $ ls -l</div><div class="line">ls -l</div><div class="line">-rwsrwxr-x shell    shell           7 2015-07-03 09:22 comtu.txt</div><div class="line">-rw-rw-rw- root     root      1706976 2015-07-03 08:57 dumpsys.txt</div><div class="line">-rw-rw-r-- system   system         12 2015-07-02 18:02 test.txt</div><div class="line">shell@android:/data/test $ chmod 0775 comtu.txt</div><div class="line">chmod 0775 comtu.txt</div><div class="line">shell@android:/data/test $ ls -l</div><div class="line">ls -l</div><div class="line">-rwxrwxr-x shell    shell           7 2015-07-03 09:22 comtu.txt</div><div class="line">-rw-rw-rw- root     root      1706976 2015-07-03 08:57 dumpsys.txt</div><div class="line">-rw-rw-r-- system   system         12 2015-07-02 18:02 test.txt</div><div class="line">shell@android:/data/test $ chmod u+s comtu.txt</div><div class="line">chmod u+s comtu.txt</div><div class="line">Bad mode</div><div class="line">10|shell@android:/data/test $</div></pre></td></tr></table></figure>
+<pre><code>说明
+    chmod 4775 comtu.txt
+
+    4775 第一位4表示开启setUID, 第二位7表示UID获取读写执行权限,
+        第三位7表示Gid获取读写执行权限,最后5表示其它用户只有读与执行权限
+
+    chmod 0775 comtu.txt
+    0775 第一位0表示关闭setUID
+
+    chmod u+s comtu.txt
+    使用助记符,因为我使用的是Android的adb shell 是简化般linux对助记符不支持,如果使用ubuntu等则可进行操作.
+</code></pre><h1 id="Capability"><a href="#Capability" class="headerlink" title="Capability"></a>Capability</h1><pre><code>Capability细粒度的权限控制
+
+进程的Capability
+    permitted Capability Sets 
+        当前进程的权利的围栏,最大权利的范围,是Effective Capability Sets的超集
+    Effectivte Capability Sets 
+        当前进程的实际使用(支配)的权利集,该集内的Capability必须从属于Permitted Capability Sets . 
+        该集合与Effective UID类似,是实际的权利标识.
+    Inheritable Capability Sets
+        子进程唯一可以直接继承的Capability Sets. 在Capability模式下,
+        只有子进程的Inheritable Capability Sets = 父进程的Inheritable Capability Sets . 其他的皆是NO
+文件的Capability
+    Permitted Capability Sets
+        该可执行文件可以为进程带来的Permitted Capability Sets
+    Effective Capability Set
+        仅1bit,Enable or disable , 标识该可执行文件running所在的进程的
+        Permitted Capability Sets是否自动全部Assign到其Effective Capability Sets. 
+        通常用于与传统的Root-setUID可执行文件向下兼容.
+    Inheritable Capability Sets
+        与进程的Inheritable Capability Sets 一起作用(位与)以决定新的进程的Permitted capability Sets
+
+Capability BoundSet
+    Capability BoundSet是进程的属性
+    是进程自己为自己设定的安全围栏(Capability Sets) , 
+        限制可执行文件的Permitted Capability Sets仅有局部能转化的Permitted Capability Sets
+    Capability BoundSet能被子进程继承
+    Init进程默认Capability BoundSet为全1
+
+Spawn进程的Capability
+    P&apos;子进程  P父进程  F子进程运行起来的执行文件
+
+    P&apos;(permitted) = (P(inheritable)&amp;F(inheritable))|(F(permitted)&amp;cap_bset)
+    P&apos;(effective) = F(effective)?P&apos;(permitted):0
+    P&apos;(inheritable) = P(inheritable)
+</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/res/img/wechatpay.png" alt="Comtu WeChat Pay"/>
+        <p>微信打赏</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/res/img/alipay.png" alt="Comtu Alipay"/>
+        <p>支付宝打赏</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>文章标题：</strong>
+    Android安全模式机制之二(操作系统现代安全体系基础概念)
+  </li>
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Comtu
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://comtu.github.com/2014/10/26/android_safe_mode_mechanism_two.html" title="Android安全模式机制之二(操作系统现代安全体系基础概念)">http://comtu.github.com/2014/10/26/android_safe_mode_mechanism_two.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android安全模式机制/" rel="tag"># Android安全模式机制</a>
+          
+            <a href="/tags/进程和进程边界/" rel="tag"># 进程和进程边界</a>
+          
+            <a href="/tags/多用户和多用户边界/" rel="tag"># 多用户和多用户边界</a>
+          
+            <a href="/tags/进程和文件的UID-GID/" rel="tag"># 进程和文件的UID/GID</a>
+          
+            <a href="/tags/Chmod和chown命令介绍/" rel="tag"># Chmod和chown命令介绍</a>
+          
+            <a href="/tags/linux/" rel="tag"># linux</a>
+          
+            <a href="/tags/UID-GID的衔接/" rel="tag"># UID/GID的衔接</a>
+          
+            <a href="/tags/进程的RealUID和EffectiveUID/" rel="tag"># 进程的RealUID和EffectiveUID</a>
+          
+            <a href="/tags/setUID/" rel="tag"># setUID</a>
+          
+            <a href="/tags/Capability/" rel="tag"># Capability</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/10/25/android_safe_mode_mechanism_one.html" rel="next" title="Android安全模式机制之一(现代安全体系基础概念)">
+                <i class="fa fa-chevron-left"></i> Android安全模式机制之一(现代安全体系基础概念)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/10/27/android_safe_mode_mechanism_three.html" rel="prev" title="Android安全模式机制之三(实际运用)">
+                Android安全模式机制之三(实际运用) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/res/img/icon.jpg"
+               alt="Comtu" />
+          <p class="site-author-name" itemprop="name">Comtu</p>
+           
+              <p class="site-description motion-element" itemprop="description">The time is passing</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">95</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/comtu" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/comtu" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#进程和进程边界"><span class="nav-number">1.</span> <span class="nav-text">进程和进程边界</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#多用户和多用户边界"><span class="nav-number">2.</span> <span class="nav-text">多用户和多用户边界</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#进程和文件的UID-GID-UserID-groupId"><span class="nav-number">3.</span> <span class="nav-text">进程和文件的UID/GID (UserID/groupId)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#文件资源的权限力度-UID-GID"><span class="nav-number">3.1.</span> <span class="nav-text">文件资源的权限力度:UID/GID</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件的可操作权限"><span class="nav-number">3.2.</span> <span class="nav-text">文件的可操作权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进程的标识-PID-UID-GID-GIDs"><span class="nav-number">3.3.</span> <span class="nav-text">进程的标识: PID , UID , GID , GIDs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Name和ID的映射"><span class="nav-number">3.4.</span> <span class="nav-text">Name和ID的映射</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Chmod和chown命令介绍"><span class="nav-number">3.5.</span> <span class="nav-text">Chmod和chown命令介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Chmod"><span class="nav-number">3.5.1.</span> <span class="nav-text">Chmod</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Chown"><span class="nav-number">3.5.2.</span> <span class="nav-text">Chown</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#UID-GID的衔接"><span class="nav-number">4.</span> <span class="nav-text">UID/GID的衔接</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#进程的RealUID和EffectiveUID"><span class="nav-number">5.</span> <span class="nav-text">进程的RealUID和EffectiveUID</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件的setUID标识"><span class="nav-number">6.</span> <span class="nav-text">文件的setUID标识</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Capability"><span class="nav-number">7.</span> <span class="nav-text">Capability</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2013 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Comtu</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/three/three.min.js"></script>
+
+  
+  <script type="text/javascript" src="/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://comtu.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://comtu.github.com/2014/10/26/android_safe_mode_mechanism_two.html';
+          this.page.identifier = '/2014/10/26/android_safe_mode_mechanism_two.html';
+          this.page.title = 'Android安全模式机制之二(操作系统现代安全体系基础概念)';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://comtu.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("feqhc8WOUwoueUx9gkNO8kIq-gzGzoHsz", "3Igep5lfuSGHiGQJB0PFjICO");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

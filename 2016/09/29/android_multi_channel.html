@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android,多渠道打包," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/res/img/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="Android多渠道打包  Gradle方式 Python脚本方式">
+<meta name="keywords" content="Android,多渠道打包">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android多渠道打包">
+<meta property="og:url" content="http://comtu.github.com/2016/09/29/android_multi_channel.html">
+<meta property="og:site_name" content="Comtu">
+<meta property="og:description" content="Android多渠道打包  Gradle方式 Python脚本方式">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://comtu.github.com/res/img/blog/2016/09/29/android_multi_channel/as_terminal.png">
+<meta property="og:image" content="http://comtu.github.com/res/img/blog/2016/09/29/android_multi_channel/gradle_tool_build.png">
+<meta property="og:image" content="http://comtu.github.com/res/img/blog/2016/09/29/android_multi_channel/build_complete.png">
+<meta property="og:image" content="http://comtu.github.com/res/img/blog/2016/09/29/android_multi_channel/config_multi_channel.png">
+<meta property="og:updated_time" content="2017-09-24T06:10:42.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android多渠道打包">
+<meta name="twitter:description" content="Android多渠道打包  Gradle方式 Python脚本方式">
+<meta name="twitter:image" content="http://comtu.github.com/res/img/blog/2016/09/29/android_multi_channel/as_terminal.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://comtu.github.com/2016/09/29/android_multi_channel.html"/>
+
+
+
+
+
+  <title>Android多渠道打包 | Comtu</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?e0d9a75a7e53b54cd1e6649facd5906e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Comtu</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://comtu.github.com/2016/09/29/android_multi_channel.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Comtu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/res/img/icon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Comtu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android多渠道打包</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-29T00:00:00+08:00">
+                2016-09-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/09/29/android_multi_channel.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="/2016/09/29/android_multi_channel.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2016/09/29/android_multi_channel.html" class="leancloud_visitors" data-flag-title="Android多渠道打包">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1,642字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  8分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Android多渠道打包</p>
+<ul>
+<li>Gradle方式</li>
+<li>Python脚本方式</li>
+</ul>
+<a id="more"></a>
+<h1 id="通过Gradle多渠道打包"><a href="#通过Gradle多渠道打包" class="headerlink" title="通过Gradle多渠道打包"></a>通过Gradle多渠道打包</h1><h2 id="配置步骤"><a href="#配置步骤" class="headerlink" title="配置步骤"></a>配置步骤</h2><h3 id="1-在AndroidManifest-xml-配置占位符"><a href="#1-在AndroidManifest-xml-配置占位符" class="headerlink" title="1. 在AndroidManifest.xml 配置占位符"></a>1. 在<code>AndroidManifest.xml</code> 配置<strong>占位符</strong></h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">application</span></span></div><div class="line">  <span class="attr">...</span>&gt;</div><div class="line">      ...</div><div class="line">      <span class="comment">&lt;!-- 渠道商编号 增加占位符--&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">meta-data</span></span></div><div class="line">      <span class="attr">android:name</span>=<span class="string">"XXXX_CHANNEL"</span></div><div class="line">      <span class="attr">android:value</span>=<span class="string">"$&#123;XXXX_CHANNEL_VALUE&#125;"</span>/&gt;</div><div class="line">      ...    </div><div class="line"><span class="tag">&lt;/<span class="name">application</span>&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="2-在app的build-gradle文件中配置签名"><a href="#2-在app的build-gradle文件中配置签名" class="headerlink" title="2. 在app的build.gradle文件中配置签名"></a>2. 在app的<code>build.gradle</code>文件中配置<strong>签名</strong></h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">android &#123;</div><div class="line">...  </div><div class="line">    <span class="comment">/**签名配置 需要在引用的前面进行配置,不然编译不通过*/</span></div><div class="line">    signingConfigs &#123;</div><div class="line">        releasekey &#123;</div><div class="line">             <span class="function">storeFile <span class="title">file</span><span class="params">(<span class="string">'./keystore/release.keystore'</span>)</span>  <span class="comment">//key文件目录</span></span></div><div class="line">             storePassword "testres"  <span class="comment">//key密码</span></div><div class="line">             keyAlias "testres"       <span class="comment">//Alias名称</span></div><div class="line">             keyPassword "testres"    <span class="comment">//Alias密码</span></div><div class="line">        &#125;</div><div class="line">        debugkey &#123;</div><div class="line">            <span class="function">storeFile <span class="title">file</span><span class="params">(<span class="string">'./keystore/debug.keystore'</span>)</span></span></div><div class="line">            storePassword 'android'</div><div class="line">            keyAlias 'androiddebugkey'</div><div class="line">            keyPassword 'android'</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">....    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="3-在app的build-gradle文件中配置build类型"><a href="#3-在app的build-gradle文件中配置build类型" class="headerlink" title="3. 在app的build.gradle文件中配置build类型"></a>3. 在app的<code>build.gradle</code>文件中配置<strong>build类型</strong></h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">android&#123;</div><div class="line">  ...</div><div class="line">      buildTypes &#123;</div><div class="line">          release &#123;</div><div class="line">              buildConfigField <span class="string">"boolean"</span>, <span class="string">"CONFIG_LOG_DEBUG"</span>, <span class="string">"false"</span></div><div class="line">              <span class="function">minifyEnabled <span class="keyword">true</span></span></div><div class="line">              shrinkResources <span class="keyword">true</span></div><div class="line"></div><div class="line">              proguardFiles <span class="title">getDefaultProguardFile</span><span class="params">(<span class="string">'proguard-android.txt'</span>)</span>, 'proguard-rules.pro'</div><div class="line">              signingConfig signingConfigs.releasekey</div><div class="line">          &#125;</div><div class="line"></div><div class="line">          debug &#123;</div><div class="line">              buildConfigField <span class="string">"boolean"</span>, <span class="string">"CONFIG_LOG_DEBUG"</span>, <span class="string">"true"</span></div><div class="line">              minifyEnabled <span class="keyword">false</span></div><div class="line">              signingConfig signingConfigs.debugkey</div><div class="line">          &#125;</div><div class="line">      &#125;</div><div class="line">  ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="4-在app的build-gradle文件中配置渠道包名以及输出的文件名"><a href="#4-在app的build-gradle文件中配置渠道包名以及输出的文件名" class="headerlink" title="4. 在app的build.gradle文件中配置渠道包名以及输出的文件名"></a>4. 在app的<code>build.gradle</code>文件中配置<strong>渠道包名以及输出的文件名</strong></h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">android&#123;</div><div class="line">  ...</div><div class="line">  <span class="comment">/**可定义的产品特性 功能强大*/</span></div><div class="line"> productFlavors &#123;</div><div class="line">     <span class="comment">//渠道包名</span></div><div class="line">     xiaomi &#123;</div><div class="line">         <span class="comment">//修改占位符</span></div><div class="line">         <span class="comment">//manifestPlaceholders = [XXXX_CHANNEL_VALUE: xiaomi]</span></div><div class="line">         <span class="comment">//还有很多功能可以配置</span></div><div class="line">     &#125;</div><div class="line">     qh360 &#123;&#125;</div><div class="line">     baidu &#123;&#125;</div><div class="line">     wandoujia &#123;&#125;</div><div class="line">       <span class="comment">//... 还需要增加哪些渠道包只需要 xxx&#123;&#125;即可</span></div><div class="line"> &#125;</div><div class="line"> <span class="comment">/**批量遍历修改AndroidManifest.xml中的XXXX_CHANNEL_VALUE占位符值*/</span></div><div class="line"> productFlavors.all &#123;</div><div class="line">     flavor -&gt; flavor.manifestPlaceholders = [XXXX_CHANNEL_VALUE: name]</div><div class="line"> &#125;</div><div class="line"> <span class="comment">/**自定义输出文件配置*/</span></div><div class="line"> applicationVariants.all &#123; variant -&gt;</div><div class="line">     variant.outputs.each &#123; output -&gt;</div><div class="line">         def outputFile = output.<span class="function">outputFile</span></div><div class="line">         <span class="title">if</span> <span class="params">(outputFile != <span class="keyword">null</span> &amp;&amp; outputFile.name.endsWith(<span class="string">'.apk'</span>)</span>) &#123;</div><div class="line">             def appId = defaultConfig.applicationId;</div><div class="line">             def vName = defaultConfig.versionName;</div><div class="line">             def channelName = variant.productFlavors[<span class="number">0</span>].name;</div><div class="line">             def buildType = variant.buildType.name;</div><div class="line">             def signed = variant.apkVariantData.signed?<span class="string">"_signed"</span>:<span class="string">"_unsigned"</span>;</div><div class="line">             <span class="comment">/**输出apk名称*/</span></div><div class="line">             def fileName = <span class="string">"$&#123;appId&#125;_v$&#123;vName&#125;_$&#123;channelName&#125;_$&#123;buildType&#125;$&#123;signed&#125;.apk"</span></div><div class="line">             output.outputFile = <span class="keyword">new</span> File(outputFile.parent, fileName)</div><div class="line">         &#125;</div><div class="line">     &#125;</div><div class="line"> &#125;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="5-打包"><a href="#5-打包" class="headerlink" title="5. 打包"></a>5. 打包</h3><p>通过<strong>AndroidStudio</strong>的<code>Terminal</code>或者<code>Gradle环境</code>进行打包</p>
+<p>  <strong>Terminal</strong>打包时使用gradle的如下命令即可批量打包</p>
+<blockquote>
+<p>gradle assembleRelease    </p>
+</blockquote>
+<p><img src="/res/img/blog/2016/09/29/android_multi_channel/as_terminal.png" alt="目录结构"></p>
+<p>  <strong>Gradle工具</strong>一键打包.</p>
+<p><img src="/res/img/blog/2016/09/29/android_multi_channel/gradle_tool_build.png" alt="目录结构"></p>
+<p>打包出来的的各大渠道包</p>
+<p><img src="/res/img/blog/2016/09/29/android_multi_channel/build_complete.png" alt="目录结构"></p>
+<hr>
+<h2 id="配置的完整文件"><a href="#配置的完整文件" class="headerlink" title="配置的完整文件"></a>配置的完整文件</h2><h3 id="AndroidManifest-xml配置"><a href="#AndroidManifest-xml配置" class="headerlink" title="AndroidManifest.xml配置"></a><code>AndroidManifest.xml</code>配置</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">manifest</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">          <span class="attr">package</span>=<span class="string">"com.tu.test.multichannel"</span>&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">application</span></span></div><div class="line">        <span class="attr">android:allowBackup</span>=<span class="string">"true"</span></div><div class="line">        <span class="attr">android:icon</span>=<span class="string">"@mipmap/ic_launcher"</span></div><div class="line">        <span class="attr">android:label</span>=<span class="string">"@string/app_name"</span></div><div class="line">        <span class="attr">android:supportsRtl</span>=<span class="string">"true"</span></div><div class="line">        <span class="attr">android:theme</span>=<span class="string">"@style/AppTheme"</span>&gt;</div><div class="line">        <span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".activity.MainActivity"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"android.intent.action.MAIN"</span>/&gt;</span></div><div class="line"></div><div class="line">                <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.LAUNCHER"</span>/&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">activity</span>&gt;</span></div><div class="line">        <span class="comment">&lt;!-- 渠道商编号 增加占位符--&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">meta-data</span></span></div><div class="line">            <span class="attr">android:name</span>=<span class="string">"XXXX_CHANNEL"</span></div><div class="line">            <span class="attr">android:value</span>=<span class="string">"$&#123;XXXX_CHANNEL_VALUE&#125;"</span>/&gt;</div><div class="line">    <span class="tag">&lt;/<span class="name">application</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">manifest</span>&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="app-build-gradle配置"><a href="#app-build-gradle配置" class="headerlink" title="app/build.gradle配置"></a><code>app/build.gradle</code>配置</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div></pre></td><td class="code"><pre><div class="line">apply plugin: <span class="string">'com.android.application'</span></div><div class="line"></div><div class="line">android &#123;</div><div class="line">    compileSdkVersion <span class="number">24</span></div><div class="line">    buildToolsVersion <span class="string">"24.0.0"</span></div><div class="line"></div><div class="line">    <span class="comment">/**签名配置 注意这个位置.需要配置在引用的前面,不然编译不通过*/</span></div><div class="line">    signingConfigs &#123;</div><div class="line">        releasekey &#123;</div><div class="line">            <span class="function">storeFile <span class="title">file</span><span class="params">(<span class="string">'./keystore/release.keystore'</span>)</span>  <span class="comment">//key文件目录</span></span></div><div class="line">            storePassword "testres"  <span class="comment">//key密码</span></div><div class="line">            keyAlias "testres"      <span class="comment">//Alias名称</span></div><div class="line">            keyPassword "testres"   <span class="comment">//Alias密码</span></div><div class="line">        &#125;</div><div class="line">        debugkey &#123;</div><div class="line">            <span class="function">storeFile <span class="title">file</span><span class="params">(<span class="string">'./keystore/debug.keystore'</span>)</span></span></div><div class="line">            storePassword 'android'</div><div class="line">            keyAlias 'androiddebugkey'</div><div class="line">            keyPassword 'android'</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    defaultConfig &#123;</div><div class="line">        applicationId <span class="string">"com.tu.test.multichannel"</span></div><div class="line">        minSdkVersion <span class="number">14</span></div><div class="line">        targetSdkVersion <span class="number">24</span></div><div class="line">        versionCode <span class="number">1</span></div><div class="line">        versionName <span class="string">"1.2"</span></div><div class="line">        testInstrumentationRunner <span class="string">"android.support.test.runner.AndroidJUnitRunner"</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    buildTypes &#123;</div><div class="line">        <span class="comment">//编译release 发布时的配置环境</span></div><div class="line">        release &#123;</div><div class="line">            <span class="comment">//自定义属性详情见MainActivity.java的使用</span></div><div class="line">            buildConfigField <span class="string">"boolean"</span>, <span class="string">"CONFIG_LOG_DEBUG"</span>, <span class="string">"false"</span></div><div class="line">            <span class="comment">//开启混淆</span></div><div class="line">            minifyEnabled <span class="keyword">true</span></div><div class="line">            <span class="comment">//跳过无用的资源文件</span></div><div class="line">            shrinkResources <span class="keyword">true</span></div><div class="line">            <span class="comment">//混淆文件配置</span></div><div class="line">            <span class="function">proguardFiles <span class="title">getDefaultProguardFile</span><span class="params">(<span class="string">'proguard-android.txt'</span>)</span>, 'proguard-rules.pro'</span></div><div class="line">            <span class="comment">//配置签名</span></div><div class="line">            signingConfig signingConfigs.releasekey</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//编译debug测试时的环境</span></div><div class="line">        debug &#123;</div><div class="line">            buildConfigField <span class="string">"boolean"</span>, <span class="string">"CONFIG_LOG_DEBUG"</span>, <span class="string">"true"</span></div><div class="line">            minifyEnabled <span class="keyword">false</span></div><div class="line">            signingConfig signingConfigs.debugkey</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**可定义的产品特性*/</span></div><div class="line">    productFlavors &#123;</div><div class="line">        <span class="comment">//渠道包名</span></div><div class="line">        xiaomi &#123;</div><div class="line">            <span class="comment">//manifestPlaceholders = [XXXX_CHANNEL_VALUE: xiaomi]</span></div><div class="line">            <span class="comment">//还有很多功能可以配置</span></div><div class="line">        &#125;</div><div class="line">        qh360 &#123;&#125;</div><div class="line">        baidu &#123;&#125;</div><div class="line">        wandoujia &#123;&#125;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/**批量遍历修改AndroidManifest.xml中的XXXX_CHANNEL_VALUE占位符值*/</span></div><div class="line">    productFlavors.all &#123;</div><div class="line">        flavor -&gt; flavor.manifestPlaceholders = [XXXX_CHANNEL_VALUE: name]</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/**自定义输出文件配置*/</span></div><div class="line">    applicationVariants.all &#123; variant -&gt;</div><div class="line">        variant.outputs.each &#123; output -&gt;</div><div class="line">            def outputFile = output.<span class="function">outputFile</span></div><div class="line">            <span class="title">if</span> <span class="params">(outputFile != <span class="keyword">null</span> &amp;&amp; outputFile.name.endsWith(<span class="string">'.apk'</span>)</span>) &#123;</div><div class="line">                def appId = defaultConfig.applicationId;</div><div class="line">                def vName = defaultConfig.versionName;</div><div class="line">                def channelName = variant.productFlavors[<span class="number">0</span>].name;</div><div class="line">                def buildType = variant.buildType.name;</div><div class="line">                def signed = variant.apkVariantData.signed?<span class="string">"_signed"</span>:<span class="string">"_unsigned"</span>;</div><div class="line">                <span class="comment">/**输出apk名称*/</span></div><div class="line">                def fileName = <span class="string">"$&#123;appId&#125;_v$&#123;vName&#125;_$&#123;channelName&#125;_$&#123;buildType&#125;$&#123;signed&#125;.apk"</span></div><div class="line">                output.outputFile = <span class="keyword">new</span> File(outputFile.parent, fileName)</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line">dependencies &#123;</div><div class="line">    <span class="function">compile <span class="title">fileTree</span><span class="params">(dir: <span class="string">'libs'</span>, include: [<span class="string">'*.jar'</span>])</span></span></div><div class="line">    <span class="title">androidTestCompile</span><span class="params">(<span class="string">'com.android.support.test.espresso:espresso-core:2.2.2'</span>, &#123;</span></div><div class="line">        exclude group: <span class="string">'com.android.support'</span>, <span class="keyword">module</span>: <span class="string">'support-annotations'</span></div><div class="line">    &#125;)</div><div class="line">    compile 'com.android.support:appcompat-v7:24.2.1'</div><div class="line">    testCompile 'junit:junit:4.12'</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="/res/img/blog/2016/09/29/android_multi_channel/config_multi_channel.png" alt="目录结构"></p>
+<h2 id="注意项"><a href="#注意项" class="headerlink" title="注意项"></a>注意项</h2><p>build.gradle的配置项是分先后顺序的,如果调用某个配置,必须在调用前进行声明.否则抛无法获取属性.</p>
+<p>Error:(29, 1) A problem occurred evaluating project ‘:app’.<br> Could not get unknown property ‘releasekey’ for SigningConfig container.</p>
+<hr>
+<h1 id="通过Python批量打包"><a href="#通过Python批量打包" class="headerlink" title="通过Python批量打包"></a>通过Python批量打包</h1><ul>
+<li>这个方案没法解决不同渠道使用渠道自己SDK的问题，友盟的SDK提供了在代码中设置渠道的方式，所以再获取到渠道号后再调用SDK相关设置渠道的方法就可以了</li>
+<li>apk用的是java那一套签名，放在META-INF文件夹里的文件原则上是不参与签名的。如果Google修改了apk的签名规则，这一套可能就不适用了。</li>
+</ul>
+<h2 id="1-安装Python环境"><a href="#1-安装Python环境" class="headerlink" title="1.安装Python环境"></a>1.安装Python环境</h2><p>本人下载的python-2.7.12.msi</p>
+<p>下载地址:<a href="https://www.python.org/downloads/" target="_blank" rel="external">https://www.python.org/downloads/</a></p>
+<h2 id="2-在项目中增加获取渠道的方法"><a href="#2-在项目中增加获取渠道的方法" class="headerlink" title="2.在项目中增加获取渠道的方法"></a>2.在项目中增加获取渠道的方法</h2><p>在项目中增加ChannelUtil.java在Demo文件中可以找到.并通过如下代码获取渠道</p>
+<pre><code>String channel = ChannelUtil.getChannel(this);//调用方法
+</code></pre><h2 id="3-为app打签名包"><a href="#3-为app打签名包" class="headerlink" title="3.为app打签名包."></a>3.为app打签名包.</h2><pre><code>为App打的签名包放到Python脚本文件的同目录.
+</code></pre><h2 id="4-配置需要的渠道"><a href="#4-配置需要的渠道" class="headerlink" title="4.配置需要的渠道"></a>4.配置需要的渠道</h2><pre><code>channel.txt 里面的就是渠道,一个渠道一行.
+</code></pre><h2 id="5-运行Python脚本"><a href="#5-运行Python脚本" class="headerlink" title="5.运行Python脚本"></a>5.运行Python脚本</h2><pre><code>双击MultiChannelBuildTool.py文件运行脚本
+</code></pre><h2 id="6-关键实现代码"><a href="#6-关键实现代码" class="headerlink" title="6.关键实现代码"></a>6.关键实现代码</h2><p>Java代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">getChannelFromApk</span><span class="params">(Context context, String channelKey)</span> </span>&#123;</div><div class="line">		<span class="comment">//从apk包中获取</span></div><div class="line">        ApplicationInfo appinfo = context.getApplicationInfo();</div><div class="line">        String sourceDir = appinfo.sourceDir;</div><div class="line">        <span class="comment">//默认放在meta-inf/里， 所以需要再拼接一下</span></div><div class="line">        String key = <span class="string">"META-INF/"</span> + channelKey;</div><div class="line">        String ret = <span class="string">""</span>;</div><div class="line">        ZipFile zipfile = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            zipfile = <span class="keyword">new</span> ZipFile(sourceDir);</div><div class="line">            Enumeration&lt;?&gt; entries = zipfile.entries();</div><div class="line">            <span class="keyword">while</span> (entries.hasMoreElements()) &#123;</div><div class="line">                ZipEntry entry = ((ZipEntry) entries.nextElement());</div><div class="line">                String entryName = entry.getName();</div><div class="line">                <span class="keyword">if</span> (entryName.startsWith(key)) &#123;</div><div class="line">                    ret = entryName;</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            <span class="keyword">if</span> (zipfile != <span class="keyword">null</span>) &#123;</div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    zipfile.close();</div><div class="line">                &#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">                    e.printStackTrace();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        String[] split = ret.split(<span class="string">"_"</span>);</div><div class="line">        String channel = <span class="string">""</span>;</div><div class="line">        <span class="keyword">if</span> (split != <span class="keyword">null</span> &amp;&amp; split.length &gt;= <span class="number">2</span>) &#123;</div><div class="line">        	channel = ret.substring(split[<span class="number">0</span>].length() + <span class="number">1</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> channel;</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
+<p>Python代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/python</span></div><div class="line"><span class="comment"># coding=utf-8</span></div><div class="line"><span class="keyword">import</span> zipfile</div><div class="line"><span class="keyword">import</span> shutil</div><div class="line"><span class="keyword">import</span> os</div><div class="line"></div><div class="line"><span class="comment"># 空文件 便于写入此空文件到apk包中作为channel文件</span></div><div class="line">src_empty_file = <span class="string">'info/c.txt'</span></div><div class="line"><span class="comment"># 创建一个空文件（不存在则创建）</span></div><div class="line">f = open(src_empty_file, <span class="string">'w'</span>) </div><div class="line">f.close()</div><div class="line"></div><div class="line"><span class="comment"># 获取当前目录中所有的apk源包</span></div><div class="line">src_apks = []</div><div class="line"><span class="comment"># python3 : os.listdir()即可，这里使用兼容Python2的os.listdir('.')</span></div><div class="line"><span class="keyword">for</span> file <span class="keyword">in</span> os.listdir(<span class="string">'.'</span>):</div><div class="line">    <span class="keyword">if</span> os.path.isfile(file):</div><div class="line">        extension = os.path.splitext(file)[<span class="number">1</span>][<span class="number">1</span>:]</div><div class="line">        <span class="keyword">if</span> extension <span class="keyword">in</span> <span class="string">'apk'</span>:</div><div class="line">            src_apks.append(file)</div><div class="line"></div><div class="line"><span class="comment"># 获取渠道列表</span></div><div class="line">channel_file = <span class="string">'info/channel.txt'</span></div><div class="line">f = open(channel_file)</div><div class="line">lines = f.readlines()</div><div class="line">f.close()</div><div class="line"></div><div class="line"><span class="keyword">for</span> src_apk <span class="keyword">in</span> src_apks:</div><div class="line">    <span class="comment"># file name (with extension)</span></div><div class="line">    src_apk_file_name = os.path.basename(src_apk)</div><div class="line">    <span class="comment"># 分割文件名与后缀</span></div><div class="line">    temp_list = os.path.splitext(src_apk_file_name)</div><div class="line">    <span class="comment"># name without extension</span></div><div class="line">    src_apk_name = temp_list[<span class="number">0</span>]</div><div class="line">    <span class="comment"># 后缀名，包含.   例如: ".apk "</span></div><div class="line">    src_apk_extension = temp_list[<span class="number">1</span>]</div><div class="line">    </div><div class="line">    <span class="comment"># 创建生成目录,与文件名相关</span></div><div class="line">    output_dir = <span class="string">'output_'</span> + src_apk_name + <span class="string">'/'</span></div><div class="line">    <span class="comment"># 目录不存在则创建</span></div><div class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(output_dir):</div><div class="line">        os.mkdir(output_dir)</div><div class="line">        </div><div class="line">    <span class="comment"># 遍历渠道号并创建对应渠道号的apk文件</span></div><div class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> lines:</div><div class="line">        <span class="comment"># 获取当前渠道号，因为从渠道文件中获得带有\n,所有strip一下</span></div><div class="line">        target_channel = line.strip()</div><div class="line">        <span class="comment"># 拼接对应渠道号的apk</span></div><div class="line">        target_apk = output_dir + src_apk_name + <span class="string">"-"</span> + target_channel + src_apk_extension  </div><div class="line">        <span class="comment"># 拷贝建立新apk</span></div><div class="line">        shutil.copy(src_apk,  target_apk)</div><div class="line">        <span class="comment"># zip获取新建立的apk文件</span></div><div class="line">        zipped = zipfile.ZipFile(target_apk, <span class="string">'a'</span>, zipfile.ZIP_DEFLATED)</div><div class="line">        <span class="comment"># 初始化渠道信息</span></div><div class="line">        empty_channel_file = <span class="string">"META-INF/channel_&#123;channel&#125;"</span>.format(channel = target_channel)</div><div class="line">        <span class="comment"># 写入渠道信息</span></div><div class="line">        zipped.write(src_empty_file, empty_channel_file)</div><div class="line">        <span class="comment"># 关闭zip流</span></div><div class="line">        zipped.close()</div></pre></td></tr></table></figure>
+<p><a href="https://github.com/GavinCT/AndroidMultiChannelBuildTool" target="_blank" rel="external">Python脚本详情</a></p>
+<h1 id="Demo下载"><a href="#Demo下载" class="headerlink" title="Demo下载"></a>Demo下载</h1><p><a href="/res/file/blog/2016/09/29/android_multi_channel/AndroidMultiChannelBuildToolAndDemo.rar">本文Demo下载</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/res/img/wechatpay.png" alt="Comtu WeChat Pay"/>
+        <p>微信打赏</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/res/img/alipay.png" alt="Comtu Alipay"/>
+        <p>支付宝打赏</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>文章标题：</strong>
+    Android多渠道打包
+  </li>
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Comtu
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://comtu.github.com/2016/09/29/android_multi_channel.html" title="Android多渠道打包">http://comtu.github.com/2016/09/29/android_multi_channel.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/tags/多渠道打包/" rel="tag"># 多渠道打包</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/11/01/android_proguard.html" rel="next" title="Android混淆">
+                <i class="fa fa-chevron-left"></i> Android混淆
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/res/img/icon.jpg"
+               alt="Comtu" />
+          <p class="site-author-name" itemprop="name">Comtu</p>
+           
+              <p class="site-description motion-element" itemprop="description">The time is passing</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">95</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/comtu" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/comtu" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#通过Gradle多渠道打包"><span class="nav-number">1.</span> <span class="nav-text">通过Gradle多渠道打包</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#配置步骤"><span class="nav-number">1.1.</span> <span class="nav-text">配置步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-在AndroidManifest-xml-配置占位符"><span class="nav-number">1.1.1.</span> <span class="nav-text">1. 在AndroidManifest.xml 配置占位符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-在app的build-gradle文件中配置签名"><span class="nav-number">1.1.2.</span> <span class="nav-text">2. 在app的build.gradle文件中配置签名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-在app的build-gradle文件中配置build类型"><span class="nav-number">1.1.3.</span> <span class="nav-text">3. 在app的build.gradle文件中配置build类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-在app的build-gradle文件中配置渠道包名以及输出的文件名"><span class="nav-number">1.1.4.</span> <span class="nav-text">4. 在app的build.gradle文件中配置渠道包名以及输出的文件名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-打包"><span class="nav-number">1.1.5.</span> <span class="nav-text">5. 打包</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置的完整文件"><span class="nav-number">1.2.</span> <span class="nav-text">配置的完整文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AndroidManifest-xml配置"><span class="nav-number">1.2.1.</span> <span class="nav-text">AndroidManifest.xml配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#app-build-gradle配置"><span class="nav-number">1.2.2.</span> <span class="nav-text">app/build.gradle配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注意项"><span class="nav-number">1.3.</span> <span class="nav-text">注意项</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#通过Python批量打包"><span class="nav-number">2.</span> <span class="nav-text">通过Python批量打包</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-安装Python环境"><span class="nav-number">2.1.</span> <span class="nav-text">1.安装Python环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-在项目中增加获取渠道的方法"><span class="nav-number">2.2.</span> <span class="nav-text">2.在项目中增加获取渠道的方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-为app打签名包"><span class="nav-number">2.3.</span> <span class="nav-text">3.为app打签名包.</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-配置需要的渠道"><span class="nav-number">2.4.</span> <span class="nav-text">4.配置需要的渠道</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-运行Python脚本"><span class="nav-number">2.5.</span> <span class="nav-text">5.运行Python脚本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-关键实现代码"><span class="nav-number">2.6.</span> <span class="nav-text">6.关键实现代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Demo下载"><span class="nav-number">3.</span> <span class="nav-text">Demo下载</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2013 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Comtu</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/three/three.min.js"></script>
+
+  
+  <script type="text/javascript" src="/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://comtu.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://comtu.github.com/2016/09/29/android_multi_channel.html';
+          this.page.identifier = '/2016/09/29/android_multi_channel.html';
+          this.page.title = 'Android多渠道打包';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://comtu.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("feqhc8WOUwoueUx9gkNO8kIq-gzGzoHsz", "3Igep5lfuSGHiGQJB0PFjICO");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
