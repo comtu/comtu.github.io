@@ -123,3 +123,10 @@ since: 2013
 # 自动生成sitemap 百度收录
 sitemap:
 path: sitemap.xml
+
+#搜索
+search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10000
