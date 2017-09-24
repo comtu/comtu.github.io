@@ -9,14 +9,7 @@
   </url>
   
   <url>
-    <loc>http://comtu.github.com/2014/10/26/android_safe_mode_mechanism_two.html</loc>
-    
-    <lastmod>2017-09-24T06:10:42.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://comtu.github.com/2014/10/19/git_common_command.html</loc>
+    <loc>http://comtu.github.com/2014/10/29/Android_NDK_Hello_World_two.html</loc>
     
     <lastmod>2017-09-24T06:10:42.000Z</lastmod>
     
@@ -30,14 +23,21 @@
   </url>
   
   <url>
-    <loc>http://comtu.github.com/2014/10/29/Android_NDK_Hello_World_two.html</loc>
+    <loc>http://comtu.github.com/2014/11/01/Java_JNI.html</loc>
     
     <lastmod>2017-09-24T06:10:42.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://comtu.github.com/2014/11/01/Java_JNI.html</loc>
+    <loc>http://comtu.github.com/2014/10/19/git_common_command.html</loc>
+    
+    <lastmod>2017-09-24T06:10:42.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://comtu.github.com/2014/10/26/android_safe_mode_mechanism_two.html</loc>
     
     <lastmod>2017-09-24T06:10:42.000Z</lastmod>
     
@@ -51,7 +51,7 @@
   </url>
   
   <url>
-    <loc>http://comtu.github.com/2014/12/14/Java_Thread.html</loc>
+    <loc>http://comtu.github.com/2014/12/15/Java_Throad_Visibility.html</loc>
     
     <lastmod>2016-08-21T13:26:47.000Z</lastmod>
     
@@ -93,13 +93,6 @@
   </url>
   
   <url>
-    <loc>http://comtu.github.com/2015/09/10/PHP_codeigniter.html</loc>
-    
-    <lastmod>2016-08-21T13:26:47.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://comtu.github.com/2015/11/01/android_proguard.html</loc>
     
     <lastmod>2016-08-21T13:26:47.000Z</lastmod>
@@ -107,7 +100,7 @@
   </url>
   
   <url>
-    <loc>http://comtu.github.com/2014/12/15/Java_Throad_Visibility.html</loc>
+    <loc>http://comtu.github.com/2015/09/10/PHP_codeigniter.html</loc>
     
     <lastmod>2016-08-21T13:26:47.000Z</lastmod>
     
@@ -115,6 +108,13 @@
   
   <url>
     <loc>http://comtu.github.com/2015/01/01/Java_Android_Studio_IDE.html</loc>
+    
+    <lastmod>2016-08-21T13:26:47.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://comtu.github.com/2014/12/14/Java_Thread.html</loc>
     
     <lastmod>2016-08-21T13:26:47.000Z</lastmod>
     
@@ -135,55 +135,6 @@
   </url>
   
   <url>
-    <loc>http://comtu.github.com/2014/10/25/android_safe_mode_mechanism_one.html</loc>
-    
-    <lastmod>2016-08-21T13:26:46.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://comtu.github.com/2014/10/19/Jekyll_Variables.html</loc>
-    
-    <lastmod>2016-08-21T13:26:46.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://comtu.github.com/2014/10/21/android_excellent_project_library.html</loc>
-    
-    <lastmod>2016-08-21T13:26:46.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://comtu.github.com/2014/10/18/hello%20world.html</loc>
-    
-    <lastmod>2016-08-21T13:26:46.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://comtu.github.com/2014/10/20/Design_pattern_Template.html</loc>
-    
-    <lastmod>2016-08-21T13:26:46.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://comtu.github.com/2014/10/27/android_safe_mode_mechanism_three.html</loc>
-    
-    <lastmod>2016-08-21T13:26:46.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://comtu.github.com/2014/10/23/java8_new_feature.html</loc>
-    
-    <lastmod>2016-08-21T13:26:46.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://comtu.github.com/2014/10/18/support-pygments-in-Jekyll.html</loc>
     
     <lastmod>2016-08-21T13:26:46.000Z</lastmod>
@@ -198,7 +149,56 @@
   </url>
   
   <url>
+    <loc>http://comtu.github.com/2014/10/21/android_Interactive-animation.html</loc>
+    
+    <lastmod>2016-08-21T13:26:46.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://comtu.github.com/2014/10/18/hello%20world.html</loc>
+    
+    <lastmod>2016-08-21T13:26:46.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://comtu.github.com/2014/10/27/android_safe_mode_mechanism_three.html</loc>
+    
+    <lastmod>2016-08-21T13:26:46.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://comtu.github.com/2014/10/28/Android_NDK_IDE_environment_one.html</loc>
+    
+    <lastmod>2016-08-21T13:26:46.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://comtu.github.com/2014/10/24/android_automatic_packaging.html</loc>
+    
+    <lastmod>2016-08-21T13:26:46.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://comtu.github.com/2014/10/25/android_safe_mode_mechanism_one.html</loc>
+    
+    <lastmod>2016-08-21T13:26:46.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://comtu.github.com/2014/10/20/Design_pattern_Singleton.html</loc>
+    
+    <lastmod>2016-08-21T13:26:46.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://comtu.github.com/2014/10/20/Design_pattern_Template.html</loc>
     
     <lastmod>2016-08-21T13:26:46.000Z</lastmod>
     
@@ -219,7 +219,7 @@
   </url>
   
   <url>
-    <loc>http://comtu.github.com/2014/10/24/android_automatic_packaging.html</loc>
+    <loc>http://comtu.github.com/2014/10/23/java8_new_feature.html</loc>
     
     <lastmod>2016-08-21T13:26:46.000Z</lastmod>
     
@@ -233,14 +233,14 @@
   </url>
   
   <url>
-    <loc>http://comtu.github.com/2014/10/21/android_Interactive-animation.html</loc>
+    <loc>http://comtu.github.com/2014/10/21/android_excellent_project_library.html</loc>
     
     <lastmod>2016-08-21T13:26:46.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://comtu.github.com/2014/10/20/Design_pattern_Singleton.html</loc>
+    <loc>http://comtu.github.com/2014/10/19/Jekyll_Variables.html</loc>
     
     <lastmod>2016-08-21T13:26:46.000Z</lastmod>
     
