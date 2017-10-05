@@ -1226,7 +1226,7 @@ jfieldID/jmethodID,这样的话就可以省去多次的确定id是否存在的�
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-count">31</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1237,7 +1237,7 @@ jfieldID/jmethodID,这样的话就可以省去多次的确定id是否存在的�
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1248,7 +1248,7 @@ jfieldID/jmethodID,这样的话就可以省去多次的确定id是否存在的�
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">95</span>
+                <span class="site-state-item-count">98</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1575,7 +1575,7 @@ jfieldID/jmethodID,这样的话就可以省去多次的确定id是否存在的�
                 var titleInLowerCase = title.toLowerCase();
                 var content = data.content.trim().replace(/<[^>]+>/g,"");
                 var contentInLowerCase = content.toLowerCase();
-                var articleUrl = decodeURIComponent(data.url);
+                var articleUrl = decodeURIComponent(data.url).substring(1);
                 var indexOfTitle = [];
                 var indexOfContent = [];
                 // only match articles with not empty titles

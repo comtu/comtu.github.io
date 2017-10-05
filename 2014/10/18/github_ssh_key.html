@@ -591,8 +591,8 @@ Hi xxx! You&apos;ve successfully authenticated, but GitHub does not provide shel
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2014/10/18/support-pygments-in-Jekyll.html" rel="prev" title="Jekyll中的语法高亮:Pygments">
-                Jekyll中的语法高亮:Pygments <i class="fa fa-chevron-right"></i>
+              <a href="/2014/10/18/windows_configuration_Jekyll.html" rel="prev" title="Windows平台配置Jekyll环境并与GitHub连接">
+                Windows平台配置Jekyll环境并与GitHub连接 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -700,7 +700,7 @@ Hi xxx! You&apos;ve successfully authenticated, but GitHub does not provide shel
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-count">31</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -711,7 +711,7 @@ Hi xxx! You&apos;ve successfully authenticated, but GitHub does not provide shel
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -722,7 +722,7 @@ Hi xxx! You&apos;ve successfully authenticated, but GitHub does not provide shel
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">95</span>
+                <span class="site-state-item-count">98</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1049,7 +1049,7 @@ Hi xxx! You&apos;ve successfully authenticated, but GitHub does not provide shel
                 var titleInLowerCase = title.toLowerCase();
                 var content = data.content.trim().replace(/<[^>]+>/g,"");
                 var contentInLowerCase = content.toLowerCase();
-                var articleUrl = decodeURIComponent(data.url);
+                var articleUrl = decodeURIComponent(data.url).substring(1);
                 var indexOfTitle = [];
                 var indexOfContent = [];
                 // only match articles with not empty titles

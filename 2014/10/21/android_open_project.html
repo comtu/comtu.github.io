@@ -1646,8 +1646,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2014/10/21/android_Interactive-animation.html" rel="next" title="Android上开源的酷炫的交互动画和视觉效果">
-                <i class="fa fa-chevron-left"></i> Android上开源的酷炫的交互动画和视觉效果
+              <a href="/2014/10/20/Design_pattern_Template.html" rel="next" title="模板设计模式">
+                <i class="fa fa-chevron-left"></i> 模板设计模式
               </a>
             
           </div>
@@ -1656,8 +1656,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2014/10/22/plane_game_demo.html" rel="prev" title="娱乐一下">
-                娱乐一下 <i class="fa fa-chevron-right"></i>
+              <a href="/2014/10/21/android_excellent_project_library.html" rel="prev" title="Android优秀项目篇">
+                Android优秀项目篇 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -1765,7 +1765,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-count">31</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1776,7 +1776,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1787,7 +1787,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">95</span>
+                <span class="site-state-item-count">98</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -2114,7 +2114,7 @@
                 var titleInLowerCase = title.toLowerCase();
                 var content = data.content.trim().replace(/<[^>]+>/g,"");
                 var contentInLowerCase = content.toLowerCase();
-                var articleUrl = decodeURIComponent(data.url);
+                var articleUrl = decodeURIComponent(data.url).substring(1);
                 var indexOfTitle = [];
                 var indexOfContent = [];
                 // only match articles with not empty titles

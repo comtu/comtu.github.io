@@ -790,8 +790,8 @@ enum SingletonEnum {
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2014/10/18/windows_configuration_Jekyll.html" rel="next" title="Windows平台配置Jekyll环境并与GitHub连接">
-                <i class="fa fa-chevron-left"></i> Windows平台配置Jekyll环境并与GitHub连接
+              <a href="/2014/10/18/support-pygments-in-Jekyll.html" rel="next" title="Jekyll中的语法高亮:Pygments">
+                <i class="fa fa-chevron-left"></i> Jekyll中的语法高亮:Pygments
               </a>
             
           </div>
@@ -800,8 +800,8 @@ enum SingletonEnum {
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2014/10/19/git_common_command.html" rel="prev" title="Git 常用命令整理">
-                Git 常用命令整理 <i class="fa fa-chevron-right"></i>
+              <a href="/2014/10/19/Jekyll_Variables.html" rel="prev" title="Jekyll目录结构与变量">
+                Jekyll目录结构与变量 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -909,7 +909,7 @@ enum SingletonEnum {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-count">31</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -920,7 +920,7 @@ enum SingletonEnum {
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -931,7 +931,7 @@ enum SingletonEnum {
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">95</span>
+                <span class="site-state-item-count">98</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1258,7 +1258,7 @@ enum SingletonEnum {
                 var titleInLowerCase = title.toLowerCase();
                 var content = data.content.trim().replace(/<[^>]+>/g,"");
                 var contentInLowerCase = content.toLowerCase();
-                var articleUrl = decodeURIComponent(data.url);
+                var articleUrl = decodeURIComponent(data.url).substring(1);
                 var indexOfTitle = [];
                 var indexOfContent = [];
                 // only match articles with not empty titles

@@ -721,8 +721,8 @@ origin  git@github.com:comtu/android-training-course-in-chinese.git (push)
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2014/10/18/hello world.html" rel="next" title="hello world">
-                <i class="fa fa-chevron-left"></i> hello world
+              <a href="/2014/10/19/Jekyll_Variables.html" rel="next" title="Jekyll目录结构与变量">
+                <i class="fa fa-chevron-left"></i> Jekyll目录结构与变量
               </a>
             
           </div>
@@ -731,8 +731,8 @@ origin  git@github.com:comtu/android-training-course-in-chinese.git (push)
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2014/10/19/Jekyll_Variables.html" rel="prev" title="Jekyll目录结构与变量">
-                Jekyll目录结构与变量 <i class="fa fa-chevron-right"></i>
+              <a href="/2014/10/20/Design_pattern_Singleton.html" rel="prev" title="单例设计模式">
+                单例设计模式 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -840,7 +840,7 @@ origin  git@github.com:comtu/android-training-course-in-chinese.git (push)
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-count">31</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -851,7 +851,7 @@ origin  git@github.com:comtu/android-training-course-in-chinese.git (push)
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -862,7 +862,7 @@ origin  git@github.com:comtu/android-training-course-in-chinese.git (push)
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">95</span>
+                <span class="site-state-item-count">98</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1189,7 +1189,7 @@ origin  git@github.com:comtu/android-training-course-in-chinese.git (push)
                 var titleInLowerCase = title.toLowerCase();
                 var content = data.content.trim().replace(/<[^>]+>/g,"");
                 var contentInLowerCase = content.toLowerCase();
-                var articleUrl = decodeURIComponent(data.url);
+                var articleUrl = decodeURIComponent(data.url).substring(1);
                 var indexOfTitle = [];
                 var indexOfContent = [];
                 // only match articles with not empty titles
